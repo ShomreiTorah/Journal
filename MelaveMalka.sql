@@ -17,7 +17,7 @@ CREATE TABLE MelaveMalka.Ads (
 	[Year]			INTEGER				NOT NULL	DEFAULT year(getdate()),
 	DateAdded		DATETIME			NOT NULL	DEFAULT getdate(),
 	AdType			NVARCHAR(64)		NOT NULL,
-	SlideName		VARCHAR(64)			NOT NULL,
+	ExternalId		INTEGER				NULL,
 	Comments		NVARCHAR(512)		NULL,
 
 	[RowVersion]	RowVersion
