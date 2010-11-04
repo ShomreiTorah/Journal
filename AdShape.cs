@@ -16,11 +16,11 @@ namespace ShomreiTorah.Journal {
 		}
 
 		///<summary>Gets the presentation containing the ad.</summary>
-		public JournalPresentation Presentation { get; private set; }
+		public JournalPresentation Presentation { get; internal set; }
 		///<summary>Gets the Singularity row containing data about the ad.</summary>
 		public JournalAd Row { get; private set; }
 		///<summary>Gets the PowerPoint textbox that contains the ad text.</summary>
-		public Shape Shape { get; private set; }
+		public Shape Shape { get; internal set; }
 
 		///<summary>Gets or sets the ad type.</summary>
 		public AdType AdType {
@@ -34,6 +34,6 @@ namespace ShomreiTorah.Journal {
 		///<summary>Deletes this ad from the journal.</summary>
 		///<remarks>Both the shape and the Singularity row will be deleted.
 		///Any associated pledges, payments, or seating reservations will not be deleted.</remarks>
-		public void Delete() { }
+		public void Delete() { Presentation.DeleteAd(this); }
 	}
 }

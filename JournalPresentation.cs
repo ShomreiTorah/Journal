@@ -7,6 +7,7 @@ using System.Text;
 using Microsoft.Office.Interop.PowerPoint;
 using ShomreiTorah.Data;
 using ShomreiTorah.Singularity;
+using ShomreiTorah.WinForms;
 
 namespace ShomreiTorah.Journal {
 	///<summary>Manages a PowerPoint presentation containing a journal.</summary>
@@ -119,6 +120,64 @@ namespace ShomreiTorah.Journal {
 			return 1 + Presentation.Slides.Items()
 				.TakeWhile(s => s.AdType() == null || s.AdType().Id <= type.Id)
 				.Count();
+		}
+		#endregion
+
+		#region Deletion
+		///<summary>Deletes an ad from the journal.</summary>
+		///<remarks>Both the shape and the Singularity row will be deleted.
+		///Any associated pledges, payments, or seating reservations will not be deleted.</remarks>
+		public void DeleteAd(AdShape ad) {
+			if (ad == null) throw new ArgumentNullException("ad");
+			if (ad.Presentation != this) throw new ArgumentException("Ad must be in the journal", "ad");
+
+			if (ad.AdType.AdsPerPage == 1) {						//If it is a full-size ad (as opposed to halves or quarters),
+				ad.Shape.Parent.Delete();							//Delete its slide.
+			} else {												//If it is a fractional ad,
+				//Find the last ad of our type and delete
+				//it.  If it isn't the ad we're trying to
+				//delete, move it to our ad, then delete 
+				//its original.
+				Slide lastSlide = GetLastSlide(ad.AdType);
+				AdShape lastAd = lastSlide.Shapes.Placeholders.Items()
+						.Take(ad.AdType.AdsPerPage).Select(GetAd).Last(a => a != null);	//Get the last non-null ad on the slide
+
+				//If the last ad isn't the one we're trying to delete,
+				//replace our ad with the last ad before deleting the 
+				//last ad.
+				if (lastAd != ad) {
+					using (new ClipboardScope()) {
+						lastAd.Shape.TextFrame.TextRange.Copy();	//Copy the text of the last ad.
+						ad.Shape.TextFrame.TextRange.Delete();		//Delete the text of the old ad.
+						ad.Shape.TextFrame.TextRange.Paste();		//Paste the text of the last ad in to the old ad.
+					}
+					ad.Shape.Name = lastAd.Row.AdId.ToString();		//Rename our ad's shape to its new ad
+					lastAd.Shape = ad.Shape;
+				}
+
+				DeleteFractionalAdShape(ad.Shape);
+			}
+
+			ad.Row.RemoveRow();
+			ad.Presentation = null;
+		}
+		///<summary>Deletes an ad shape, and, if it is the only ad on its slide, its slide.</summary>
+		///<param name="adShape">The shape to delete.</param>
+		///<remarks>This function is used to delete fractional ads and ensure that a blank page is not left over.</remarks>
+		private void DeleteFractionalAdShape(Shape adShape) {
+			Slide slide = adShape.Parent;
+
+			//If the slide has no non-null placeholders
+			//other than the one we're deleting, delete
+			//the entire slide.
+			if (slide.Shapes.Placeholders.Count == 1
+			 || !slide.Shapes.Placeholders.Items()
+							.Take(slide.AdType().AdsPerPage)
+							.Any(s => s != adShape && GetAd(s) != null)
+				)
+				slide.Delete();
+			else
+				adShape.Delete();
 		}
 		#endregion
 	}

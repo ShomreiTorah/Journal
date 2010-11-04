@@ -32,5 +32,6 @@ namespace ShomreiTorah.Journal {
 		}
 
 		public static IEnumerable<Slide> Items(this Slides slides) { return slides.Cast<Slide>(); }
+		public static IEnumerable<Shape> Items(this Placeholders placeholders) { return placeholders.Cast<Shape>(); }
 	}
 }
