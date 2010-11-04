@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Microsoft.Office.Interop.PowerPoint;
-using Microsoft.Office.Interop.PowerPoint.Extensions;
-using ShomreiTorah.Singularity;
 using ShomreiTorah.Data;
-using System.Collections.ObjectModel;
+using ShomreiTorah.Singularity;
 
 namespace ShomreiTorah.Journal {
 	///<summary>Manages a PowerPoint presentation containing a journal.</summary>
@@ -26,7 +26,7 @@ namespace ShomreiTorah.Journal {
 			Ads = new ReadOnlyCollection<AdShape>(writableAds);
 			Presentation = presentation;
 			AdsTable = adsTable;
-			Year = int.Parse(presentation.Tags["JournalYear"]);
+			Year = int.Parse(presentation.Tags["JournalYear"], CultureInfo.InvariantCulture);
 
 			var idMap = adsTable.Rows.Where(ad => ad.Year == Year).ToDictionary(ad => ad.AdId.ToString());
 			writableAds.AddRange(
@@ -35,7 +35,7 @@ namespace ShomreiTorah.Journal {
 				from Shape shape in slide.Shapes.Placeholders
 				let row = idMap.GetValue(shape.Name)
 				where row != null
-				select new AdShape(shape, row)
+				select new AdShape(this, shape, row)
 			);
 		}
 
@@ -61,7 +61,7 @@ namespace ShomreiTorah.Journal {
 
 			var row = new JournalAd { AdType = type.Name, DateAdded = DateTime.Now, Year = Year };
 			shape.Name = row.AdId.ToString();
-			var retVal = new AdShape(shape, row);
+			var retVal = new AdShape(this, shape, row);
 			writableAds.Add(retVal);
 			return retVal;
 		}

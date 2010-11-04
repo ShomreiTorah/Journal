@@ -9,7 +9,8 @@ namespace ShomreiTorah.Journal {
 	///<summary>Represents a single ad in a journal presentation.</summary>
 	public sealed class AdShape {
 		AdType adType;
-		internal AdShape(Shape shape, JournalAd row) {
+		internal AdShape(JournalPresentation owner, Shape shape, JournalAd row) {
+			Presentation = owner;
 			Shape = shape;
 			Row = row;
 		}

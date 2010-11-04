@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Office.Interop.PowerPoint;
-using Microsoft.Office.Interop.PowerPoint.Extensions;
 
 namespace ShomreiTorah.Journal {
 	///<summary>Contains extension methods for PowerPoint COM objects.</summary>
@@ -13,7 +12,7 @@ namespace ShomreiTorah.Journal {
 		///<param name="targetIndex">The 1-based index of the new slide.</param>
 		///<returns>The new slide.</returns>
 		public static Slide InsertSlide(this Presentation presentation, string masterName, int targetIndex) {
-			return presentation.Slides.AddSlide(targetIndex, presentation.SlideMaster.CustomLayouts.Item(masterName));
+			return presentation.Slides.AddSlide(targetIndex, presentation.SlideMaster.CustomLayouts.GetLayout(masterName));
 		}
 
 		///<summary>Gets the CustomLayout with the specified name.</summary>
@@ -31,5 +30,7 @@ namespace ShomreiTorah.Journal {
 			}
 			throw new ArgumentException("Layout " + layoutName + " not found.", "layoutName");
 		}
+
+		public static IEnumerable<Slide> Items(this Slides slides) { return slides.Cast<Slide>(); }
 	}
 }
