@@ -55,6 +55,7 @@ namespace ShomreiTorah.Journal {
 			return Ads.FirstOrDefault(a => a.Shape == shape);	//TODO: Dictionary?
 		}
 
+		#region Creation
 		///<summary>Creates a new ad in the journal.</summary>
 		public AdShape CreateAd(AdType type) {
 			if (type == null) throw new ArgumentNullException("type");
@@ -65,20 +66,6 @@ namespace ShomreiTorah.Journal {
 			var retVal = new AdShape(this, shape, row);
 			writableAds.Add(retVal);
 			return retVal;
-		}
-
-		#region Creation helpers
-		///<summary>Gets the last slide containing the given ad type.</summary>
-		///<param name="type">The maximum number of ads that can be contained on the slide.</param>
-		///<returns>The slide, or null if there are no slides with that ad type.</returns>
-		private Slide GetLastSlide(AdType type) {
-			if (type == null) throw new ArgumentNullException("type");
-
-			for (int n = Presentation.Slides.Count; n > 0; n--)
-				if (Presentation.Slides[n].AdType() == type)
-					return Presentation.Slides[n];
-
-			return null;
 		}
 
 		///<summary>Creates a new shape for a given ad type.</summary>
@@ -98,7 +85,7 @@ namespace ShomreiTorah.Journal {
 			//If we got here, there was no previous slide or it's full.
 			//Either way, we need to insert a new slide.
 
-			var newSlide = Presentation.InsertSlide(type.Name, GetSlideIndex(type));
+			var newSlide = Presentation.InsertSlide(type.Name, GetAdPosition(type));
 			newSlide.Tags.Add(TagAdType, type.Name);
 
 			//Delete placeholders for other ads on the
@@ -109,11 +96,22 @@ namespace ShomreiTorah.Journal {
 			return newSlide.Shapes.Placeholders[1];
 		}
 
+		///<summary>Gets the last slide containing the given ad type.</summary>
+		///<param name="type">The maximum number of ads that can be contained on the slide.</param>
+		///<returns>The slide, or null if there are no slides with that ad type.</returns>
+		private Slide GetLastSlide(AdType type) {
+			if (type == null) throw new ArgumentNullException("type");
+
+			for (int n = Presentation.Slides.Count; n > 0; n--)
+				if (Presentation.Slides[n].AdType() == type)
+					return Presentation.Slides[n];
+
+			return null;
+		}
 		///<summary>Gets the slide position of a new ad of the specified type.</summary>
 		///<param name="type">The ad type to position.</param>
 		///<returns>The slide index: a number between 1 and 1 + the number of slides, that can be passed to Slides.Add().</returns>
-		///<remarks>The function is called by InsertAd and contains the code that position ads within the journal.  It works around any special pages at the beginning.</remarks>
-		private int GetSlideIndex(AdType type) {
+		private int GetAdPosition(AdType type) {
 			//Get the number of slides with ads that precede ours,
 			//(including special pages with no ad type), then add 
 			//one to get a one-based index.
@@ -202,7 +200,7 @@ namespace ShomreiTorah.Journal {
 			if (ad.AdType.AdsPerPage == 1 && newAdType.AdsPerPage == 1) {
 				slide.CustomLayout = Presentation.SlideMaster.CustomLayouts.GetLayout(newAdType.Name);
 
-				int newPos = GetSlideIndex(newAdType);
+				int newPos = GetAdPosition(newAdType);
 				//If it is after than the current position,  decrement it
 				//to allow for the ad's removal from its current location
 				if (newPos > slide.SlideIndex) newPos--;
