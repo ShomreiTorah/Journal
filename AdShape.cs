@@ -27,7 +27,8 @@ namespace ShomreiTorah.Journal {
 			get { return adType; }
 			set {
 				if (value == null) throw new ArgumentNullException("value");
-				adType = value;
+				if (value == adType) return;
+				Presentation.ChangeAdType(this, value, t => this.adType = t);
 			}
 		}
 

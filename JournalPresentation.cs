@@ -130,7 +130,13 @@ namespace ShomreiTorah.Journal {
 		public void DeleteAd(AdShape ad) {
 			if (ad == null) throw new ArgumentNullException("ad");
 			if (ad.Presentation != this) throw new ArgumentException("Ad must be in the journal", "ad");
-
+			DeleteAdShape(ad);
+			ad.Row.RemoveRow();
+			ad.Presentation = null;
+		}
+		///<summary>Deletes an ad's shape.</summary>
+		///<remarks>The ad's row is not affected.</remarks>
+		private void DeleteAdShape(AdShape ad) {
 			if (ad.AdType.AdsPerPage == 1) {						//If it is a full-size ad (as opposed to halves or quarters),
 				ad.Shape.Parent.Delete();							//Delete its slide.
 			} else {												//If it is a fractional ad,
@@ -157,10 +163,9 @@ namespace ShomreiTorah.Journal {
 
 				DeleteFractionalAdShape(ad.Shape);
 			}
-
-			ad.Row.RemoveRow();
-			ad.Presentation = null;
+			ad.Shape = null;
 		}
+
 		///<summary>Deletes an ad shape, and, if it is the only ad on its slide, its slide.</summary>
 		///<param name="adShape">The shape to delete.</param>
 		///<remarks>This function is used to delete fractional ads and ensure that a blank page is not left over.</remarks>
@@ -180,6 +185,41 @@ namespace ShomreiTorah.Journal {
 				adShape.Delete();
 		}
 		#endregion
+
+		///<summary>Changes an ad's type and updates the presentation appropriately.</summary>
+		///<remarks>The ad's pledges or payments are not affected.</remarks>
+		public void ChangeAdType(AdShape ad, AdType newAdType) {
+			if (ad == null) throw new ArgumentNullException("ad");
+			if (ad.Presentation != this) throw new ArgumentException("Ad must be in the journal", "ad");
+			ad.AdType = newAdType;
+		}
+
+		//This overload is called from the AdShape.AdType setter.
+		internal void ChangeAdType(AdShape ad, AdType newAdType, Action<AdType> typeSetter) {
+			if (ad.AdType == newAdType) return;
+			Slide slide = ad.Shape.Parent;
+
+			if (ad.AdType.AdsPerPage == 1 && newAdType.AdsPerPage == 1) {
+				slide.CustomLayout = Presentation.SlideMaster.CustomLayouts.GetLayout(newAdType.Name);
+
+				int newPos = GetSlideIndex(newAdType);
+				//If it is after than the current position,  decrement it
+				//to allow for the ad's removal from its current location
+				if (newPos > slide.SlideIndex) newPos--;
+				slide.MoveTo(newPos);
+			} else {	//If either the new or the old ad types are fractional pages, it must be handled differently.
+				using (new ClipboardScope()) {
+					ad.Shape.TextFrame.TextRange.Copy();
+					DeleteAdShape(ad);
+
+					ad.Shape = CreateAdShape(newAdType);
+					ad.Shape.Name = ad.Row.AdId.ToString();
+					ad.Shape.TextFrame.TextRange.Paste();
+				}
+			}
+
+			typeSetter(newAdType);
+		}
 	}
 	static class PowerPointJournalExtensions {
 		///<summary>Gets the type of the ads on a slide, or null if the slide does not contain ads.</summary>
