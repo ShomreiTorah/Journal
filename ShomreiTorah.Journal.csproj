@@ -161,6 +161,21 @@
   -->
   <ItemGroup>
     <Reference Include="Accessibility" />
+    <Reference Include="ShomreiTorah.Common">
+      <HintPath>..\..\Libraries\ShomreiTorah.Common\bin\Debug\ShomreiTorah.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ShomreiTorah.Data">
+      <HintPath>..\..\Libraries\ShomreiTorah.Data\bin\Debug\ShomreiTorah.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="ShomreiTorah.Data.UI">
+      <HintPath>..\..\Libraries\ShomreiTorah.Data.UI\bin\Debug\ShomreiTorah.Data.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="ShomreiTorah.Singularity">
+      <HintPath>..\..\Libraries\ShomreiTorah.Singularity\bin\Debug\ShomreiTorah.Singularity.dll</HintPath>
+    </Reference>
+    <Reference Include="ShomreiTorah.WinForms">
+      <HintPath>..\..\Libraries\ShomreiTorah.WinForms\bin\Debug\ShomreiTorah.WinForms.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -206,6 +221,8 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="AdShape.cs" />
+    <Compile Include="JournalPresentation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
