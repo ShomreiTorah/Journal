@@ -48,7 +48,8 @@ namespace ShomreiTorah.Journal.AddIn {
 			Globals.ThisAddIn.ShowProperties(window.Presentation);
 		}
 		public void ShowDetailPane(IRibbonControl control) {
-			//TODO
+			var window = control.Window();
+			Globals.ThisAddIn.CustomTaskPanes.FirstOrDefault(p => p.Window == window).Visible = true;
 		}
 		public void SaveDB(IRibbonControl control) {
 			Program.Current.SaveDatabase();

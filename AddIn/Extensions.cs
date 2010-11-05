@@ -26,12 +26,17 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 
 		public static AdShape CurrentAd(this IRibbonControl control) {
-			var jp = control.Journal();
-			if (jp == null) return null;
-
 			var window = control.Window();
+			if (window == null) return null;
+			return window.CurrentAd();
+		}
+		public static AdShape CurrentAd(this DocumentWindow window) {
 			var slide = (Slide)window.View.Slide;
 			if (slide.AdType() == null) return null;
+
+			var jp = Globals.ThisAddIn.GetJournal(window.Presentation);
+			if (jp == null) return null;
+
 			if (slide.AdType().AdsPerPage == 1)
 				return jp.GetAd(slide.Shapes.Placeholders[1]);
 

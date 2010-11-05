@@ -165,6 +165,8 @@
     <Reference Include="DevExpress.OfficeSkins.v10.1, Version=10.1.6.0, Culture=neutral, PublicKeyToken=95fc6c5621878f0a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Utils.v10.1, Version=10.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraEditors.v10.1, Version=10.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGrid.v10.1, Version=10.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v10.1, Version=10.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="ShomreiTorah.Common">
       <HintPath>..\..\Libraries\ShomreiTorah.Common\bin\Debug\ShomreiTorah.Common.dll</HintPath>
     </Reference>
@@ -225,6 +227,12 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="AddIn\AdPane.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AddIn\AdPane.Designer.cs">
+      <DependentUpon>AdPane.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddIn\Extensions.cs" />
     <Compile Include="AddIn\Program.cs" />
     <Compile Include="AddIn\JournalRibbon.cs" />
@@ -242,6 +250,9 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <EmbeddedResource Include="AddIn\AdPane.resx">
+      <DependentUpon>AdPane.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\JournalProperties.resx">
       <DependentUpon>JournalProperties.cs</DependentUpon>
     </EmbeddedResource>

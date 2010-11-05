@@ -26,11 +26,18 @@ namespace ShomreiTorah.Journal.AddIn {
 				openJournals.Remove(presentation);
 				if (form.JournalYear.HasValue) {
 					JournalPresentation.MakeJournal(presentation, form.JournalYear.Value);
-					openJournals.Add(presentation, new JournalPresentation(presentation, Program.Table<JournalAd>()));
-					//TODO: Update taskpane
+					var jp = new JournalPresentation(presentation, Program.Table<JournalAd>());
+					openJournals[presentation] = jp;
+
+					var taskPane = GetTaskPane(presentation);
+					if (taskPane == null)
+						CreateTaskPane(jp);
+					else {
+						((AdPane)taskPane).ReplaceJournal(jp);
+					}
 				} else {
 					JournalPresentation.KillJournal(presentation);
-					//TODO: Kill taskpane
+					CustomTaskPanes.Remove(GetTaskPane(presentation));
 				}
 
 				//Force UI to invalidate
@@ -45,6 +52,9 @@ namespace ShomreiTorah.Journal.AddIn {
 		public JournalPresentation GetJournal(Presentation presentation) {
 			if (presentation == null) throw new ArgumentNullException("presentation");
 			return openJournals.GetValue(presentation);
+		}
+		public Microsoft.Office.Tools.CustomTaskPane GetTaskPane(Presentation presentation) {
+			return CustomTaskPanes.FirstOrDefault(ctp => presentation.Windows.Cast<object>().Contains(ctp.Window));
 		}
 
 		private void ThisAddIn_Startup(object sender, EventArgs e) {
@@ -64,15 +74,21 @@ namespace ShomreiTorah.Journal.AddIn {
 			if (JournalPresentation.GetYear(Pres) != null) {
 				var jp = new JournalPresentation(Pres, Program.Table<JournalAd>());
 				openJournals.Add(Pres, jp);
-				//TODO: Task pane
+				CreateTaskPane(jp);
 			}
 		}
+		void CreateTaskPane(JournalPresentation jp) {
+			var pane =CustomTaskPanes.Add(new AdPane(jp), "Ad Details", jp.Presentation.Windows[1]);
+			pane.DockPosition = Office.MsoCTPDockPosition.msoCTPDockPositionRight;
+			pane.Width = 450;
+			pane.Visible = true;
+		}
 		void Application_PresentationCloseFinal(Presentation Pres) {
+			CustomTaskPanes.Remove(GetTaskPane(Pres));
 			openJournals.Remove(Pres);
 		}
 
-		private void ThisAddIn_Shutdown(object sender, EventArgs e) {
-		}
+		private void ThisAddIn_Shutdown(object sender, EventArgs e) { }
 
 		protected override Office.IRibbonExtensibility CreateRibbonExtensibilityObject() {
 			return new JournalRibbon();
