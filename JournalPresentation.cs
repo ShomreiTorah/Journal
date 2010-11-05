@@ -16,18 +16,37 @@ namespace ShomreiTorah.Journal {
 	/// Ad slides have a Tag["AdType"] equal to the AdType.Name
 	///</remarks>
 	public sealed class JournalPresentation {
+		const string TagYear = "JournalYear";
 		internal const string TagAdType = "AdType";
 		readonly List<AdShape> writableAds = new List<AdShape>();
+
+		///<summary>Checks whether a PowerPoint presentation contains a Singularity journal.</summary>
+		public static int? GetYear(Presentation presentation) {
+			if (presentation == null) throw new ArgumentNullException("presentation");
+			var tag = presentation.Tags[TagYear];
+			return String.IsNullOrEmpty(tag) ? new int?() : int.Parse(presentation.Tags[TagYear], CultureInfo.InvariantCulture);
+		}
+		///<summary>Marks a PowerPoint presentation as being a journal.</summary>
+		///<remarks>After calling this method, you can create a JournalPresentation object from the presentation.</remarks>
+		public static void MakeJournal(Presentation presentation, int year) {
+			if (presentation == null) throw new ArgumentNullException("presentation");
+			presentation.Tags.Add(TagYear, year.ToString(CultureInfo.InvariantCulture));
+		}
+		///<summary>Unmarks a PowerPoint presentation as being a journal.</summary>
+		public static void KillJournal(Presentation presentation) {
+			if (presentation == null) throw new ArgumentNullException("presentation");
+			presentation.Tags.Delete(TagYear);
+		}
 
 		///<summary>Creates a JournalPresentation from an existing PowerPoint presentation and a Singularity table containing ad data.</summary>
 		public JournalPresentation(Presentation presentation, TypedTable<JournalAd> adsTable) {
 			if (presentation == null) throw new ArgumentNullException("presentation");
 			if (adsTable == null) throw new ArgumentNullException("adsTable");
 
+			Year = GetYear(presentation).Value;
 			Ads = new ReadOnlyCollection<AdShape>(writableAds);
 			Presentation = presentation;
 			AdsTable = adsTable;
-			Year = int.Parse(presentation.Tags["JournalYear"], CultureInfo.InvariantCulture);
 
 			var idMap = adsTable.Rows.Where(ad => ad.Year == Year).ToDictionary(ad => ad.AdId.ToString());
 			writableAds.AddRange(
@@ -61,16 +80,24 @@ namespace ShomreiTorah.Journal {
 			if (type == null) throw new ArgumentNullException("type");
 			var shape = CreateAdShape(type);
 
-			var row = new JournalAd { AdType = type.Name, DateAdded = DateTime.Now, Year = Year };
+			var row = new JournalAd {
+				AdType = type.Name,
+				DateAdded = DateTime.Now,
+				Year = Year,
+				ExternalId = 1 + (AdsTable.Rows.Where(ad => ad.Year == Year).Max(ad => (int?)ad.ExternalId) ?? 0)	//I need to use int? to handle an empty sequence
+			};
 			shape.Name = row.AdId.ToString();
+			AdsTable.Rows.Add(row);
 			var retVal = new AdShape(this, shape, row);
 			writableAds.Add(retVal);
 			return retVal;
 		}
 
 		///<summary>Creates a new shape for a given ad type.</summary>
-		internal Shape CreateAdShape(AdType type) {
+		Shape CreateAdShape(AdType type) {
 			if (type.AdsPerPage > 1) {
+				//For fractional ad types, see if there's room for one more
+				//ad in the last slide of that type (if any).
 				Slide targetSlide = GetLastSlide(type);							//Get the last slide that contains this ad type.  If it has room, the ad will go there.
 				if (targetSlide != null) {
 					for (int n = 1; n <= type.AdsPerPage; n++) {				//For each ad (potential placeholder) on the last slide,
@@ -136,7 +163,7 @@ namespace ShomreiTorah.Journal {
 		///<remarks>The ad's row is not affected.</remarks>
 		private void DeleteAdShape(AdShape ad) {
 			if (ad.AdType.AdsPerPage == 1) {						//If it is a full-size ad (as opposed to halves or quarters),
-				ad.Shape.Parent.Delete();							//Delete its slide.
+				((Slide)ad.Shape.Parent).Delete();					//Delete its slide.
 			} else {												//If it is a fractional ad,
 				//Find the last ad of our type and delete
 				//it.  If it isn't the ad we're trying to
@@ -146,20 +173,21 @@ namespace ShomreiTorah.Journal {
 				AdShape lastAd = lastSlide.Shapes.Placeholders.Items()
 						.Take(ad.AdType.AdsPerPage).Select(GetAd).Last(a => a != null);	//Get the last non-null ad on the slide
 
-				//If the last ad isn't the one we're trying to delete,
-				//replace our ad with the last ad before deleting the 
-				//last ad.
-				if (lastAd != ad) {
+				if (lastAd == ad)
+					DeleteFractionalAdShape(ad.Shape);
+				else {
+					//If the last ad isn't the one we're trying to delete,
+					//replace our ad with the last ad before deleting the 
+					//last ad.
 					using (new ClipboardScope()) {
 						lastAd.Shape.TextFrame.TextRange.Copy();	//Copy the text of the last ad.
-						ad.Shape.TextFrame.TextRange.Delete();		//Delete the text of the old ad.
+						ad.Shape.TextFrame.TextRange.Delete();		//Delete the text of the old ad
 						ad.Shape.TextFrame.TextRange.Paste();		//Paste the text of the last ad in to the old ad.
 					}
-					ad.Shape.Name = lastAd.Row.AdId.ToString();		//Rename our ad's shape to its new ad
-					lastAd.Shape = ad.Shape;
+					ad.Shape.Name = lastAd.Row.AdId.ToString();		//Rename our ad's shape to its new ad.
+					DeleteFractionalAdShape(lastAd.Shape);			//Delete the last ad's original shape,
+					lastAd.Shape = ad.Shape;						//Then set its shape to our ad's shape
 				}
-
-				DeleteFractionalAdShape(ad.Shape);
 			}
 			ad.Shape = null;
 		}
@@ -168,7 +196,7 @@ namespace ShomreiTorah.Journal {
 		///<param name="adShape">The shape to delete.</param>
 		///<remarks>This function is used to delete fractional ads and ensure that a blank page is not left over.</remarks>
 		private void DeleteFractionalAdShape(Shape adShape) {
-			Slide slide = adShape.Parent;
+			Slide slide = (Slide)adShape.Parent;
 
 			//If the slide has no non-null placeholders
 			//other than the one we're deleting, delete
@@ -179,8 +207,15 @@ namespace ShomreiTorah.Journal {
 							.Any(s => s != adShape && GetAd(s) != null)
 				)
 				slide.Delete();
-			else
+			else {
 				adShape.Delete();
+				//After deleting the shape, its placeholder will remain.
+				//Clean those up.
+				foreach (var ph in slide.Shapes.Placeholders.Items()) {
+					if (ph.Name.Contains("Placeholder") && String.IsNullOrWhiteSpace(ph.TextFrame.TextRange.Text))
+						ph.Delete();
+				}
+			}
 		}
 		#endregion
 
@@ -195,7 +230,7 @@ namespace ShomreiTorah.Journal {
 		//This overload is called from the AdShape.AdType setter.
 		internal void ChangeAdType(AdShape ad, AdType newAdType, Action<AdType> typeSetter) {
 			if (ad.AdType == newAdType) return;
-			Slide slide = ad.Shape.Parent;
+			Slide slide = (Slide)ad.Shape.Parent;
 
 			if (ad.AdType.AdsPerPage == 1 && newAdType.AdsPerPage == 1) {
 				slide.CustomLayout = Presentation.SlideMaster.CustomLayouts.GetLayout(newAdType.Name);

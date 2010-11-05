@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="OnLoad">
+	<ribbon>
+		<tabs>
+			<tab id="JournalTab" label="Journal" insertBeforeMso="TabHome" getVisible="IsJournal">
+				<group id="AdsGroup" label="Ads">
+					<gallery id="InsertAdGallery" label="Create Ad" imageMso="GroupComments" size="large" supertip="Inserts a new ad in the journal." onAction="InsertAd">
+						<item id="InsertDiamond"	label="Diamond"		/>
+						<item id="InsertSilver"		label="Silver"		/>
+						<item id="InsertHalf"		label="Half"		/>
+						<item id="InsertPlatinum"	label="Platinum"	/>
+						<item id="InsertBronze"		label="Bronze"		/>
+						<item id="InsertQuarter"	label="Quarter"		/>
+						<item id="InsertGold"		label="Gold"		/>
+						<item id="InsertFull"		label="Full"		/>
+						<item id="InsertGreeting"	label="Greeting"	/>
+					</gallery>
+					<button id="DeleteAd" imageMso="ReviewDeleteComment" label="Delete Ad" size="large" screentip="Delete Ad" supertip="Deletes this ad from the presentation and the database."
+							getEnabled="IsAdSelected" onAction="DeleteAd" />
+					<dialogBoxLauncher>
+						<button id="ShowTaskPane" label="Ad Details" supertip="Shows the ad details pane." onAction="ShowDetailPane" />
+					</dialogBoxLauncher>
+				</group>
+				<group id="JournalGroup" label="Journal">
+					<button id="SaveDB" label="Save Ads" imageMso="SaveSelectionToTableOfContentsGallery" size="large" supertip="Saves the your changes to the XML database."
+							onAction="SaveDB"/>
+				</group>
+			</tab>
+		</tabs>
+	</ribbon>
+	<backstage>
+		<button id="ShowProperties" label="Journal Properties" imageMso="AdvancedFileProperties" isDefinitive="true"
+				getVisible="IsPresentation" onAction="ShowProperties" />
+	</backstage>
+</customUI>
+

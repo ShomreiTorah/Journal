@@ -13,6 +13,7 @@ namespace ShomreiTorah.Journal {
 			Presentation = owner;
 			Shape = shape;
 			Row = row;
+			adType = Names.AdTypes.First(t => t.Name == row.AdType);
 		}
 
 		///<summary>Gets the presentation containing the ad.</summary>

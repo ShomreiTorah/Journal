@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Windows.Forms;
+using Office = Microsoft.Office.Core;
 using Microsoft.Office.Interop.PowerPoint;
+using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
 namespace ShomreiTorah.Journal {
 	///<summary>Contains extension methods for PowerPoint COM objects.</summary>
@@ -31,7 +33,28 @@ namespace ShomreiTorah.Journal {
 			throw new ArgumentException("Layout " + layoutName + " not found.", "layoutName");
 		}
 
+		///<summary>Forces a shape to be selected.</summary>
+		public static void ForceSelect(this Shape shape) {
+			var slide = (Slide)shape.Parent;
+			var presentation = (Presentation)slide.Parent;
+			var window = presentation.Windows[1];
+
+			window.Activate();
+			window.Panes.Item(PpViewType.ppViewSlide).Activate();
+			window.View.Slide = slide;
+			shape.Select(Office.MsoTriState.msoTrue);
+		}
+
+		public static IWin32Window Window(this PowerPoint.Application app) { return new ArbitraryWindow(new IntPtr(app.HWND)); }
 		public static IEnumerable<Slide> Items(this Slides slides) { return slides.Cast<Slide>(); }
 		public static IEnumerable<Shape> Items(this Placeholders placeholders) { return placeholders.Cast<Shape>(); }
+		public static IEnumerable<Pane> Items(this Panes panes) { return panes.Cast<Pane>(); }
+
+		public static Pane Item(this Panes panes, PpViewType type) { return panes.Items().FirstOrDefault(p => p.ViewType == type); }
 	}
+	class ArbitraryWindow : IWin32Window {
+		public ArbitraryWindow(IntPtr handle) { Handle = handle; }
+		public IntPtr Handle { get; private set; }
+	}
+
 }
