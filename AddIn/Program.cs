@@ -37,6 +37,7 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 		///<summary>Initializes the journal addin at runtime</summary>
 		void InitializeRuntime() {
+			IsDesignTime = false;
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
@@ -55,6 +56,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			SkinManager.EnableFormSkinsIfNotVista();
 			UserLookAndFeel.Default.SkinName = "Office 2010 Blue";
 			Dialog.DefaultTitle = "Shomrei Torah Journal";
+			//TODO: Activate people
 		}
 		protected override DataSyncContext CreateDataContext() {
 			var context = new DataContext();
