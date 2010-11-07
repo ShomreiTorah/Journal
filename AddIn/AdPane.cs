@@ -1,15 +1,17 @@
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Forms;
+using DevExpress.Utils.Menu;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using ShomreiTorah.Data;
 using ShomreiTorah.Data.UI.Controls;
+using ShomreiTorah.Data.UI.DisplaySettings;
 using ShomreiTorah.Singularity;
 using ShomreiTorah.WinForms;
+using ShomreiTorah.WinForms.Controls.Lookup;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
-using DevExpress.Utils.Menu;
-using System.Windows.Forms;
 
 namespace ShomreiTorah.Journal.AddIn {
 	[ToolboxItem(false)]
@@ -35,6 +37,14 @@ namespace ShomreiTorah.Journal.AddIn {
 			pledgesGrid.DataSource = pledgesSource;
 			paymentsGrid.DataSource = paymentsSource;
 			SetAd(window.CurrentAd(), force: true);
+
+			adSearcher.Properties.DataSource = new FilteredTable<Pledge>(
+				Program.Table<Pledge>(),
+				p => p.ExternalSource == "Journal " + journal.Year
+			);
+			EditorRepository.PersonOwnedLookup.Apply(adSearcher.Properties);
+			adSearcher.Properties.Columns.Add(new DataSourceColumn("SubType") { Caption = "Type" });
+			adSearcher.Properties.Columns.Insert(0, new DataSourceColumn("ExternalId", 35) { Caption = "ID" });
 
 			window.Application.WindowSelectionChange += Application_WindowSelectionChange;
 		}
@@ -103,6 +113,21 @@ namespace ShomreiTorah.Journal.AddIn {
 			ad.AdType = newType;
 			ad.Shape.ForceSelect();
 		}
+
+		#region Add pledge/payment
+		private void pledgeAdder_PersonSelecting(object sender, PersonSelectingEventArgs e) {
+			if (pledges.Rows.Any(p => p.Person == e.Person)) {
+				if (!Dialog.Warn("This ad already has a pledge by " + e.Person.VeryFullName + ".\r\nAre you sure you want to add another one?")) {
+					e.Cancel = true;
+					return;
+				}
+			}
+			if (!e.Person.Invitees.Any(i => i.Year == journal.Year)) {
+				if (!Dialog.Warn(e.Person.VeryFullName + " has not been invited to the Melave Malka.\r\nAre you sure you selected the correct person?"))
+					e.Cancel = true;
+			}
+		}
+
 		private void pledgeAdder_EditValueChanged(object sender, EventArgs e) {
 			if (pledgeAdder.SelectedPerson == null) return;
 			var pledge = ad.Row.CreatePledge();
@@ -132,18 +157,21 @@ namespace ShomreiTorah.Journal.AddIn {
 			var control = (Control)sender;
 			new SkinMenuManager(LookAndFeel).ShowPopupMenu(menu, control, control.PointToClient(MousePosition));
 		}
+		#endregion
 
-		private void pledgeAdder_PersonSelecting(object sender, PersonSelectingEventArgs e) {
-			if (pledges.Rows.Any(p => p.Person == e.Person)) {
-				if (!Dialog.Warn("This ad already has a pledge by " + e.Person.VeryFullName + ".\r\nAre you sure you want to add another one?")) {
-					e.Cancel = true;
-					return;
-				}
+
+		private void adSearcher_EditValueChanged(object sender, EventArgs e) {
+			var pledge = adSearcher.EditValue as Pledge;
+			if (pledge == null) return;
+
+			var matchedAd = journal.Ads.FirstOrDefault(a => pledge.ExternalId == a.Row.ExternalId);
+			if (matchedAd == null) {
+				Dialog.ShowError("Cannot find matching ad.\r\nSomething is very wrong.");
+				return;
 			}
-			if (!e.Person.Invitees.Any(i => i.Year == journal.Year)) {
-				if (!Dialog.Warn(e.Person.VeryFullName + " has not been invited to the Melave Malka.\r\nAre you sure you selected the correct person?"))
-					e.Cancel = true;
-			}
+			SetAd(matchedAd);
+			matchedAd.Shape.ForceSelect();
+			adSearcher.EditValue = null;
 		}
 	}
 }
