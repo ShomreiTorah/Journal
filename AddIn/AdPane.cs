@@ -17,6 +17,8 @@ namespace ShomreiTorah.Journal.AddIn {
 		JournalPresentation journal;
 		readonly PowerPoint.DocumentWindow window;
 		AdShape ad;
+		FilteredTable<Pledge> pledges;
+		FilteredTable<Payment> payments;
 		public AdPane(JournalPresentation journal) {
 			if (journal == null) throw new ArgumentNullException("journal");
 			InitializeComponent();
@@ -30,13 +32,16 @@ namespace ShomreiTorah.Journal.AddIn {
 			//The grids are bound indirectly through two FrameworkBindingSource
 			//so that they don't re-apply settings at every change.
 			paymentsSource.DataMember = pledgesSource.DataMember = null;
-			SetAd(window.CurrentAd());
+			pledgesGrid.DataSource = pledgesSource;
+			paymentsGrid.DataSource = paymentsSource;
+			SetAd(window.CurrentAd(), force: true);
 
 			window.Application.WindowSelectionChange += Application_WindowSelectionChange;
 		}
 
 		void Application_WindowSelectionChange(PowerPoint.Selection Sel) {
-			if (Sel.Parent == journal.Presentation)
+			var window = (PowerPoint.DocumentWindow)Sel.Parent;
+			if (window.Presentation == journal.Presentation)
 				SetAd(window.CurrentAd());
 		}
 
@@ -57,14 +62,13 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 
 		void DisposeDataSources() {
-			var disposable = pledgesSource.DataSource as IDisposable;
-			if (disposable != null) disposable.Dispose();
-			disposable = paymentsSource.DataSource as IDisposable;
-			if (disposable != null) disposable.Dispose();
+			if (pledges != null) pledges.Dispose();
+			if (payments != null) payments.Dispose();
 		}
-		void SetAd(AdShape ad) {
-			if (this.ad == ad) return;
+		void SetAd(AdShape ad, bool force = false) {
+			if (this.ad == ad && !force) return;
 			DisposeDataSources();
+
 			this.ad = ad;
 			layoutControl1.Visible = ad != null;
 			if (!layoutControl1.Visible) return;
@@ -76,11 +80,11 @@ namespace ShomreiTorah.Journal.AddIn {
 			//the filter. However, I want to pick up changes
 			//to the ad's ExternalId, so I use a function.
 			Func<int> externalId = () => ad.Row.ExternalId;
-			pledgesSource.DataSource = new FilteredTable<Pledge>(
+			pledgesSource.DataSource = pledges = new FilteredTable<Pledge>(
 				Program.Table<Pledge>(),
 				p => p.ExternalSource == "Journal " + journal.Year && p.ExternalId == externalId()
 			);
-			paymentsSource.DataSource = new FilteredTable<Payment>(
+			paymentsSource.DataSource = payments = new FilteredTable<Payment>(
 				Program.Table<Payment>(),
 				p => p.ExternalSource == "Journal " + journal.Year && p.ExternalId == externalId()
 			);
@@ -97,6 +101,7 @@ namespace ShomreiTorah.Journal.AddIn {
 				return;
 			//TODO: Change price?
 			ad.AdType = newType;
+			ad.Shape.ForceSelect();
 		}
 		private void pledgeAdder_EditValueChanged(object sender, EventArgs e) {
 			if (pledgeAdder.SelectedPerson == null) return;
@@ -110,8 +115,13 @@ namespace ShomreiTorah.Journal.AddIn {
 		private void paymentMenuEdit_ButtonClick(object sender, ButtonPressedEventArgs e) {
 			var pledge = (Pledge)pledgesView.GetFocusedRow();
 			var menu = new DXPopupMenu();
-			foreach (var method in Names.PaymentMethods) {
+			foreach (var dontUse in Names.PaymentMethods) {
+				var method = dontUse;	//Force a separate variable for each closure
 				menu.Items.Add(new DXMenuItem(method, delegate {
+					if (payments.Rows.Cast<Payment>().Any(p => p.Person == pledge.Person)) {
+						if (!Dialog.Warn("You already entered a payment for " + pledge.Person.VeryFullName + ".\r\nAre you sure you want to add a second payment?"))
+							return;
+					}
 					var payment = ad.Row.CreatePayment();
 					payment.Method = method;
 					payment.Person = pledge.Person;
@@ -120,16 +130,21 @@ namespace ShomreiTorah.Journal.AddIn {
 				}));
 			}
 			var control = (Control)sender;
-			MenuManagerHelper.GetMenuManager(LookAndFeel)
-				.ShowPopupMenu(menu, control, control.PointToClient(MousePosition));
+			new SkinMenuManager(LookAndFeel).ShowPopupMenu(menu, control, control.PointToClient(MousePosition));
 		}
 
 		private void pledgeAdder_PersonSelecting(object sender, PersonSelectingEventArgs e) {
+			var r = pledges.Rows;
+			if (pledges.Rows.Cast<Pledge>().Any(p => p.Person == e.Person)) {
+				if (!Dialog.Warn("This ad already has a pledge by " + e.Person.VeryFullName + ".\r\nAre you sure you want to add another one?")) {
+					e.Cancel = true;
+					return;
+				}
+			}
 			if (!e.Person.Invitees.Any(i => i.Year == journal.Year)) {
-				if (!Dialog.Warn(e.Person.FullName + " has not been invited to the Melave Malka.\r\nAre you sure you selected the correct person?"))
+				if (!Dialog.Warn(e.Person.VeryFullName + " has not been invited to the Melave Malka.\r\nAre you sure you selected the correct person?"))
 					e.Cancel = true;
 			}
 		}
-
 	}
 }
