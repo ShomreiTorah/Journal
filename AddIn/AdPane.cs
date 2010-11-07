@@ -40,9 +40,9 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 
 		void Application_WindowSelectionChange(PowerPoint.Selection Sel) {
-			var window = (PowerPoint.DocumentWindow)Sel.Parent;
-			if (window.Presentation == journal.Presentation)
-				SetAd(window.CurrentAd());
+			var activeWindow = (PowerPoint.DocumentWindow)Sel.Parent;
+			if (activeWindow.Presentation == journal.Presentation)
+				SetAd(activeWindow.CurrentAd());
 		}
 
 		///<summary>Releases the unmanaged resources used by the AdPane and optionally releases the managed resources.</summary>
@@ -65,11 +65,11 @@ namespace ShomreiTorah.Journal.AddIn {
 			if (pledges != null) pledges.Dispose();
 			if (payments != null) payments.Dispose();
 		}
-		void SetAd(AdShape ad, bool force = false) {
-			if (this.ad == ad && !force) return;
+		void SetAd(AdShape newAd, bool force = false) {
+			if (this.ad == newAd && !force) return;
 			DisposeDataSources();
 
-			this.ad = ad;
+			this.ad = newAd;
 			layoutControl1.Visible = ad != null;
 			if (!layoutControl1.Visible) return;
 			adsBindingSource.Position = adsBindingSource.IndexOf(ad.Row);
@@ -134,7 +134,6 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 
 		private void pledgeAdder_PersonSelecting(object sender, PersonSelectingEventArgs e) {
-			var r = pledges.Rows;
 			if (pledges.Rows.Any(p => p.Person == e.Person)) {
 				if (!Dialog.Warn("This ad already has a pledge by " + e.Person.VeryFullName + ".\r\nAre you sure you want to add another one?")) {
 					e.Cancel = true;
