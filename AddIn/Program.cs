@@ -70,6 +70,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			context.Tables.AddTable(Deposit.CreateTable());
 			context.Tables.AddTable(JournalAd.CreateTable());
 			context.Tables.AddTable(MelaveMalkaInvitation.CreateTable());
+			context.Tables.AddTable(MelaveMalkaSeat.CreateTable());
 
 			var dsc = new DataSyncContext(context, new SqlServerSqlProvider(DB.Default));
 			dsc.Tables.AddPrimaryMappings();

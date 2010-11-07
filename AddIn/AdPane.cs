@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using DevExpress.Utils.Menu;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraGrid.Views.Base;
 using ShomreiTorah.Data;
 using ShomreiTorah.Data.UI.Controls;
 using ShomreiTorah.Data.UI.DisplaySettings;
@@ -173,5 +174,39 @@ namespace ShomreiTorah.Journal.AddIn {
 			matchedAd.Shape.ForceSelect();
 			adSearcher.EditValue = null;
 		}
+
+		#region Seating
+		private void pledgesView_CustomUnboundColumnData(object sender, CustomColumnDataEventArgs e) {
+			if (pledges == null) return;	//Still initializing
+
+			if (e.Column.FieldName.StartsWith("Seat/", StringComparison.OrdinalIgnoreCase)) {
+				var field = e.Column.FieldName.Substring("Seat/".Length);
+				var pledge = pledges.Rows[e.ListSourceRowIndex];
+				var seat = pledge.Person.MelaveMalkaSeats.FirstOrDefault(s => s.Year == journal.Year);
+
+				if (e.IsGetData) {
+					e.Value = seat == null ? 0 : seat[field];	//No reservation means 0, not unsure.
+				} else {
+					if (seat != null) {
+						seat[field] = e.Value;
+						if (seat.MensSeats == 0 && seat.WomensSeats == 0)
+							seat.RemoveRow();
+					} else {	//There isn't an existing seat row
+						if (e.Value != null && (int)e.Value == 0)	//Don't change anything
+							return;
+						else {
+							seat = new MelaveMalkaSeat {
+								Year = journal.Year,
+								Person = pledge.Person,
+								DateAdded = DateTime.Now
+							};
+							seat[field] = e.Value;
+							Program.Table<MelaveMalkaSeat>().Rows.Add(seat);
+						}
+					}
+				}
+			}
+		}
+		#endregion
 	}
 }
