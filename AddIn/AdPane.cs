@@ -118,7 +118,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			foreach (var dontUse in Names.PaymentMethods) {
 				var method = dontUse;	//Force a separate variable for each closure
 				menu.Items.Add(new DXMenuItem(method, delegate {
-					if (payments.Rows.Cast<Payment>().Any(p => p.Person == pledge.Person)) {
+					if (payments.Rows.Any(p => p.Person == pledge.Person)) {
 						if (!Dialog.Warn("You already entered a payment for " + pledge.Person.VeryFullName + ".\r\nAre you sure you want to add a second payment?"))
 							return;
 					}
@@ -135,7 +135,7 @@ namespace ShomreiTorah.Journal.AddIn {
 
 		private void pledgeAdder_PersonSelecting(object sender, PersonSelectingEventArgs e) {
 			var r = pledges.Rows;
-			if (pledges.Rows.Cast<Pledge>().Any(p => p.Person == e.Person)) {
+			if (pledges.Rows.Any(p => p.Person == e.Person)) {
 				if (!Dialog.Warn("This ad already has a pledge by " + e.Person.VeryFullName + ".\r\nAre you sure you want to add another one?")) {
 					e.Cancel = true;
 					return;
