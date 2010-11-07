@@ -10,6 +10,7 @@ using DevExpress.Skins;
 using DevExpress.LookAndFeel;
 using DevExpress.UserSkins;
 using ShomreiTorah.WinForms;
+using System.Threading;
 
 namespace ShomreiTorah.Journal.AddIn {
 	class Program : AppFramework {
@@ -40,6 +41,9 @@ namespace ShomreiTorah.Journal.AddIn {
 			IsDesignTime = false;
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
+			//VSTO will not register the SynchronizationContext, so I need to do it myself.
+			SynchronizationContext.SetSynchronizationContext(new WindowsFormsSynchronizationContext());
 
 			if (!Debugger.IsAttached) {
 				Application.ThreadException += (sender, e) => HandleException(e.Exception);
