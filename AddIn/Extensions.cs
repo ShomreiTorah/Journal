@@ -31,7 +31,10 @@ namespace ShomreiTorah.Journal.AddIn {
 			return window.CurrentAd();
 		}
 		public static AdShape CurrentAd(this DocumentWindow window) {
-			var slide = (Slide)window.View.Slide;
+			Slide slide;
+			try {
+				slide = (Slide)window.View.Slide;
+			} catch (COMException) { return null; }
 			if (slide.AdType() == null) return null;
 
 			var jp = Globals.ThisAddIn.GetJournal(window.Presentation);
