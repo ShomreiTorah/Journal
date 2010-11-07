@@ -23,7 +23,7 @@ CREATE TABLE MelaveMalka.Ads (
 	[RowVersion]	RowVersion
 );
 --This table also has the same format as a ListMaker list.
-CREATE TABLE MelaveMalka.SeatingReservations (
+CREATE TABLE MelaveMalka.SeatReservations (
 	RowId			UNIQUEIDENTIFIER	NOT NULL	ROWGUIDCOL	PRIMARY KEY DEFAULT(newid()),
 	PersonId		UNIQUEIDENTIFIER	NOT NULL	REFERENCES Data.MasterDirectory(Id),
 	[RowVersion]	RowVersion,
