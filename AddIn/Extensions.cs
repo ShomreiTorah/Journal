@@ -47,7 +47,6 @@ namespace ShomreiTorah.Journal.AddIn {
 			 && window.Selection.Type != PpSelectionType.ppSelectionText)
 				return null;
 			return jp.GetAd(window.Selection.ShapeRange[1]);
-
 		}
 	}
 }

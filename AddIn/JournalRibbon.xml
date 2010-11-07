@@ -3,7 +3,7 @@
 	<ribbon>
 		<tabs>
 			<tab id="JournalTab" label="Journal" insertBeforeMso="TabHome" getVisible="IsJournal">
-				<group id="AdsGroup" label="Ads">
+				<group id="JournalGroup" label="Journal">
 					<gallery id="InsertAdGallery" label="Create Ad" imageMso="GroupComments" size="large" supertip="Inserts a new ad in the journal." onAction="InsertAd">
 						<item id="InsertDiamond"	label="Diamond"		/>
 						<item id="InsertSilver"		label="Silver"		/>
@@ -15,16 +15,32 @@
 						<item id="InsertFull"		label="Full"		/>
 						<item id="InsertGreeting"	label="Greeting"	/>
 					</gallery>
-					<button id="DeleteAd" imageMso="ReviewDeleteComment" label="Delete Ad" size="large" screentip="Delete Ad" supertip="Deletes this ad from the presentation and the database."
-							getEnabled="IsAdSelected" onAction="DeleteAd" />
+					<button id="InsertPage" label="Create Special Page" imageMso="SourceControlAddObjects" size="large"	supertip="Inserts a new page into the journal.  The page will stay wherever you put it."
+							onAction="InsertSpecialPage" />
+					<separator id="S1" />
+					<button id="SaveDB" label="Save Ads" imageMso="SaveSelectionToTableOfContentsGallery" size="large" supertip="Saves data changes to SQL Server.&#10;Changes will also be saved when you save the presentation."
+							onAction="SaveDB"/>
+					<button id="RefreshDB" label="Refresh Data" imageMso="DataRefreshAll" size="large" supertip="Saves any changes, then reloads the database from SQL Server."
+							onAction="RefreshDB"/>
 					<dialogBoxLauncher>
 						<button id="ShowTaskPane" label="Ad Details" supertip="Shows the ad details pane." onAction="ShowDetailPane" />
 					</dialogBoxLauncher>
 				</group>
-				<group id="JournalGroup" label="Journal">
-					<button id="SaveDB" label="Save Ads" imageMso="SaveSelectionToTableOfContentsGallery" size="large" supertip="Saves the your changes to the XML database."
-							onAction="SaveDB"/>
+				<group id="AdsGroup" label="Ads">
+					<button id="DeleteAd" imageMso="ReviewDeleteComment" label="Delete Ad" size="large" screentip="Delete Ad" supertip="Deletes this ad from the presentation and the database."
+							getEnabled="IsAdSelected" onAction="DeleteAd" />
+					<toggleButton idMso="SlideHide" label="Hide Page" size="large" screentip="Hide Page" supertip="Hides this slide (8.5 x 5.5 page) so that it will be included by the paginator or in the PDF."/>
+					<dialogBoxLauncher>
+						<button id="ShowTaskPane2" label="Ad Details" supertip="Shows the ad details pane." onAction="ShowDetailPane" />
+					</dialogBoxLauncher>
 				</group>
+				<group id="ViewsGroup" label="View">
+					<toggleButton idMso="ViewSlideSorterView" label="View All Pages" size="large" screentip="View All Pages" supertip="Displays thumbnails for every page in the journal."/>
+					<separator id="S2"/>
+					<gallery idMso="SlideThemesGallery" size="large" label="Select Border" />
+					<toggleButton idMso="ViewSlideMasterView" imageMso="ReviewShowOrHideMarkup" label="Edit Borders" size="large" screentip="Edit Borders" supertip="Allows you to edit the borders of the different ad types."/>
+				</group>
+
 			</tab>
 		</tabs>
 	</ribbon>

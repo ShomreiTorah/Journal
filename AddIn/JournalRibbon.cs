@@ -51,17 +51,20 @@ namespace ShomreiTorah.Journal.AddIn {
 			var window = control.Window();
 			Globals.ThisAddIn.CustomTaskPanes.FirstOrDefault(p => p.Window == window).Visible = true;
 		}
-		public void SaveDB(IRibbonControl control) {
-			Program.Current.SaveDatabase();
-		}
+
+		public void SaveDB(IRibbonControl control) {Program.Current.SaveDatabase();}
+		public void RefreshDB(IRibbonControl control) { Program.Current.RefreshDatabase(); }
 
 		public void InsertAd(IRibbonControl control, string selectedId, int selectedIndex) {
 			var jp = control.Journal();
 			var typeName = selectedId.Substring("Insert".Length);
 			jp.CreateAd(Names.AdTypes.First(t => t.Name == typeName)).Shape.ForceSelect();
 		}
+		public void InsertSpecialPage(IRibbonControl control) {
+			control.Window().View.Slide = control.Window().Presentation.Slides.Add(1, PpSlideLayout.ppLayoutBlank);
+		}
 		public void DeleteAd(IRibbonControl control) {
-			//TODO: Delete multiple ads
+			//TODO: Delete confirmation
 			if (Dialog.Warn("Are you sure you want to delete this ad?"))
 				control.CurrentAd().Delete();
 		}
