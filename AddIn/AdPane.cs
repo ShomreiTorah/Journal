@@ -226,21 +226,17 @@ namespace ShomreiTorah.Journal.AddIn {
 			BeginInvoke(new Action(CheckWarnings));	//In case the user deleted a suppression
 		}
 
-		class ControlRemoverVisitor : BaseVisitor {
-			public override void Visit(BaseLayoutItem item) {
-				var lci = item as LayoutControlItem;
-				if (lci != null)
-					lci.Control.Dispose();
-			}
-		}
 		void CheckWarnings() {
-			if (ad == null) return;
-
-			var warnings = ad.CheckWarnings().ToList();
 			try {
 				warningsGroup.BeginUpdate();
-				warningsGroup.Accept(new ControlRemoverVisitor());
+				foreach (var lci in warningsGroup.Items.OfType<LayoutControlItem>().ToList()) {
+					lci.Control.Dispose();
+				}
 				warningsGroup.Clear();
+
+				if (ad == null) return;	//I still need to clear the controls
+				var warnings = ad.CheckWarnings().ToList();
+
 				warningsGroup.Visibility = warnings.Count > 0 ? LayoutVisibility.OnlyInRuntime : LayoutVisibility.Never;
 
 				foreach (var dontUse in warnings) {
