@@ -24,6 +24,8 @@ namespace ShomreiTorah.Journal.AddIn {
 		public static void Initialize() {
 			Current.ToString();	//Force property getter
 		}
+		///<summary>Indicates whether the Data.UI AppFramework has been initialized.</summary>
+		public static bool WasInitialized { get { return AppFramework.Current != null; } }	//The base class property won't auto-init.
 		public static new Program Current {
 			get {
 				if (AppFramework.Current != null)

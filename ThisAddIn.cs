@@ -1,14 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using PowerPoint = Microsoft.Office.Interop.PowerPoint;
-using Office = Microsoft.Office.Core;
-using Microsoft.Office.Interop.PowerPoint;
-using ShomreiTorah.Singularity;
-using ShomreiTorah.Data;
 using System.Windows.Forms;
+using Microsoft.Office.Interop.PowerPoint;
+using ShomreiTorah.Data;
+using Office = Microsoft.Office.Core;
 
 namespace ShomreiTorah.Journal.AddIn {
 	public partial class ThisAddIn {
@@ -47,6 +43,12 @@ namespace ShomreiTorah.Journal.AddIn {
 				presentation.Windows[1].Selection.Unselect();
 			}
 		}
+		void CreateTaskPane(JournalPresentation jp) {
+			var pane = CustomTaskPanes.Add(new AdPane(jp), "Ad Details", jp.Presentation.Windows[1]);
+			pane.DockPosition = Office.MsoCTPDockPosition.msoCTPDockPositionRight;
+			pane.Width = 450;
+			pane.Visible = true;
+		}
 
 		///<summary>Gets the journal contained by a presentation, or null if the presentation is not a journal.</summary>
 		public JournalPresentation GetJournal(Presentation presentation) {
@@ -64,12 +66,6 @@ namespace ShomreiTorah.Journal.AddIn {
 			Application.PresentationSave += Application_PresentationSave;
 		}
 
-		void Application_PresentationSave(Presentation Pres) {
-			if (GetJournal(Pres) != null)
-				Program.Current.SaveDatabase();
-		}
-
-
 		void Application_AfterPresentationOpen(Presentation Pres) {
 			if (JournalPresentation.GetYear(Pres) != null) {
 				var jp = new JournalPresentation(Pres, Program.Table<JournalAd>());
@@ -77,18 +73,20 @@ namespace ShomreiTorah.Journal.AddIn {
 				CreateTaskPane(jp);
 			}
 		}
-		void CreateTaskPane(JournalPresentation jp) {
-			var pane =CustomTaskPanes.Add(new AdPane(jp), "Ad Details", jp.Presentation.Windows[1]);
-			pane.DockPosition = Office.MsoCTPDockPosition.msoCTPDockPositionRight;
-			pane.Width = 450;
-			pane.Visible = true;
+		void Application_PresentationSave(Presentation Pres) {
+			if (GetJournal(Pres) != null)
+				Program.Current.SaveDatabase();
 		}
 		void Application_PresentationCloseFinal(Presentation Pres) {
+			if (GetJournal(Pres) != null)
+				Program.Current.SaveDatabase();
 			CustomTaskPanes.Remove(GetTaskPane(Pres));
 			openJournals.Remove(Pres);
 		}
-
-		private void ThisAddIn_Shutdown(object sender, EventArgs e) { }
+		private void ThisAddIn_Shutdown(object sender, EventArgs e) {
+			if (Program.WasInitialized)
+				Program.Current.SaveDatabase();
+		}
 
 		protected override Office.IRibbonExtensibility CreateRibbonExtensibilityObject() {
 			return new JournalRibbon();
