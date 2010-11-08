@@ -64,6 +64,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
 			this.layoutControlGroup3 = new DevExpress.XtraLayout.LayoutControlGroup();
 			this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
+			this.warningsGroup = new DevExpress.XtraLayout.LayoutControlGroup();
 			this.colPledgeId = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
 			this.colExternalSource = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
 			this.colExternalId = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
@@ -96,6 +97,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup3)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.warningsGroup)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pledgesSource)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.adSearcher.Properties)).BeginInit();
 			this.SuspendLayout();
@@ -121,7 +123,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			// adDate
 			// 
 			this.adDate.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.adsBindingSource, "DateAdded", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "F"));
-			this.adDate.Location = new System.Drawing.Point(96, 68);
+			this.adDate.Location = new System.Drawing.Point(96, 183);
 			this.adDate.MinimumSize = new System.Drawing.Size(5, 20);
 			this.adDate.Name = "adDate";
 			this.adDate.Size = new System.Drawing.Size(387, 20);
@@ -136,11 +138,11 @@ namespace ShomreiTorah.Journal.AddIn {
 			// 
 			// paymentsGrid
 			// 
-			this.paymentsGrid.Location = new System.Drawing.Point(13, 384);
+			this.paymentsGrid.Location = new System.Drawing.Point(13, 425);
 			this.paymentsGrid.MainView = this.paymentsView;
 			this.paymentsGrid.Name = "paymentsGrid";
 			this.paymentsGrid.RegistrationCount = 39;
-			this.paymentsGrid.Size = new System.Drawing.Size(484, 171);
+			this.paymentsGrid.Size = new System.Drawing.Size(484, 130);
 			this.paymentsGrid.Source = this.paymentsSource;
 			this.paymentsGrid.TabIndex = 9;
 			this.paymentsGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -248,7 +250,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			// 
 			// pledgeAdder
 			// 
-			this.pledgeAdder.Location = new System.Drawing.Point(74, 136);
+			this.pledgeAdder.Location = new System.Drawing.Point(74, 239);
 			this.pledgeAdder.Name = "pledgeAdder";
 			toolTipItem1.Text = "Click to select a person";
 			superToolTip1.Items.Add(toolTipItem1);
@@ -267,14 +269,14 @@ namespace ShomreiTorah.Journal.AddIn {
 			// 
 			// pledgesGrid
 			// 
-			this.pledgesGrid.Location = new System.Drawing.Point(12, 160);
+			this.pledgesGrid.Location = new System.Drawing.Point(12, 263);
 			this.pledgesGrid.MainView = this.pledgesView;
 			this.pledgesGrid.Name = "pledgesGrid";
 			this.pledgesGrid.RegistrationCount = 39;
 			this.pledgesGrid.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.seatsEdit,
             this.paymentMenuEdit});
-			this.pledgesGrid.Size = new System.Drawing.Size(486, 193);
+			this.pledgesGrid.Size = new System.Drawing.Size(486, 131);
 			this.pledgesGrid.Source = this.paymentsSource;
 			this.pledgesGrid.TabIndex = 7;
 			this.pledgesGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -419,17 +421,18 @@ namespace ShomreiTorah.Journal.AddIn {
 			// comments
 			// 
 			this.comments.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.adsBindingSource, "Comments", true));
-			this.comments.Location = new System.Drawing.Point(24, 92);
+			this.comments.Location = new System.Drawing.Point(24, 207);
 			this.comments.Name = "comments";
 			this.comments.Properties.NullValuePrompt = "Ad Comments";
 			this.comments.Properties.NullValuePromptShowForEmptyValue = true;
-			this.comments.Size = new System.Drawing.Size(462, 28);
+			this.comments.Properties.Validating += new System.ComponentModel.CancelEventHandler(this.comments_Properties_Validating);
+			this.comments.Size = new System.Drawing.Size(462, 16);
 			this.comments.StyleController = this.layoutControl1;
 			this.comments.TabIndex = 6;
 			// 
 			// adType
 			// 
-			this.adType.Location = new System.Drawing.Point(217, 44);
+			this.adType.Location = new System.Drawing.Point(217, 159);
 			this.adType.Name = "adType";
 			this.adType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -447,7 +450,7 @@ namespace ShomreiTorah.Journal.AddIn {
             0,
             0,
             0});
-			this.externalId.Location = new System.Drawing.Point(82, 44);
+			this.externalId.Location = new System.Drawing.Point(82, 159);
 			this.externalId.Name = "externalId";
 			this.externalId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton()});
@@ -464,7 +467,8 @@ namespace ShomreiTorah.Journal.AddIn {
             this.layoutControlGroup2,
             this.layoutControlItem4,
             this.layoutControlItem5,
-            this.layoutControlGroup3});
+            this.layoutControlGroup3,
+            this.warningsGroup});
 			this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
 			this.layoutControlGroup1.Name = "layoutControlGroup1";
 			this.layoutControlGroup1.Size = new System.Drawing.Size(510, 568);
@@ -480,10 +484,10 @@ namespace ShomreiTorah.Journal.AddIn {
             this.layoutControlItem1,
             this.layoutControlItem2,
             this.layoutControlItem7});
-			this.layoutControlGroup2.Location = new System.Drawing.Point(0, 0);
+			this.layoutControlGroup2.Location = new System.Drawing.Point(0, 115);
 			this.layoutControlGroup2.Name = "layoutControlGroup2";
 			this.layoutControlGroup2.OptionsItemText.TextAlignMode = DevExpress.XtraLayout.TextAlignModeGroup.AutoSize;
-			this.layoutControlGroup2.Size = new System.Drawing.Size(490, 124);
+			this.layoutControlGroup2.Size = new System.Drawing.Size(490, 112);
 			this.layoutControlGroup2.Text = "Ad Properties";
 			// 
 			// layoutControlItem3
@@ -492,7 +496,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.layoutControlItem3.CustomizationFormText = "layoutControlItem3";
 			this.layoutControlItem3.Location = new System.Drawing.Point(0, 48);
 			this.layoutControlItem3.Name = "layoutControlItem3";
-			this.layoutControlItem3.Size = new System.Drawing.Size(466, 32);
+			this.layoutControlItem3.Size = new System.Drawing.Size(466, 20);
 			this.layoutControlItem3.Text = "layoutControlItem3";
 			this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
 			this.layoutControlItem3.TextToControlDistance = 0;
@@ -537,9 +541,9 @@ namespace ShomreiTorah.Journal.AddIn {
 			// 
 			this.layoutControlItem4.Control = this.pledgesGrid;
 			this.layoutControlItem4.CustomizationFormText = "layoutControlItem4";
-			this.layoutControlItem4.Location = new System.Drawing.Point(0, 148);
+			this.layoutControlItem4.Location = new System.Drawing.Point(0, 251);
 			this.layoutControlItem4.Name = "layoutControlItem4";
-			this.layoutControlItem4.Size = new System.Drawing.Size(490, 197);
+			this.layoutControlItem4.Size = new System.Drawing.Size(490, 135);
 			this.layoutControlItem4.Text = "layoutControlItem4";
 			this.layoutControlItem4.TextLocation = DevExpress.Utils.Locations.Top;
 			this.layoutControlItem4.TextSize = new System.Drawing.Size(0, 0);
@@ -550,7 +554,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			// 
 			this.layoutControlItem5.Control = this.pledgeAdder;
 			this.layoutControlItem5.CustomizationFormText = "Add Pledge:";
-			this.layoutControlItem5.Location = new System.Drawing.Point(0, 124);
+			this.layoutControlItem5.Location = new System.Drawing.Point(0, 227);
 			this.layoutControlItem5.Name = "layoutControlItem5";
 			this.layoutControlItem5.Size = new System.Drawing.Size(490, 24);
 			this.layoutControlItem5.Text = "Add Pledge:";
@@ -561,10 +565,10 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.layoutControlGroup3.CustomizationFormText = "Payments";
 			this.layoutControlGroup3.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlItem6});
-			this.layoutControlGroup3.Location = new System.Drawing.Point(0, 345);
+			this.layoutControlGroup3.Location = new System.Drawing.Point(0, 386);
 			this.layoutControlGroup3.Name = "layoutControlGroup3";
 			this.layoutControlGroup3.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0);
-			this.layoutControlGroup3.Size = new System.Drawing.Size(490, 203);
+			this.layoutControlGroup3.Size = new System.Drawing.Size(490, 162);
 			this.layoutControlGroup3.Spacing = new DevExpress.XtraLayout.Utils.Padding(2, 2, 8, 2);
 			this.layoutControlGroup3.Text = "Payments";
 			// 
@@ -575,11 +579,24 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.layoutControlItem6.Location = new System.Drawing.Point(0, 0);
 			this.layoutControlItem6.Name = "layoutControlItem6";
 			this.layoutControlItem6.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0);
-			this.layoutControlItem6.Size = new System.Drawing.Size(484, 171);
+			this.layoutControlItem6.Size = new System.Drawing.Size(484, 130);
 			this.layoutControlItem6.Text = "layoutControlItem6";
 			this.layoutControlItem6.TextSize = new System.Drawing.Size(0, 0);
 			this.layoutControlItem6.TextToControlDistance = 0;
 			this.layoutControlItem6.TextVisible = false;
+			// 
+			// warningsGroup
+			// 
+			this.warningsGroup.AllowCustomizeChildren = false;
+			this.warningsGroup.AllowHide = false;
+			this.warningsGroup.CaptionImage = global::ShomreiTorah.Journal.Properties.Resources.Warning32;
+			this.warningsGroup.CustomizationFormText = "Warnings";
+			this.warningsGroup.Location = new System.Drawing.Point(0, 0);
+			this.warningsGroup.Name = "warningsGroup";
+			this.warningsGroup.OptionsItemText.TextAlignMode = DevExpress.XtraLayout.TextAlignModeGroup.AutoSize;
+			this.warningsGroup.ShowInCustomizationForm = false;
+			this.warningsGroup.Size = new System.Drawing.Size(490, 115);
+			this.warningsGroup.Text = "Warnings";
 			// 
 			// colPledgeId
 			// 
@@ -672,6 +689,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup3)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.warningsGroup)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pledgesSource)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.adSearcher.Properties)).EndInit();
 			this.ResumeLayout(false);
@@ -729,6 +747,7 @@ namespace ShomreiTorah.Journal.AddIn {
 		private Data.UI.FrameworkBindingSource pledgesSource;
 		private Data.UI.FrameworkBindingSource paymentsSource;
 		private WinForms.Controls.Lookup.ItemSelector adSearcher;
+		private DevExpress.XtraLayout.LayoutControlGroup warningsGroup;
 
 	}
 }

@@ -1,11 +1,14 @@
 using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using DevExpress.Utils.Menu;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraGrid.Views.Base;
+using DevExpress.XtraLayout;
+using DevExpress.XtraLayout.Utils;
 using ShomreiTorah.Data;
 using ShomreiTorah.Data.UI.Controls;
 using ShomreiTorah.Data.UI.DisplaySettings;
@@ -77,12 +80,15 @@ namespace ShomreiTorah.Journal.AddIn {
 			if (payments != null) payments.Dispose();
 		}
 		void SetAd(AdShape newAd, bool force = false) {
-			if (this.ad == newAd && !force) return;
+			if (this.ad == newAd && !force) {
+				CheckWarnings();
+				return;
+			}
 			DisposeDataSources();
 
 			this.ad = newAd;
 			layoutControl1.Visible = ad != null;
-			if (!layoutControl1.Visible) return;
+			if (ad == null) return;
 			adsBindingSource.Position = adsBindingSource.IndexOf(ad.Row);
 			adType.EditValue = ad.AdType;
 
@@ -99,6 +105,7 @@ namespace ShomreiTorah.Journal.AddIn {
 				Program.Table<Payment>(),
 				p => p.ExternalSource == "Journal " + journal.Year && p.ExternalId == externalId()
 			);
+			CheckWarnings();
 		}
 
 		private void adType_SelectedValueChanged(object sender, EventArgs e) {
@@ -206,6 +213,47 @@ namespace ShomreiTorah.Journal.AddIn {
 					}
 				}
 			}
+		}
+		#endregion
+
+		#region Warnings
+		private void comments_Properties_Validating(object sender, CancelEventArgs e) {
+			BeginInvoke(new Action(CheckWarnings));	//In case the user deleted a suppression
+		}
+
+		class ControlRemoverVisitor : BaseVisitor {
+			public override void Visit(BaseLayoutItem item) {
+				var lci = item as LayoutControlItem;
+				if (lci != null)
+					lci.Control.Dispose();
+			}
+		}
+		void CheckWarnings() {
+			if (ad == null) return;
+
+			var warnings = ad.CheckWarnings().ToList();
+			try {
+				warningsGroup.BeginUpdate();
+				warningsGroup.Accept(new ControlRemoverVisitor());
+				warningsGroup.Clear();
+				warningsGroup.Visibility = warnings.Count > 0 ? LayoutVisibility.OnlyInRuntime : LayoutVisibility.Never;
+
+				foreach (var dontUse in warnings) {
+					var warning = dontUse;	//Force closures to get separate variables
+
+					var button = new SimpleButton {
+						Text = "Suppress",
+						MaximumSize = new Size(60, 22),
+						SuperTip = Utilities.CreateSuperTip(title: "Suppress warning", body: "Adds a line to the ad's comments that suppresses this warning")
+					};
+					button.Click += delegate {
+						warning.Suppress();
+						CheckWarnings();
+					};
+					var item = warningsGroup.AddItem(warning.Message, button);
+					item.ControlAlignment = ContentAlignment.MiddleLeft;
+				}
+			} finally { warningsGroup.EndUpdate(); }
 		}
 		#endregion
 	}

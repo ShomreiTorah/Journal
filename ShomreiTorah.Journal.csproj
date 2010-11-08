@@ -237,6 +237,7 @@
     <Compile Include="AddIn\Program.cs" />
     <Compile Include="AddIn\JournalRibbon.cs" />
     <Compile Include="AdShape.cs" />
+    <Compile Include="AdVerifier.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Forms\JournalProperties.cs">
       <SubType>Form</SubType>
@@ -297,6 +298,9 @@
     <CodeAnalysisDictionary Include="..\..\CustomDictionary.xml">
       <Link>CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Warning32.png" />
   </ItemGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

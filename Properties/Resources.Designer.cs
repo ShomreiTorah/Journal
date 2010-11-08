@@ -59,5 +59,12 @@ namespace ShomreiTorah.Journal.Properties {
                 resourceCulture = value;
             }
         }
+        
+        internal static System.Drawing.Bitmap Warning32 {
+            get {
+                object obj = ResourceManager.GetObject("Warning32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
