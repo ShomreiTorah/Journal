@@ -24,33 +24,33 @@ namespace ShomreiTorah.Journal {
 		static IEnumerable<AdWarning> CheckNames(AdShape ad) {
 			var body = ad.Shape.TextFrame2.TextRange.Text;
 			return ad.Row.Pledges
-				.Where(p => !CheckName(p.Person, body))
+				.Where(p => !HasName(p.Person, body))
 				.Select(p => new AdWarning(ad, p.Person.VeryFullName + " does not appear in the ad text"));
 		}
 		[SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider")]
-		static bool CheckName(Person person, string text) {
+		static bool HasName(Person person, string text) {
 			if (!String.IsNullOrEmpty(person.FullName)
 			 && Regex.IsMatch(text, String.Format(@"(^|\W){0}(\W|$)", Regex.Escape(person.FullName))))
-				return false;					  
+				return true;					  
 			if (Regex.IsMatch(text, String.Format(@"(^|\W){0} Family(\W|$)", Regex.Escape(person.LastName))))
-				return false;
+				return true;
 
 			if (String.IsNullOrEmpty(person.HerName)
 			 && Regex.IsMatch(text, String.Format(@"(^|\W){0} {1}(\W|$)", Regex.Escape(person.HisName), Regex.Escape(person.LastName))))
-				return false;
+				return true;
 			if (String.IsNullOrEmpty(person.HisName)
 			 && Regex.IsMatch(text, String.Format(@"(^|\W){0} {1}(\W|$)", Regex.Escape(person.HerName), Regex.Escape(person.LastName))))
-				return false;
+				return true;
 
 			if (Regex.IsMatch(text, String.Format(@"(^|\W){0}\W(.*?\W)?{1}\W(.*?\W)?{2}(\W|$)",
 									Regex.Escape(person.HisName), Regex.Escape(person.HerName), Regex.Escape(person.LastName))))
-				return false;
+				return true;
 
 			if (Regex.IsMatch(text, String.Format(@"(^|\W){1}\W(.*?\W)?{0}\W(.*?\W)?{2}(\W|$)",
 									Regex.Escape(person.HisName), Regex.Escape(person.HerName), Regex.Escape(person.LastName))))
-				return false;
+				return true;
 
-			return true;
+			return false;
 		}
 		#endregion
 
