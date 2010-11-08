@@ -167,7 +167,6 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 		#endregion
 
-
 		private void adSearcher_EditValueChanged(object sender, EventArgs e) {
 			var pledge = adSearcher.EditValue as Pledge;
 			if (pledge == null) return;
@@ -180,6 +179,12 @@ namespace ShomreiTorah.Journal.AddIn {
 			SetAd(matchedAd);
 			matchedAd.Shape.ForceSelect();
 			adSearcher.EditValue = null;
+		}
+		private void externalId_Validating(object sender, CancelEventArgs e) {
+			if (journal.Ads.Any(a => a.Row.ExternalId == externalId.Value)) {
+				externalId.ErrorText = "There is already an ad with external ID " + externalId.Value;
+				e.Cancel = true;
+			}
 		}
 
 		#region Seating
