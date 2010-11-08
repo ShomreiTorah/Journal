@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using Microsoft.Office.Interop.PowerPoint;
+using ShomreiTorah.Common;
 using ShomreiTorah.Data;
 using ShomreiTorah.Singularity;
 using ShomreiTorah.WinForms;
@@ -16,9 +17,21 @@ namespace ShomreiTorah.Journal {
 	/// Ad slides have a Tag["AdType"] equal to the AdType.Name
 	///</remarks>
 	public sealed class JournalPresentation {
+		class AdShapeCollection : KeyedCollection<string, AdShape> {
+			protected override string GetKeyForItem(AdShape item) { return item.Row.AdId.ToString(); }
+
+			public AdShape GetAd(string id) {
+				if (base.Dictionary == null)
+					return this.FirstOrDefault(a => a.Row.AdId.ToString() == id);
+				AdShape retVal;
+				base.Dictionary.TryGetValue(id, out retVal);
+				return retVal;
+			}
+		}
+
 		const string TagYear = "JournalYear";
 		internal const string TagAdType = "AdType";
-		readonly List<AdShape> writableAds = new List<AdShape>();
+		readonly AdShapeCollection writableAds = new AdShapeCollection();
 
 		///<summary>Checks whether a PowerPoint presentation contains a Singularity journal.</summary>
 		public static int? GetYear(Presentation presentation) {
@@ -68,10 +81,15 @@ namespace ShomreiTorah.Journal {
 
 		///<summary>Gets the ads in the journal.</summary>
 		public ReadOnlyCollection<AdShape> Ads { get; private set; }
-		///<summary>Gets the ad describing the given shape.</summary>
+		///<summary>Gets the ad describing the given shape, if any.</summary>
 		public AdShape GetAd(Shape shape) {
 			if (shape == null) throw new ArgumentNullException("shape");
-			return Ads.FirstOrDefault(a => a.Shape == shape);	//TODO: Dictionary?
+			return writableAds.GetAd(shape.Name);
+		}
+		///<summary>Gets the AdShape object containing the given JournalAd row.</summary>
+		public AdShape GetAd(JournalAd ad) {
+			if (ad == null) throw new ArgumentNullException("ad");
+			return writableAds.GetAd(ad.AdId.ToString());
 		}
 
 		#region Creation
