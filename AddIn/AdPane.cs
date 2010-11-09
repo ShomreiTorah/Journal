@@ -3,13 +3,18 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using DevExpress.Utils;
 using DevExpress.Utils.Menu;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Base;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using DevExpress.XtraLayout;
 using DevExpress.XtraLayout.Utils;
 using ShomreiTorah.Data;
+using ShomreiTorah.Data.UI;
 using ShomreiTorah.Data.UI.Controls;
 using ShomreiTorah.Data.UI.DisplaySettings;
 using ShomreiTorah.Singularity;
@@ -152,7 +157,7 @@ namespace ShomreiTorah.Journal.AddIn {
 				var method = dontUse;	//Force a separate variable for each closure
 				menu.Items.Add(new DXMenuItem(method, delegate {
 					if (payments.Rows.Any(p => p.Person == pledge.Person)) {
-						if (!Dialog.Warn("You already entered a payment for " + pledge.Person.VeryFullName + ".\r\nAre you sure you want to add a second payment?"))
+						if (!Dialog.Warn("You already entered a payment for " + pledge.Person.VeryFullName + ".\r\nAre you sure you want to add another payment?"))
 							return;
 					}
 					var payment = ad.Row.CreatePayment();
@@ -160,12 +165,35 @@ namespace ShomreiTorah.Journal.AddIn {
 					payment.Person = pledge.Person;
 					payment.Amount = pledge.Amount;
 					Program.Table<Payment>().Rows.Add(payment);
+
+					var rowHandle = paymentsView.GetRowHandle(payments.Rows.IndexOf(payment));
+					paymentsView.SetSelection(rowHandle, makeVisible: true);
+
+					if (payment.Method == "Check") {
+						ShowColumnTooltip(paymentsView, colCheckNumber, new ToolTipControllerShowEventArgs {
+							Rounded = true,
+							ShowBeak = true,
+							IconType = ToolTipIconType.Question,
+							ToolTipType = ToolTipType.Standard,
+							Title = "Check Info",
+							ToolTip = "Please enter the check number and the date on the check",
+						});
+					}
 				}));
 			}
 			var control = (Control)sender;
 			new SkinMenuManager(LookAndFeel).ShowPopupMenu(menu, control, control.PointToClient(MousePosition));
 		}
 		#endregion
+
+		void ShowColumnTooltip(GridView view, GridColumn column, ToolTipControllerShowEventArgs args) {
+			var viewInfo = (GridViewInfo)view.GetViewInfo();
+			args.ToolTipLocation = ToolTipLocation.TopRight;
+			args.SelectedControl = view.GridControl;
+
+			var controller = new ToolTipController();
+			controller.ShowHint(args, view.GridControl.PointToScreen(viewInfo.ColumnsInfo[column].Bounds.Location));
+		}
 
 		private void adSearcher_EditValueChanged(object sender, EventArgs e) {
 			var pledge = adSearcher.EditValue as Pledge;
