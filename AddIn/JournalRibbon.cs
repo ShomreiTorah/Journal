@@ -1,16 +1,12 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
-using Office = Microsoft.Office.Core;
-using Microsoft.Office.Interop.PowerPoint;
+using System.Threading;
+using System.Windows.Forms;
 using Microsoft.Office.Core;
+using Microsoft.Office.Interop.PowerPoint;
 using ShomreiTorah.Data;
 using ShomreiTorah.WinForms;
-
 
 namespace ShomreiTorah.Journal.AddIn {
 	[ComVisible(true)]
@@ -52,8 +48,11 @@ namespace ShomreiTorah.Journal.AddIn {
 			Globals.ThisAddIn.CustomTaskPanes.FirstOrDefault(p => p.Window == window).Visible = true;
 		}
 
-		public void SaveDB(IRibbonControl control) {Program.Current.SaveDatabase();}
-		public void RefreshDB(IRibbonControl control) { Program.Current.RefreshDatabase(); }
+		public void SaveDB(IRibbonControl control) { Program.Current.SaveDatabase(); }
+		public void RefreshDB(IRibbonControl control) {
+			SynchronizationContext.SetSynchronizationContext(new WindowsFormsSynchronizationContext());
+			Program.Current.RefreshDatabase();
+		}
 
 		public void InsertAd(IRibbonControl control, string selectedId, int selectedIndex) {
 			var jp = control.Journal();
