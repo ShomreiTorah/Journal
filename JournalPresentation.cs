@@ -268,8 +268,8 @@ namespace ShomreiTorah.Journal {
 					ad.Shape.TextFrame.TextRange.Paste();
 				}
 			}
-
-			typeSetter(newAdType);
+			ad.Row.AdType = newAdType.Name;
+			typeSetter(newAdType);	//This sets the private field in AdShape
 		}
 	}
 	static class PowerPointJournalExtensions {
