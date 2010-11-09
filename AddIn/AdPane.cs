@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using DevExpress.Utils;
@@ -9,7 +11,6 @@ using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Base;
-using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using DevExpress.XtraLayout;
 using DevExpress.XtraLayout.Utils;
@@ -122,9 +123,87 @@ namespace ShomreiTorah.Journal.AddIn {
 			}
 			if (newType == ad.AdType)
 				return;
-			//TODO: Change price?
+			if (!CheckAdjustPledges("Change Ad Type", newType: newType)) {
+				adType.EditValue = ad.AdType;		//Reset the editor's value.
+				return;
+			}
+
 			ad.AdType = newType;
 			ad.Shape.ForceSelect();
+		}
+
+		///<summary>Checks whether the user wants to adjust pledge amounts.</summary>
+		bool CheckAdjustPledges(string actionName, AdType newType = null, IList<Pledge> newPledges = null) {
+			var oldType = ad.AdType;
+			var oldPledges = pledges.Rows;
+
+			newType = newType ?? ad.AdType;
+			newPledges = newPledges ?? (IList<Pledge>)pledges.Rows;
+
+			//If there are pledges, try adjusting the amounts
+			if (newPledges.Count > 0) {
+				//If there is a payment, we assume that it
+				//has the correct amount and don't adjust 
+				//anything.  If the pledge amounts aren't 
+				//equal, we assume that something strange 
+				//is being billed, and don't adjust them. 
+				if (payments.Rows.Any()
+				 || oldPledges.Any(p => Math.Abs(p.Amount - oldPledges[0].Amount) > 1)		//Allow off-by-one, in case it came from an indivisible pledge count
+				 || oldPledges.Sum(p => p.Amount) != oldType.DefaultPrice) {
+					ShowColumnTooltip(colPledgeAmount, new ToolTipControllerShowEventArgs {
+						Rounded = true,
+						ShowBeak = true,
+						IconType = ToolTipIconType.Information,
+						ToolTipType = ToolTipType.Standard,
+						Title = actionName,
+						ToolTip = "You probably want to adjust the pledge amounts.",
+					});
+				} else {
+					decimal newAmount = (decimal)newType.DefaultPrice / newPledges.Count;
+					int baseAmount = (int)newAmount;	//Truncate
+					int higherAdCount = 0;		//The number of ads which should receive $(baseAmount + 1) pledges to add up correctly
+					string message;
+					if (newAmount == baseAmount)
+						message = String.Format(
+							CultureInfo.CurrentCulture,
+							"Would you like to change each pledge to {0:c} to match a {1}?",
+							baseAmount, newType.PledgeSubType.ToLowerInvariant()
+						);
+					else {
+						higherAdCount = newType.DefaultPrice - (baseAmount * newPledges.Count);
+
+						if (higherAdCount == 1)
+							message = String.Format(
+								CultureInfo.CurrentCulture,
+								"Would you like to change the first pledge to {0:c} to and the rest to {1:c} to match a {2}?",
+								baseAmount + 1, baseAmount, newType.PledgeSubType.ToLowerInvariant()
+							);
+						else
+							message = String.Format(
+								CultureInfo.CurrentCulture,
+								"Would you like to change the first {0} pledges to {1:c} to and the rest to {2:c} to match a {3}?",
+								higherAdCount, baseAmount + 1, baseAmount, newType.PledgeSubType.ToLowerInvariant()
+							);
+					}
+					switch (Dialog.Show(message, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning)) {
+						case DialogResult.Cancel:			//Don't change the ad type.
+							return false;
+						case DialogResult.No:				//Don't change any pledges.
+							break;
+						case DialogResult.Yes:				//Adjust the pledge amounts
+							int pledgeIndex = 0;
+							foreach (var pledge in newPledges.OrderBy(p => p.Person.LastName)) {
+								if (pledgeIndex < higherAdCount)
+									pledge.Amount = baseAmount + 1;
+								else
+									pledge.Amount = baseAmount;
+								pledgeIndex++;
+							}
+							break;
+					}
+				}
+			}
+			return true;
 		}
 
 		#region Add pledge/payment
@@ -145,9 +224,17 @@ namespace ShomreiTorah.Journal.AddIn {
 			if (pledgeAdder.SelectedPerson == null) return;
 			var pledge = ad.Row.CreatePledge();
 			pledge.Person = pledgeAdder.SelectedPerson;
-			pledge.Amount = ad.AdType.DefaultPrice;	//TODO: Split price
-			Program.Table<Pledge>().Rows.Add(pledge);
+			pledge.Amount = ad.AdType.DefaultPrice;
+
 			pledgeAdder.SelectedPerson = null;
+
+			var newPledges = new Pledge[pledges.Rows.Count + 1];
+			pledges.Rows.CopyTo(newPledges, 0);
+			newPledges[pledges.Rows.Count] = pledge;
+			if (!CheckAdjustPledges("Add Pledge", newPledges: newPledges))
+				return;
+
+			Program.Table<Pledge>().Rows.Add(pledge);
 		}
 
 		private void paymentMenuEdit_ButtonClick(object sender, ButtonPressedEventArgs e) {
@@ -170,12 +257,12 @@ namespace ShomreiTorah.Journal.AddIn {
 					paymentsView.SetSelection(rowHandle, makeVisible: true);
 
 					if (payment.Method == "Check") {
-						ShowColumnTooltip(paymentsView, colCheckNumber, new ToolTipControllerShowEventArgs {
+						ShowColumnTooltip(colCheckNumber, new ToolTipControllerShowEventArgs {
 							Rounded = true,
 							ShowBeak = true,
 							IconType = ToolTipIconType.Question,
 							ToolTipType = ToolTipType.Standard,
-							Title = "Check Info",
+							Title = "Add Check",
 							ToolTip = "Please enter the check number and the date on the check",
 						});
 					}
@@ -186,7 +273,8 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 		#endregion
 
-		void ShowColumnTooltip(GridView view, GridColumn column, ToolTipControllerShowEventArgs args) {
+		static void ShowColumnTooltip(GridColumn column, ToolTipControllerShowEventArgs args) {
+			var view = column.View;
 			var viewInfo = (GridViewInfo)view.GetViewInfo();
 			args.ToolTipLocation = ToolTipLocation.TopRight;
 			args.SelectedControl = view.GridControl;

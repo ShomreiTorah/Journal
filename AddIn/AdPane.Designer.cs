@@ -14,25 +14,25 @@ namespace ShomreiTorah.Journal.AddIn {
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
-			DevExpress.Utils.SuperToolTip superToolTip3 = new DevExpress.Utils.SuperToolTip();
-			DevExpress.Utils.ToolTipItem toolTipItem3 = new DevExpress.Utils.ToolTipItem();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdPane));
-			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject5 = new DevExpress.Utils.SerializableAppearanceObject();
-			DevExpress.Utils.SuperToolTip superToolTip4 = new DevExpress.Utils.SuperToolTip();
-			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
-			DevExpress.Utils.ToolTipItem toolTipItem4 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
+			DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
+			DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdPane));
+			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
+			DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
+			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
+			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
 			this.layoutControl1 = new DevExpress.XtraDataLayout.DataLayoutControl();
 			this.adDate = new DevExpress.XtraEditors.LabelControl();
 			this.adsBindingSource = new ShomreiTorah.Data.UI.FrameworkBindingSource(this.components);
 			this.paymentsGrid = new ShomreiTorah.Data.UI.Grid.SmartGrid(this.components);
 			this.paymentsView = new ShomreiTorah.Data.UI.Grid.SmartGridView();
 			this.colPerson1 = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
-			this.colDate1 = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
+			this.colPaymentDate = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
 			this.colMethod = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
 			this.colCheckNumber = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
-			this.colAmount1 = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
+			this.colPaymentAmount = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
 			this.colDeposit = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
 			this.colModified1 = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
 			this.colModifier1 = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
@@ -41,8 +41,8 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.pledgesGrid = new ShomreiTorah.Data.UI.Grid.SmartGrid(this.components);
 			this.pledgesView = new ShomreiTorah.Data.UI.Grid.SmartGridView();
 			this.colPerson = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
-			this.colDate = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
-			this.colAmount = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
+			this.colPledgeDate = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
+			this.colPledgeAmount = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
 			this.colNote = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
 			this.colModified = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
 			this.colModifier = new ShomreiTorah.Data.UI.Grid.SmartGridColumn();
@@ -123,7 +123,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			// adDate
 			// 
 			this.adDate.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.adsBindingSource, "DateAdded", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "F"));
-			this.adDate.Location = new System.Drawing.Point(96, 183);
+			this.adDate.Location = new System.Drawing.Point(96, 133);
 			this.adDate.MinimumSize = new System.Drawing.Size(5, 20);
 			this.adDate.Name = "adDate";
 			this.adDate.Size = new System.Drawing.Size(387, 20);
@@ -138,11 +138,11 @@ namespace ShomreiTorah.Journal.AddIn {
 			// 
 			// paymentsGrid
 			// 
-			this.paymentsGrid.Location = new System.Drawing.Point(13, 425);
+			this.paymentsGrid.Location = new System.Drawing.Point(13, 414);
 			this.paymentsGrid.MainView = this.paymentsView;
 			this.paymentsGrid.Name = "paymentsGrid";
 			this.paymentsGrid.RegistrationCount = 39;
-			this.paymentsGrid.Size = new System.Drawing.Size(484, 130);
+			this.paymentsGrid.Size = new System.Drawing.Size(484, 141);
 			this.paymentsGrid.Source = this.paymentsSource;
 			this.paymentsGrid.TabIndex = 9;
 			this.paymentsGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -152,15 +152,18 @@ namespace ShomreiTorah.Journal.AddIn {
 			// 
 			this.paymentsView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.colPerson1,
-            this.colDate1,
+            this.colPaymentDate,
             this.colMethod,
             this.colCheckNumber,
-            this.colAmount1,
+            this.colPaymentAmount,
             this.colDeposit,
             this.colModified1,
             this.colModifier1});
 			this.paymentsView.GridControl = this.paymentsGrid;
 			this.paymentsView.Name = "paymentsView";
+			this.paymentsView.OptionsView.ShowFooter = true;
+			this.paymentsView.SortInfo.AddRange(new DevExpress.XtraGrid.Columns.GridColumnSortInfo[] {
+            new DevExpress.XtraGrid.Columns.GridColumnSortInfo(this.colPerson1, DevExpress.Data.ColumnSortOrder.Ascending)});
 			// 
 			// colPerson1
 			// 
@@ -173,17 +176,19 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.colPerson1.OptionsColumn.ReadOnly = true;
 			this.colPerson1.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
 			this.colPerson1.ShowEditorOnMouseDown = true;
+			this.colPerson1.SummaryItem.DisplayFormat = "{0} Payments";
+			this.colPerson1.SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Count;
 			this.colPerson1.Visible = true;
 			this.colPerson1.VisibleIndex = 0;
 			this.colPerson1.Width = 78;
 			// 
-			// colDate1
+			// colPaymentDate
 			// 
-			this.colDate1.FieldName = "Date";
-			this.colDate1.Name = "colDate1";
-			this.colDate1.Visible = true;
-			this.colDate1.VisibleIndex = 1;
-			this.colDate1.Width = 68;
+			this.colPaymentDate.FieldName = "Date";
+			this.colPaymentDate.Name = "colPaymentDate";
+			this.colPaymentDate.Visible = true;
+			this.colPaymentDate.VisibleIndex = 1;
+			this.colPaymentDate.Width = 57;
 			// 
 			// colMethod
 			// 
@@ -192,7 +197,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.colMethod.Name = "colMethod";
 			this.colMethod.Visible = true;
 			this.colMethod.VisibleIndex = 2;
-			this.colMethod.Width = 66;
+			this.colMethod.Width = 55;
 			// 
 			// colCheckNumber
 			// 
@@ -202,18 +207,18 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.colCheckNumber.VisibleIndex = 3;
 			this.colCheckNumber.Width = 88;
 			// 
-			// colAmount1
+			// colPaymentAmount
 			// 
-			this.colAmount1.DisplayFormat.FormatString = "c";
-			this.colAmount1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-			this.colAmount1.FieldName = "Amount";
-			this.colAmount1.MaxWidth = 85;
-			this.colAmount1.Name = "colAmount1";
-			this.colAmount1.SummaryItem.DisplayFormat = "{0:c} Total Paid";
-			this.colAmount1.SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
-			this.colAmount1.Visible = true;
-			this.colAmount1.VisibleIndex = 4;
-			this.colAmount1.Width = 79;
+			this.colPaymentAmount.DisplayFormat.FormatString = "c";
+			this.colPaymentAmount.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+			this.colPaymentAmount.FieldName = "Amount";
+			this.colPaymentAmount.MaxWidth = 85;
+			this.colPaymentAmount.Name = "colPaymentAmount";
+			this.colPaymentAmount.SummaryItem.DisplayFormat = "{0:c} Total Paid";
+			this.colPaymentAmount.SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
+			this.colPaymentAmount.Visible = true;
+			this.colPaymentAmount.VisibleIndex = 4;
+			this.colPaymentAmount.Width = 56;
 			// 
 			// colDeposit
 			// 
@@ -227,7 +232,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.colDeposit.OptionsColumn.ReadOnly = true;
 			this.colDeposit.Visible = true;
 			this.colDeposit.VisibleIndex = 5;
-			this.colDeposit.Width = 87;
+			this.colDeposit.Width = 67;
 			// 
 			// colModified1
 			// 
@@ -250,17 +255,17 @@ namespace ShomreiTorah.Journal.AddIn {
 			// 
 			// pledgeAdder
 			// 
-			this.pledgeAdder.Location = new System.Drawing.Point(74, 239);
+			this.pledgeAdder.Location = new System.Drawing.Point(74, 218);
 			this.pledgeAdder.Name = "pledgeAdder";
-			toolTipItem3.Text = "Click to select a person";
-			superToolTip3.Items.Add(toolTipItem3);
-			toolTipTitleItem2.Text = "New Person...";
-			toolTipItem4.Text = "Adds a new person to the master directory";
-			superToolTip4.Items.Add(toolTipTitleItem2);
-			superToolTip4.Items.Add(toolTipItem4);
+			toolTipItem1.Text = "Click to select a person";
+			superToolTip1.Items.Add(toolTipItem1);
+			toolTipTitleItem1.Text = "New Person...";
+			toolTipItem2.Text = "Adds a new person to the master directory";
+			superToolTip2.Items.Add(toolTipTitleItem1);
+			superToolTip2.Items.Add(toolTipItem2);
 			this.pledgeAdder.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject4, "", null, superToolTip3, true),
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "New person...", 90, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleLeft, ((System.Drawing.Image)(resources.GetObject("pledgeAdder.Properties.Buttons"))), new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject5, "", null, superToolTip4, true)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, "", null, superToolTip1, true),
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "New person...", 90, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleLeft, ((System.Drawing.Image)(resources.GetObject("pledgeAdder.Properties.Buttons"))), new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject2, "", null, superToolTip2, true)});
 			this.pledgeAdder.Size = new System.Drawing.Size(424, 20);
 			this.pledgeAdder.StyleController = this.layoutControl1;
 			this.pledgeAdder.TabIndex = 8;
@@ -269,14 +274,14 @@ namespace ShomreiTorah.Journal.AddIn {
 			// 
 			// pledgesGrid
 			// 
-			this.pledgesGrid.Location = new System.Drawing.Point(12, 263);
+			this.pledgesGrid.Location = new System.Drawing.Point(12, 242);
 			this.pledgesGrid.MainView = this.pledgesView;
 			this.pledgesGrid.Name = "pledgesGrid";
 			this.pledgesGrid.RegistrationCount = 39;
 			this.pledgesGrid.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.seatsEdit,
             this.paymentMenuEdit});
-			this.pledgesGrid.Size = new System.Drawing.Size(486, 131);
+			this.pledgesGrid.Size = new System.Drawing.Size(486, 141);
 			this.pledgesGrid.Source = this.paymentsSource;
 			this.pledgesGrid.TabIndex = 7;
 			this.pledgesGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -286,8 +291,8 @@ namespace ShomreiTorah.Journal.AddIn {
 			// 
 			this.pledgesView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.colPerson,
-            this.colDate,
-            this.colAmount,
+            this.colPledgeDate,
+            this.colPledgeAmount,
             this.colNote,
             this.colModified,
             this.colModifier,
@@ -296,6 +301,9 @@ namespace ShomreiTorah.Journal.AddIn {
             this.colAddPayment});
 			this.pledgesView.GridControl = this.pledgesGrid;
 			this.pledgesView.Name = "pledgesView";
+			this.pledgesView.OptionsView.ShowFooter = true;
+			this.pledgesView.SortInfo.AddRange(new DevExpress.XtraGrid.Columns.GridColumnSortInfo[] {
+            new DevExpress.XtraGrid.Columns.GridColumnSortInfo(this.colPerson, DevExpress.Data.ColumnSortOrder.Ascending)});
 			this.pledgesView.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.pledgesView_CustomUnboundColumnData);
 			// 
 			// colPerson
@@ -309,28 +317,30 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.colPerson.OptionsColumn.ReadOnly = true;
 			this.colPerson.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
 			this.colPerson.ShowEditorOnMouseDown = true;
+			this.colPerson.SummaryItem.DisplayFormat = "{0} Pledges";
+			this.colPerson.SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Count;
 			this.colPerson.Visible = true;
 			this.colPerson.VisibleIndex = 0;
-			this.colPerson.Width = 65;
+			this.colPerson.Width = 110;
 			// 
-			// colDate
+			// colPledgeDate
 			// 
-			this.colDate.FieldName = "Date";
-			this.colDate.Name = "colDate";
-			this.colDate.Width = 57;
+			this.colPledgeDate.FieldName = "Date";
+			this.colPledgeDate.Name = "colPledgeDate";
+			this.colPledgeDate.Width = 63;
 			// 
-			// colAmount
+			// colPledgeAmount
 			// 
-			this.colAmount.DisplayFormat.FormatString = "c";
-			this.colAmount.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-			this.colAmount.FieldName = "Amount";
-			this.colAmount.MaxWidth = 85;
-			this.colAmount.Name = "colAmount";
-			this.colAmount.SummaryItem.DisplayFormat = "{0:c} Total Paid";
-			this.colAmount.SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
-			this.colAmount.Visible = true;
-			this.colAmount.VisibleIndex = 1;
-			this.colAmount.Width = 56;
+			this.colPledgeAmount.DisplayFormat.FormatString = "c";
+			this.colPledgeAmount.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+			this.colPledgeAmount.FieldName = "Amount";
+			this.colPledgeAmount.MaxWidth = 85;
+			this.colPledgeAmount.Name = "colPledgeAmount";
+			this.colPledgeAmount.SummaryItem.DisplayFormat = "{0:c} Total";
+			this.colPledgeAmount.SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
+			this.colPledgeAmount.Visible = true;
+			this.colPledgeAmount.VisibleIndex = 1;
+			this.colPledgeAmount.Width = 85;
 			// 
 			// colNote
 			// 
@@ -338,7 +348,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.colNote.Name = "colNote";
 			this.colNote.Visible = true;
 			this.colNote.VisibleIndex = 2;
-			this.colNote.Width = 42;
+			this.colNote.Width = 57;
 			// 
 			// colModified
 			// 
@@ -363,7 +373,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.colMensSeats.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
 			this.colMensSeats.Visible = true;
 			this.colMensSeats.VisibleIndex = 3;
-			this.colMensSeats.Width = 76;
+			this.colMensSeats.Width = 104;
 			// 
 			// seatsEdit
 			// 
@@ -385,7 +395,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.colWomensSeats.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
 			this.colWomensSeats.Visible = true;
 			this.colWomensSeats.VisibleIndex = 4;
-			this.colWomensSeats.Width = 92;
+			this.colWomensSeats.Width = 131;
 			// 
 			// colAddPayment
 			// 
@@ -411,7 +421,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.paymentMenuEdit.AllowFocused = false;
 			this.paymentMenuEdit.AutoHeight = false;
 			this.paymentMenuEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.DropDown, "Add Payment", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleRight, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, "", null, null, true)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.DropDown, "Add Payment", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleRight, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject3, "", null, null, true)});
 			this.paymentMenuEdit.Name = "paymentMenuEdit";
 			this.paymentMenuEdit.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor;
 			this.paymentMenuEdit.ButtonClick += new DevExpress.XtraEditors.Controls.ButtonPressedEventHandler(this.paymentMenuEdit_ButtonClick);
@@ -419,18 +429,18 @@ namespace ShomreiTorah.Journal.AddIn {
 			// comments
 			// 
 			this.comments.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.adsBindingSource, "Comments", true));
-			this.comments.Location = new System.Drawing.Point(24, 207);
+			this.comments.Location = new System.Drawing.Point(24, 157);
 			this.comments.Name = "comments";
 			this.comments.Properties.NullValuePrompt = "Ad Comments";
 			this.comments.Properties.NullValuePromptShowForEmptyValue = true;
 			this.comments.Properties.Validating += new System.ComponentModel.CancelEventHandler(this.comments_Properties_Validating);
-			this.comments.Size = new System.Drawing.Size(462, 16);
+			this.comments.Size = new System.Drawing.Size(462, 45);
 			this.comments.StyleController = this.layoutControl1;
 			this.comments.TabIndex = 6;
 			// 
 			// adType
 			// 
-			this.adType.Location = new System.Drawing.Point(217, 159);
+			this.adType.Location = new System.Drawing.Point(217, 109);
 			this.adType.Name = "adType";
 			this.adType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -448,7 +458,7 @@ namespace ShomreiTorah.Journal.AddIn {
             0,
             0,
             0});
-			this.externalId.Location = new System.Drawing.Point(82, 159);
+			this.externalId.Location = new System.Drawing.Point(82, 109);
 			this.externalId.Name = "externalId";
 			this.externalId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton()});
@@ -483,10 +493,10 @@ namespace ShomreiTorah.Journal.AddIn {
             this.layoutControlItem1,
             this.layoutControlItem2,
             this.layoutControlItem7});
-			this.layoutControlGroup2.Location = new System.Drawing.Point(0, 115);
+			this.layoutControlGroup2.Location = new System.Drawing.Point(0, 65);
 			this.layoutControlGroup2.Name = "layoutControlGroup2";
 			this.layoutControlGroup2.OptionsItemText.TextAlignMode = DevExpress.XtraLayout.TextAlignModeGroup.AutoSize;
-			this.layoutControlGroup2.Size = new System.Drawing.Size(490, 112);
+			this.layoutControlGroup2.Size = new System.Drawing.Size(490, 141);
 			this.layoutControlGroup2.Text = "Ad Properties";
 			// 
 			// layoutControlItem3
@@ -495,7 +505,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.layoutControlItem3.CustomizationFormText = "layoutControlItem3";
 			this.layoutControlItem3.Location = new System.Drawing.Point(0, 48);
 			this.layoutControlItem3.Name = "layoutControlItem3";
-			this.layoutControlItem3.Size = new System.Drawing.Size(466, 20);
+			this.layoutControlItem3.Size = new System.Drawing.Size(466, 49);
 			this.layoutControlItem3.Text = "layoutControlItem3";
 			this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
 			this.layoutControlItem3.TextToControlDistance = 0;
@@ -540,9 +550,9 @@ namespace ShomreiTorah.Journal.AddIn {
 			// 
 			this.layoutControlItem4.Control = this.pledgesGrid;
 			this.layoutControlItem4.CustomizationFormText = "layoutControlItem4";
-			this.layoutControlItem4.Location = new System.Drawing.Point(0, 251);
+			this.layoutControlItem4.Location = new System.Drawing.Point(0, 230);
 			this.layoutControlItem4.Name = "layoutControlItem4";
-			this.layoutControlItem4.Size = new System.Drawing.Size(490, 135);
+			this.layoutControlItem4.Size = new System.Drawing.Size(490, 145);
 			this.layoutControlItem4.Text = "layoutControlItem4";
 			this.layoutControlItem4.TextLocation = DevExpress.Utils.Locations.Top;
 			this.layoutControlItem4.TextSize = new System.Drawing.Size(0, 0);
@@ -553,7 +563,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			// 
 			this.layoutControlItem5.Control = this.pledgeAdder;
 			this.layoutControlItem5.CustomizationFormText = "Add Pledge:";
-			this.layoutControlItem5.Location = new System.Drawing.Point(0, 227);
+			this.layoutControlItem5.Location = new System.Drawing.Point(0, 206);
 			this.layoutControlItem5.Name = "layoutControlItem5";
 			this.layoutControlItem5.Size = new System.Drawing.Size(490, 24);
 			this.layoutControlItem5.Text = "Add Pledge:";
@@ -564,10 +574,10 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.layoutControlGroup3.CustomizationFormText = "Payments";
 			this.layoutControlGroup3.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlItem6});
-			this.layoutControlGroup3.Location = new System.Drawing.Point(0, 386);
+			this.layoutControlGroup3.Location = new System.Drawing.Point(0, 375);
 			this.layoutControlGroup3.Name = "layoutControlGroup3";
 			this.layoutControlGroup3.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0);
-			this.layoutControlGroup3.Size = new System.Drawing.Size(490, 162);
+			this.layoutControlGroup3.Size = new System.Drawing.Size(490, 173);
 			this.layoutControlGroup3.Spacing = new DevExpress.XtraLayout.Utils.Padding(2, 2, 8, 2);
 			this.layoutControlGroup3.Text = "Payments";
 			// 
@@ -578,7 +588,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.layoutControlItem6.Location = new System.Drawing.Point(0, 0);
 			this.layoutControlItem6.Name = "layoutControlItem6";
 			this.layoutControlItem6.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0);
-			this.layoutControlItem6.Size = new System.Drawing.Size(484, 130);
+			this.layoutControlItem6.Size = new System.Drawing.Size(484, 141);
 			this.layoutControlItem6.Text = "layoutControlItem6";
 			this.layoutControlItem6.TextSize = new System.Drawing.Size(0, 0);
 			this.layoutControlItem6.TextToControlDistance = 0;
@@ -594,7 +604,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.warningsGroup.Name = "warningsGroup";
 			this.warningsGroup.OptionsItemText.TextAlignMode = DevExpress.XtraLayout.TextAlignModeGroup.AutoSize;
 			this.warningsGroup.ShowInCustomizationForm = false;
-			this.warningsGroup.Size = new System.Drawing.Size(490, 115);
+			this.warningsGroup.Size = new System.Drawing.Size(490, 65);
 			this.warningsGroup.Text = "Warnings";
 			// 
 			// colPledgeId
@@ -709,8 +719,8 @@ namespace ShomreiTorah.Journal.AddIn {
 		private Data.UI.Grid.SmartGrid pledgesGrid;
 		private Data.UI.Grid.SmartGridView pledgesView;
 		private Data.UI.Grid.SmartGridColumn colPerson;
-		private Data.UI.Grid.SmartGridColumn colDate;
-		private Data.UI.Grid.SmartGridColumn colAmount;
+		private Data.UI.Grid.SmartGridColumn colPledgeDate;
+		private Data.UI.Grid.SmartGridColumn colPledgeAmount;
 		private Data.UI.Grid.SmartGridColumn colNote;
 		private Data.UI.Grid.SmartGridColumn colModified;
 		private Data.UI.Grid.SmartGridColumn colModifier;
@@ -731,10 +741,10 @@ namespace ShomreiTorah.Journal.AddIn {
 		private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup3;
 		private DevExpress.XtraLayout.LayoutControlItem layoutControlItem6;
 		private Data.UI.Grid.SmartGridColumn colPerson1;
-		private Data.UI.Grid.SmartGridColumn colDate1;
+		private Data.UI.Grid.SmartGridColumn colPaymentDate;
 		private Data.UI.Grid.SmartGridColumn colMethod;
 		private Data.UI.Grid.SmartGridColumn colCheckNumber;
-		private Data.UI.Grid.SmartGridColumn colAmount1;
+		private Data.UI.Grid.SmartGridColumn colPaymentAmount;
 		private Data.UI.Grid.SmartGridColumn colDeposit;
 		private Data.UI.Grid.SmartGridColumn colModified1;
 		private Data.UI.Grid.SmartGridColumn colModifier1;
