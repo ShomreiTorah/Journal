@@ -10,8 +10,30 @@ using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 namespace ShomreiTorah.Journal {
 	///<summary>Checks for warnings about ads.</summary>
 	public static class AdVerifier {
-		static readonly Func<AdShape, IEnumerable<AdWarning>>[] warners = { CheckPledges, CheckNames, CheckSlidePosition };
+		static readonly Func<AdShape, IEnumerable<AdWarning>>[] warners = { CheckPledges, CheckPayments, CheckNames, CheckSlidePosition };
 
+		static IEnumerable<AdWarning> CheckPayments(AdShape ad) {
+			var pledges = ad.Row.Pledges.ToDictionary(p => p.Person);
+			foreach (var payment in ad.Row.Payments) {
+				Pledge pledge;
+				if (!pledges.TryGetValue(payment.Person, out pledge))
+					yield return new AdWarning(ad, payment.Person.VeryFullName + " has a payment but not a pledge");
+				else {
+					if (pledge.Amount != payment.Amount)
+						yield return new AdWarning(ad,
+							String.Format(CultureInfo.CurrentCulture,
+										  "{0} has a pledge for {1:c} but a payment for {2:c}",
+										  payment.Person.VeryFullName, pledge.Amount, payment.Amount)
+						);
+					if (payment.Method == "Check" && String.IsNullOrWhiteSpace(payment.CheckNumber))
+						yield return new AdWarning(ad,
+							String.Format(CultureInfo.CurrentCulture,
+										  "{0} has a {1:c} check that is missing a check number",
+										  payment.Person.VeryFullName, payment.Amount)
+						);
+				}
+			}
+		}
 		static IEnumerable<AdWarning> CheckPledges(AdShape ad) {
 			var total = ad.Row.Pledges.Sum(p => p.Amount);
 			if (total == 0)
@@ -31,7 +53,7 @@ namespace ShomreiTorah.Journal {
 		static bool HasName(Person person, string text) {
 			if (!String.IsNullOrEmpty(person.FullName)
 			 && Regex.IsMatch(text, String.Format(@"(^|\W){0}(\W|$)", Regex.Escape(person.FullName))))
-				return true;					  
+				return true;
 			if (Regex.IsMatch(text, String.Format(@"(^|\W){0} Family(\W|$)", Regex.Escape(person.LastName))))
 				return true;
 
