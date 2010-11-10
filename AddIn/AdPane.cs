@@ -206,6 +206,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			return true;
 		}
 
+		//TODO: Auto-adjust when deleting pledges
 		#region Add pledge/payment
 		private void pledgeAdder_PersonSelecting(object sender, PersonSelectingEventArgs e) {
 			if (pledges.Rows.Any(p => p.Person == e.Person)) {
@@ -337,6 +338,7 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 		#endregion
 
+		//TODO: Button to refresh warnings
 		#region Warnings
 		private void comments_Properties_Validating(object sender, CancelEventArgs e) {
 			BeginInvoke(new Action(CheckWarnings));	//In case the user deleted a suppression

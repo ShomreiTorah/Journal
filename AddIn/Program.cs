@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using ShomreiTorah.Common;
 using ShomreiTorah.Data;
 using ShomreiTorah.Data.UI;
+using ShomreiTorah.Data.UI.Forms;
 using ShomreiTorah.Singularity;
 using ShomreiTorah.Singularity.Sql;
 using DevExpress.Skins;
@@ -62,7 +63,8 @@ namespace ShomreiTorah.Journal.AddIn {
 			SkinManager.EnableFormSkinsIfNotVista();
 			UserLookAndFeel.Default.SkinName = "Office 2010 Blue";
 			Dialog.DefaultTitle = "Shomrei Torah Journal";
-			//TODO: Activate people
+
+			RegisterRowDetail<Person>(p => new SimplePersonDetails(p).Show(Globals.ThisAddIn == null ? null : Globals.ThisAddIn.Application.Window()));
 		}
 		protected override DataSyncContext CreateDataContext() {
 			var context = new DataContext();
