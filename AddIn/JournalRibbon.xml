@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="OnLoad">
+<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="OnLoad" loadImage="LoadImage">
 	<ribbon>
 		<tabs>
 			<tab id="JournalTab" label="Journal" insertBeforeMso="TabHome" getVisible="IsJournal">
@@ -22,6 +22,9 @@
 							onAction="SaveDB"/>
 					<button id="RefreshDB" label="Refresh Data" imageMso="DataRefreshAll" size="large" supertip="Saves any changes, then reloads the database from SQL Server."
 							onAction="RefreshDB"/>
+					<separator id="S3" />
+					<button id="ShowAllWarnings" label="All Warnings" image="WarningWindow32" size="large" supertip="Shows all warnings about ads in the journal."
+							onAction="ShowWarningsForm"/>
 					<dialogBoxLauncher>
 						<button id="ShowTaskPane" label="Ad Details" supertip="Shows the ad details pane." onAction="ShowDetailPane" />
 					</dialogBoxLauncher>

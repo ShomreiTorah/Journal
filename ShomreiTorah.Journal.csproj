@@ -245,6 +245,12 @@
     <Compile Include="Forms\JournalProperties.Designer.cs">
       <DependentUpon>JournalProperties.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\WarningsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WarningsForm.Designer.cs">
+      <DependentUpon>WarningsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="JournalPresentation.cs" />
     <Compile Include="PowerPointExtensions.cs" />
@@ -256,6 +262,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\JournalProperties.resx">
       <DependentUpon>JournalProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\WarningsForm.resx">
+      <DependentUpon>WarningsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -301,6 +310,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Warning32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Refresh16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WarningWindow32.png" />
   </ItemGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

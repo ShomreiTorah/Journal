@@ -118,6 +118,11 @@ namespace ShomreiTorah.Journal {
 		public AdShape Ad { get; private set; }
 		///<summary>Gets the warning message.</summary>
 		public string Message { get; private set; }
+
+		//These properties are databound by WarningsForm
+		public string AdType { get { return Ad.Row.AdType; } }
+		public int ExternalId { get { return Ad.Row.ExternalId; } }
+
 		/////<summary>Gets the text that must appear in the ad's comments field to suppress the warning.</summary>
 		//public string SuppressionPrefix { get; private set; }
 

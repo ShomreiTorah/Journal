@@ -60,9 +60,23 @@ namespace ShomreiTorah.Journal.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap Refresh16 {
+            get {
+                object obj = ResourceManager.GetObject("Refresh16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Warning32 {
             get {
                 object obj = ResourceManager.GetObject("Warning32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap WarningWindow32 {
+            get {
+                object obj = ResourceManager.GetObject("WarningWindow32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

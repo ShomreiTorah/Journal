@@ -7,6 +7,8 @@ using Microsoft.Office.Core;
 using Microsoft.Office.Interop.PowerPoint;
 using ShomreiTorah.Data;
 using ShomreiTorah.WinForms;
+using System.Drawing;
+using ShomreiTorah.Journal.Properties;
 
 namespace ShomreiTorah.Journal.AddIn {
 	[ComVisible(true)]
@@ -29,6 +31,9 @@ namespace ShomreiTorah.Journal.AddIn {
 			Globals.ThisAddIn.Application.WindowSelectionChange += delegate { ribbon.Invalidate(); };
 			Globals.ThisAddIn.Application.WindowDeactivate += delegate { ribbon.Invalidate(); };
 		}
+		public Bitmap LoadImage(string name) {
+			return (Bitmap)Resources.ResourceManager.GetObject(name);
+		}
 
 		#region Boolean Callbacks
 		public bool IsPresentation(IRibbonControl control) {
@@ -46,6 +51,9 @@ namespace ShomreiTorah.Journal.AddIn {
 		public void ShowDetailPane(IRibbonControl control) {
 			var window = control.Window();
 			Globals.ThisAddIn.CustomTaskPanes.FirstOrDefault(p => p.Window == window).Visible = true;
+		}
+		public void ShowWarningsForm(IRibbonControl control) {
+			new Forms.WarningsForm(control.Journal()).Show(Globals.ThisAddIn.Application.Window());
 		}
 
 		public void SaveDB(IRibbonControl control) { Program.Current.SaveDatabase(); }
