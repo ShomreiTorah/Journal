@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.PowerPoint;
 using ShomreiTorah.Data;
+using ShomreiTorah.WinForms;
 using Office = Microsoft.Office.Core;
 
 namespace ShomreiTorah.Journal.AddIn {
@@ -48,6 +50,8 @@ namespace ShomreiTorah.Journal.AddIn {
 
 		bool addedAppHandlers;
 		JournalPresentation RegisterJournal(Presentation presentation, bool createTaskPane = true) {
+			Program.Initialize();	//Force Dialog.DefaultTitle before warning dialogs
+
 			if (!addedAppHandlers) {
 				//Since I only need these handlers if there's a journal open,
 				//I only add them now so that they won't load assemblies when
@@ -57,7 +61,21 @@ namespace ShomreiTorah.Journal.AddIn {
 				addedAppHandlers = true;
 			}
 
-			//TODO: Verify year folder by crawling up path
+			var actualYear = JournalPresentation.GetYear(presentation);
+			int parsedYear = 0;
+			foreach (var segment in presentation.FullName.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)) {
+				if (int.TryParse(segment, out parsedYear) && parsedYear > 2000) {
+					if (parsedYear != actualYear) {
+						if (Dialog.Warn("This journal is in a " + parsedYear + " folder, but the file is linked to the " + actualYear
+									  + " journal.\r\nDo you want to link the file to " + parsedYear + "?"))
+							JournalPresentation.MakeJournal(presentation, parsedYear);
+					}
+					break;	//If we found any year in the path, stop searching
+				}
+			}
+			if (parsedYear < 2000)	//If we didn't find any years in the segments
+				Dialog.Show("The journal probably ought to be in a folder for its year.", MessageBoxIcon.Warning);
+
 			var jp = new JournalPresentation(presentation, Program.Table<JournalAd>());
 			openJournals.Add(presentation, jp);
 			if (createTaskPane)
@@ -81,7 +99,7 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 		#endregion
 
-		#region Journal-only handlers		
+		#region Journal-only handlers
 		//These handlers are only added if a journal is open.
 		//This way, they won't load assemblies during normal 
 		//(non-journal) use.
