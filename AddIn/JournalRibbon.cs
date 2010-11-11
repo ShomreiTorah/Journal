@@ -1,3 +1,5 @@
+using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -6,9 +8,8 @@ using System.Windows.Forms;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.PowerPoint;
 using ShomreiTorah.Data;
-using ShomreiTorah.WinForms;
-using System.Drawing;
 using ShomreiTorah.Journal.Properties;
+using ShomreiTorah.WinForms;
 
 namespace ShomreiTorah.Journal.AddIn {
 	[ComVisible(true)]
@@ -30,6 +31,8 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.ribbon = ribbonUI;
 			Globals.ThisAddIn.Application.WindowSelectionChange += delegate { ribbon.Invalidate(); };
 			Globals.ThisAddIn.Application.WindowDeactivate += delegate { ribbon.Invalidate(); };
+
+			Program.StatisticsChanged += delegate { ribbonUI.Invalidate(); };		//TODO: Move to StatsManager to avoid loading Data.UI
 		}
 		public Bitmap LoadImage(string name) {
 			return (Bitmap)Resources.ResourceManager.GetObject(name);
@@ -42,6 +45,43 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 		public bool IsJournal(IRibbonControl control) { return control.Journal() != null; }
 		public bool IsAdSelected(IRibbonControl control) { return control.CurrentAd() != null; }
+		#endregion
+
+		#region Stats callbacks
+		public string GetTotalPledged(IRibbonControl control) {
+			if (!Program.WasInitialized) return "(N/A)";
+			var journal = control.Journal();
+			if (journal == null) return "(N/A)";
+			return Program.Current.Statistics[journal.Year].TotalPledged.ToString("c", CultureInfo.CurrentCulture);
+		}
+		public string GetTotalPaid(IRibbonControl control) {
+			if (!Program.WasInitialized) return "(N/A)";
+			var journal = control.Journal();
+			if (journal == null) return "(N/A)";
+			return Program.Current.Statistics[journal.Year].TotalPaid.ToString("c", CultureInfo.CurrentCulture);
+		}
+		public string GetAdCount(IRibbonControl control) {
+			var journal = control.Journal();
+			return journal == null ? "(N/A)" : journal.Ads.Count.ToString(CultureInfo.CurrentCulture);
+		}
+		public string GetFamilySeats(IRibbonControl control) {
+			if (!Program.WasInitialized) return "(N/A)";
+			var journal = control.Journal();
+			if (journal == null) return "(N/A)";
+			return Program.Current.Statistics[journal.Year].FamilySeats.ToString("n0", CultureInfo.CurrentCulture);
+		}
+		public string GetMensSeats(IRibbonControl control) {
+			if (!Program.WasInitialized) return "(N/A)";
+			var journal = control.Journal();
+			if (journal == null) return "(N/A)";
+			return Program.Current.Statistics[journal.Year].MensSeats.ToString("n0", CultureInfo.CurrentCulture);
+		}
+		public string GetWomensSeats(IRibbonControl control) {
+			if (!Program.WasInitialized) return "(N/A)";
+			var journal = control.Journal();
+			if (journal == null) return "(N/A)";
+			return Program.Current.Statistics[journal.Year].WomensSeats.ToString("n0", CultureInfo.CurrentCulture);
+		}
 		#endregion
 
 		public void ShowProperties(IRibbonControl control) {

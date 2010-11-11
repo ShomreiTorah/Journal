@@ -236,6 +236,7 @@
     <Compile Include="AddIn\Extensions.cs" />
     <Compile Include="AddIn\Program.cs" />
     <Compile Include="AddIn\JournalRibbon.cs" />
+    <Compile Include="AddIn\StatsManager.cs" />
     <Compile Include="AdShape.cs" />
     <Compile Include="AdVerifier.cs" />
     <Compile Include="Extensions.cs" />

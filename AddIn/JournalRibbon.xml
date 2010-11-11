@@ -25,9 +25,6 @@
 					<separator id="S3" />
 					<button id="ShowAllWarnings" label="All Warnings" image="WarningWindow32" size="large" supertip="Shows all warnings about ads in the journal."
 							onAction="ShowWarningsForm"/>
-					<dialogBoxLauncher>
-						<button id="ShowTaskPane" label="Ad Details" supertip="Shows the ad details pane." onAction="ShowDetailPane" />
-					</dialogBoxLauncher>
 				</group>
 				<group id="AdsGroup" label="Ads">
 					<button id="DeleteAd" imageMso="ReviewDeleteComment" label="Delete Ad" size="large" screentip="Delete Ad" supertip="Deletes this ad from the presentation and the database."
@@ -42,6 +39,33 @@
 					<separator id="S2"/>
 					<gallery idMso="SlideThemesGallery" size="large" label="Select Border" />
 					<toggleButton idMso="ViewSlideMasterView" imageMso="ReviewShowOrHideMarkup" label="Edit Borders" size="large" screentip="Edit Borders" supertip="Allows you to edit the borders of the different ad types."/>
+				</group>
+				<group id="StatsGroup" label="Ads">
+					<box id="StatsLabels" boxStyle="vertical">
+						<labelControl id="L14" label="Value"/>
+						<labelControl id="L15" label="Ads"/>
+						<labelControl id="L16" label="Pages"/>
+					</box>
+					<box id="StatsValues" boxStyle="vertical">
+						<labelControl id="TotalPledged"	getLabel="GetTotalPledged"	/>
+						<labelControl id="TotalPaid"	getLabel="GetTotalPaid"		/>
+						<labelControl id="AdCount"		getLabel="GetAdCount"		/>
+					</box>
+					<dialogBoxLauncher>
+						<button id="ShowCharts" label="Show Charts" supertip="Displays charts of the various aspects of  the journal." onAction="ShowCharts"/>
+					</dialogBoxLauncher>
+				</group>
+				<group id="AttendanceGroup" label="Attendance">
+					<box id="AttendanceLabels" boxStyle="vertical">
+						<labelControl id="L17" label="Families"/>
+						<labelControl id="L18" label="Men"/>
+						<labelControl id="L19" label="Women"/>
+					</box>
+					<box id="AttendanceValues" boxStyle="vertical">
+						<labelControl id="FamilySeats"	getLabel="GetFamilySeats"	/>
+						<labelControl id="MensSeats"	getLabel="GetMensSeats"		/>
+						<labelControl id="WomensSeats"	getLabel="GetWomensSeats"	/>
+					</box>
 				</group>
 
 			</tab>
