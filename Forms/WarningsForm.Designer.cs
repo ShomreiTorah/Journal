@@ -23,25 +23,42 @@ namespace ShomreiTorah.Journal.Forms {
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			DevExpress.XtraGrid.StyleFormatCondition styleFormatCondition1 = new DevExpress.XtraGrid.StyleFormatCondition();
 			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
 			DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
+			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
 			DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
+			DevExpress.Utils.SuperToolTip superToolTip3 = new DevExpress.Utils.SuperToolTip();
+			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem3 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.ToolTipItem toolTipItem3 = new DevExpress.Utils.ToolTipItem();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WarningsForm));
+			this.colIsSuppressed = new DevExpress.XtraGrid.Columns.GridColumn();
 			this.grid = new DevExpress.XtraGrid.GridControl();
 			this.gridView = new DevExpress.XtraGrid.Views.Grid.GridView();
 			this.colExternalId = new DevExpress.XtraGrid.Columns.GridColumn();
 			this.colAdType = new DevExpress.XtraGrid.Columns.GridColumn();
 			this.colWarning = new DevExpress.XtraGrid.Columns.GridColumn();
 			this.suppressionEdit = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
+			this.disabledSuppressionEdit = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
 			this.refresh = new DevExpress.XtraEditors.SimpleButton();
 			((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.gridView)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.suppressionEdit)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.disabledSuppressionEdit)).BeginInit();
 			this.SuspendLayout();
+			// 
+			// colIsSuppressed
+			// 
+			this.colIsSuppressed.Caption = "Suppressed?";
+			this.colIsSuppressed.FieldName = "IsSuppressed";
+			this.colIsSuppressed.Name = "colIsSuppressed";
+			this.colIsSuppressed.OptionsColumn.AllowEdit = false;
+			this.colIsSuppressed.OptionsColumn.AllowFocus = false;
+			this.colIsSuppressed.UnboundType = DevExpress.Data.UnboundColumnType.Boolean;
 			// 
 			// grid
 			// 
@@ -50,7 +67,8 @@ namespace ShomreiTorah.Journal.Forms {
 			this.grid.MainView = this.gridView;
 			this.grid.Name = "grid";
 			this.grid.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.suppressionEdit});
+            this.suppressionEdit,
+            this.disabledSuppressionEdit});
 			this.grid.Size = new System.Drawing.Size(477, 575);
 			this.grid.TabIndex = 0;
 			this.grid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -61,14 +79,26 @@ namespace ShomreiTorah.Journal.Forms {
 			this.gridView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.colExternalId,
             this.colAdType,
-            this.colWarning});
+            this.colWarning,
+            this.colIsSuppressed});
 			this.gridView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
+			styleFormatCondition1.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Strikeout);
+			styleFormatCondition1.Appearance.ForeColor = System.Drawing.Color.DarkGray;
+			styleFormatCondition1.Appearance.Options.UseFont = true;
+			styleFormatCondition1.Appearance.Options.UseForeColor = true;
+			styleFormatCondition1.ApplyToRow = true;
+			styleFormatCondition1.Column = this.colIsSuppressed;
+			styleFormatCondition1.Condition = DevExpress.XtraGrid.FormatConditionEnum.Equal;
+			styleFormatCondition1.Value1 = true;
+			this.gridView.FormatConditions.AddRange(new DevExpress.XtraGrid.StyleFormatCondition[] {
+            styleFormatCondition1});
 			this.gridView.GridControl = this.grid;
 			this.gridView.Name = "gridView";
 			this.gridView.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.MouseDown;
 			this.gridView.OptionsSelection.EnableAppearanceFocusedCell = false;
 			this.gridView.SortInfo.AddRange(new DevExpress.XtraGrid.Columns.GridColumnSortInfo[] {
             new DevExpress.XtraGrid.Columns.GridColumnSortInfo(this.colExternalId, DevExpress.Data.ColumnSortOrder.Ascending)});
+			this.gridView.CustomRowCellEdit += new DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventHandler(this.gridView_CustomRowCellEdit);
 			this.gridView.DoubleClick += new System.EventHandler(this.gridView_DoubleClick);
 			// 
 			// colExternalId
@@ -123,6 +153,21 @@ namespace ShomreiTorah.Journal.Forms {
 			this.suppressionEdit.ButtonClick += new DevExpress.XtraEditors.Controls.ButtonPressedEventHandler(this.suppressionEdit_ButtonClick);
 			this.suppressionEdit.DoubleClick += new System.EventHandler(this.suppressionEdit_DoubleClick);
 			// 
+			// disabledSuppressionEdit
+			// 
+			this.disabledSuppressionEdit.AllowFocused = false;
+			this.disabledSuppressionEdit.AutoHeight = false;
+			toolTipTitleItem2.Text = "Suppress Warning";
+			toolTipItem2.LeftIndent = 6;
+			toolTipItem2.Text = "This warning has already been suppressed.";
+			superToolTip2.Items.Add(toolTipTitleItem2);
+			superToolTip2.Items.Add(toolTipItem2);
+			this.disabledSuppressionEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "Suppress", -1, false, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject2, "", null, superToolTip2, true)});
+			this.disabledSuppressionEdit.Name = "disabledSuppressionEdit";
+			this.disabledSuppressionEdit.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+			this.disabledSuppressionEdit.DoubleClick += new System.EventHandler(this.suppressionEdit_DoubleClick);
+			// 
 			// refresh
 			// 
 			this.refresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -131,12 +176,12 @@ namespace ShomreiTorah.Journal.Forms {
 			this.refresh.Location = new System.Drawing.Point(454, 0);
 			this.refresh.Name = "refresh";
 			this.refresh.Size = new System.Drawing.Size(23, 23);
-			toolTipTitleItem2.Text = "Refresh Warnings";
-			toolTipItem2.LeftIndent = 6;
-			toolTipItem2.Text = "Re-checks the journal for warnings";
-			superToolTip2.Items.Add(toolTipTitleItem2);
-			superToolTip2.Items.Add(toolTipItem2);
-			this.refresh.SuperTip = superToolTip2;
+			toolTipTitleItem3.Text = "Refresh Warnings";
+			toolTipItem3.LeftIndent = 6;
+			toolTipItem3.Text = "Re-checks the journal for warnings";
+			superToolTip3.Items.Add(toolTipTitleItem3);
+			superToolTip3.Items.Add(toolTipItem3);
+			this.refresh.SuperTip = superToolTip3;
 			this.refresh.TabIndex = 1;
 			this.refresh.Text = "Refresh";
 			this.refresh.Click += new System.EventHandler(this.refresh_Click);
@@ -154,6 +199,7 @@ namespace ShomreiTorah.Journal.Forms {
 			((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.gridView)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.suppressionEdit)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.disabledSuppressionEdit)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -167,5 +213,7 @@ namespace ShomreiTorah.Journal.Forms {
 		private DevExpress.XtraGrid.Columns.GridColumn colWarning;
 		private DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit suppressionEdit;
 		private DevExpress.XtraEditors.SimpleButton refresh;
+		private DevExpress.XtraGrid.Columns.GridColumn colIsSuppressed;
+		private DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit disabledSuppressionEdit;
 	}
 }

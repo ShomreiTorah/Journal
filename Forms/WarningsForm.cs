@@ -8,6 +8,8 @@ using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
 using DevExpress.Utils;
+using DevExpress.Data.Filtering;
+using DevExpress.XtraGrid.Views.Grid;
 
 namespace ShomreiTorah.Journal.Forms {
 	partial class WarningsForm : XtraForm {
@@ -16,18 +18,26 @@ namespace ShomreiTorah.Journal.Forms {
 			if (journal == null) throw new ArgumentNullException("journal");
 			InitializeComponent();
 
-
 			this.journal = journal;
 			Text = "Journal " + journal.Year + " Warnings";
 			RebindGrid();
+			gridView.ActiveFilterCriteria = new OperandProperty("IsSuppressed") == new OperandValue(false);
 		}
+
 		protected override void OnLoad(EventArgs e) {
 			base.OnLoad(e);
 			//The appearances only get their defaults after the ctor.
 			gridView.PaintAppearance.FocusedRow.Assign(gridView.PaintAppearance.HideSelectionRow);
 			suppressionEdit.Appearance.Assign(gridView.PaintAppearance.HideSelectionRow);
+			disabledSuppressionEdit.Appearance.Assign(gridView.PaintAppearance.HideSelectionRow);
 		}
 
+		private void gridView_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e) {
+			if (e.Column == colWarning) {
+				var warning = (AdWarning)gridView.GetRow(e.RowHandle);
+				e.RepositoryItem = warning.IsSuppressed ? disabledSuppressionEdit : suppressionEdit;
+			}
+		}
 		private void suppressionEdit_ButtonClick(object sender, ButtonPressedEventArgs e) {
 			var warning = (AdWarning)gridView.GetFocusedRow();
 			warning.Suppress();
@@ -37,7 +47,7 @@ namespace ShomreiTorah.Journal.Forms {
 		private void refresh_Click(object sender, EventArgs e) { RebindGrid(); }
 
 		void RebindGrid() {
-			grid.DataSource = journal.Ads.SelectMany(AdVerifier.CheckWarnings).ToList();
+			grid.DataSource = journal.Ads.SelectMany(AdVerifier.CheckAllWarnings).ToList();
 		}
 
 		private void gridView_DoubleClick(object sender, EventArgs e) {
@@ -52,6 +62,7 @@ namespace ShomreiTorah.Journal.Forms {
 			}
 		}
 
+		//THis handler handles both edits.
 		private void suppressionEdit_DoubleClick(object sender, EventArgs e) {
 			var warning = (AdWarning)gridView.GetFocusedRow();
 			warning.Ad.Shape.ForceSelect();

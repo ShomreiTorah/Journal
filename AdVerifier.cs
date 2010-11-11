@@ -94,15 +94,13 @@ namespace ShomreiTorah.Journal {
 				yield break;
 			}
 		}
-
-		///<summary>Gets warnings about an ad, if any.</summary>
-		public static IEnumerable<AdWarning> CheckWarnings(this AdShape ad) {
+		///<summary>Gets all warnings about an ad, if any. Suppressed warnings will also be returned.</summary>
+		public static IEnumerable<AdWarning> CheckAllWarnings(this AdShape ad) {
 			if (ad == null) throw new ArgumentNullException("ad");
-			var commentLines = (ad.Row.Comments ?? "").Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-			return warners.SelectMany(f => f(ad))
-						  .Where(w => w != null)
-						  .Where(w => !commentLines.Any(c => c.StartsWith(w.Message, StringComparison.CurrentCultureIgnoreCase)));
+			return warners.SelectMany(f => f(ad)).Where(w => w != null);
 		}
+		///<summary>Gets unsuppressed warnings about an ad, if any.</summary>
+		public static IEnumerable<AdWarning> CheckWarnings(this AdShape ad) { return ad.CheckAllWarnings().Where(w => !w.IsSuppressed); }
 	}
 	///<summary>A warning about an ad.</summary>
 	public sealed class AdWarning {
@@ -112,12 +110,16 @@ namespace ShomreiTorah.Journal {
 
 			Ad = ad;
 			Message = message;
+			var commentLines = (ad.Row.Comments ?? "").Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+			IsSuppressed = commentLines.Any(c => c.StartsWith(Message, StringComparison.CurrentCultureIgnoreCase)); ;
 		}
 
 		///<summary>Gets the ad that the warning applies to.</summary>
 		public AdShape Ad { get; private set; }
 		///<summary>Gets the warning message.</summary>
 		public string Message { get; private set; }
+		///<summary>Indicates whether this ad has been suppressed.</summary>
+		public bool IsSuppressed { get; private set; }
 
 		//These properties are databound by WarningsForm
 		public string AdType { get { return Ad.Row.AdType; } }
