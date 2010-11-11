@@ -1,14 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
+using DevExpress.Data.Filtering;
+using DevExpress.Utils;
 using DevExpress.XtraEditors;
 using DevExpress.XtraEditors.Controls;
-using DevExpress.Utils;
-using DevExpress.Data.Filtering;
 using DevExpress.XtraGrid.Views.Grid;
 
 namespace ShomreiTorah.Journal.Forms {
@@ -32,6 +28,11 @@ namespace ShomreiTorah.Journal.Forms {
 			disabledSuppressionEdit.Appearance.Assign(gridView.PaintAppearance.HideSelectionRow);
 		}
 
+		private void refresh_Click(object sender, EventArgs e) { RebindGrid(); }
+		void RebindGrid() {
+			grid.DataSource = journal.Ads.SelectMany(AdVerifier.CheckAllWarnings).ToList();
+		}
+
 		private void gridView_CustomRowCellEdit(object sender, CustomRowCellEditEventArgs e) {
 			if (e.Column == colWarning) {
 				var warning = (AdWarning)gridView.GetRow(e.RowHandle);
@@ -42,12 +43,6 @@ namespace ShomreiTorah.Journal.Forms {
 			var warning = (AdWarning)gridView.GetFocusedRow();
 			warning.Suppress();
 			RebindGrid();
-		}
-
-		private void refresh_Click(object sender, EventArgs e) { RebindGrid(); }
-
-		void RebindGrid() {
-			grid.DataSource = journal.Ads.SelectMany(AdVerifier.CheckAllWarnings).ToList();
 		}
 
 		private void gridView_DoubleClick(object sender, EventArgs e) {
@@ -61,8 +56,7 @@ namespace ShomreiTorah.Journal.Forms {
 				warning.Ad.Shape.ForceSelect();
 			}
 		}
-
-		//THis handler handles both edits.
+		//This handler handles both edits.
 		private void suppressionEdit_DoubleClick(object sender, EventArgs e) {
 			var warning = (AdWarning)gridView.GetFocusedRow();
 			warning.Ad.Shape.ForceSelect();
