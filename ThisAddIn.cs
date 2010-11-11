@@ -8,6 +8,7 @@ using Office = Microsoft.Office.Core;
 
 namespace ShomreiTorah.Journal.AddIn {
 	public sealed partial class ThisAddIn {
+		#region Manage open journals
 		readonly Dictionary<Presentation, JournalPresentation> openJournals = new Dictionary<Presentation, JournalPresentation>();
 
 		///<summary>Shows the JournalProperties form for a presentation, allowing the user to change the year.</summary>
@@ -22,18 +23,14 @@ namespace ShomreiTorah.Journal.AddIn {
 				openJournals.Remove(presentation);
 				if (form.JournalYear.HasValue) {
 					JournalPresentation.MakeJournal(presentation, form.JournalYear.Value);
-					var jp = new JournalPresentation(presentation, Program.Table<JournalAd>());
-					openJournals[presentation] = jp;
 
-					var taskPane = GetTaskPane(presentation);
-					if (taskPane == null)
-						CreateTaskPane(jp);
-					else {
-						((AdPane)taskPane).ReplaceJournal(jp);
-					}
+					var jp = RegisterJournal(presentation, createTaskPane: oldYear == null);	//Only create a new taskpane if it wasn't already a journal
+
+					if (oldYear != null)
+						((AdPane)GetTaskPane(presentation).Control).ReplaceJournal(jp);
 				} else {
 					JournalPresentation.KillJournal(presentation);
-					CustomTaskPanes.Remove(GetTaskPane(presentation));
+					UnregisterJournal(presentation);
 				}
 
 				//Force UI to invalidate
@@ -43,6 +40,19 @@ namespace ShomreiTorah.Journal.AddIn {
 				presentation.Windows[1].Selection.Unselect();
 			}
 		}
+
+		JournalPresentation RegisterJournal(Presentation presentation, bool createTaskPane = true) {
+			var jp = new JournalPresentation(presentation, Program.Table<JournalAd>());
+			openJournals.Add(presentation, jp);
+			if (createTaskPane)
+				CreateTaskPane(jp);
+			return jp;
+		}
+		void UnregisterJournal(Presentation presentation) {
+			CustomTaskPanes.Remove(GetTaskPane(presentation));
+			openJournals.Remove(presentation);
+		}
+
 		void CreateTaskPane(JournalPresentation jp) {
 			var pane = CustomTaskPanes.Add(new AdPane(jp), "Ad Details", jp.Presentation.Windows[1]);
 			pane.DockPosition = Office.MsoCTPDockPosition.msoCTPDockPositionRight;
@@ -58,6 +68,7 @@ namespace ShomreiTorah.Journal.AddIn {
 		public Microsoft.Office.Tools.CustomTaskPane GetTaskPane(Presentation presentation) {
 			return CustomTaskPanes.FirstOrDefault(ctp => presentation.Windows.Cast<object>().Contains(ctp.Window));
 		}
+		#endregion
 
 		private void ThisAddIn_Startup(object sender, EventArgs e) {
 			Application.AfterPresentationOpen += Application_AfterPresentationOpen;
@@ -66,12 +77,13 @@ namespace ShomreiTorah.Journal.AddIn {
 			Application.PresentationSave += Application_PresentationSave;
 		}
 
+		//These handlers should try not to directly use types from
+		//other DLLs so that the JITter won't need to load them in
+		//normal (non-journal) usage.  Instead, call other methods
+		//that use the types after checking that we have a journal
 		void Application_AfterPresentationOpen(Presentation Pres) {
-			if (JournalPresentation.GetYear(Pres) != null) {
-				var jp = new JournalPresentation(Pres, Program.Table<JournalAd>());
-				openJournals.Add(Pres, jp);
-				CreateTaskPane(jp);
-			}
+			if (JournalPresentation.GetYear(Pres) != null)
+				RegisterJournal(Pres);
 		}
 		void Application_PresentationSave(Presentation Pres) {
 			if (GetJournal(Pres) != null)
@@ -80,8 +92,7 @@ namespace ShomreiTorah.Journal.AddIn {
 		void Application_PresentationCloseFinal(Presentation Pres) {
 			if (GetJournal(Pres) != null) {
 				Program.Current.SaveDatabase();
-				CustomTaskPanes.Remove(GetTaskPane(Pres));
-				openJournals.Remove(Pres);
+				UnregisterJournal(Pres);
 			}
 		}
 		private void ThisAddIn_Shutdown(object sender, EventArgs e) {
