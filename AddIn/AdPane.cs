@@ -136,6 +136,7 @@ namespace ShomreiTorah.Journal.AddIn {
 		bool CheckAdjustPledges(string actionName, AdType newType = null, IList<Pledge> newPledges = null) {
 			var oldType = ad.AdType;
 			var oldPledges = pledges.Rows;
+			if (oldPledges.Count == 0) return true;		//If there weren't any pledges, there's nothing to do.
 
 			newType = newType ?? ad.AdType;
 			newPledges = newPledges ?? (IList<Pledge>)pledges.Rows;
