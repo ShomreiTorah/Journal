@@ -58,7 +58,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			SyncContext = CreateDataContext();
 
 			Statistics = new StatsManager(DataContext);
-			Statistics.Changed += (sender, e) => { if (StatisticsChanged != null)StatisticsChanged(sender, e); };
+			Globals.ThisAddIn.Shutdown += delegate { SaveDatabase(); };
 		}
 
 		protected override void RegisterSettings() {
@@ -71,13 +71,6 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 
 		public StatsManager Statistics { get; private set; }
-
-		///<summary>Occurs when journal statistics change.</summary>
-		///<remarks>This event is static to allow the ribbon
-		///to handle it before the AppFramework is created.
-		///To avoid loading Data.UI, I might move it to a
-		///different class.</remarks>
-		public static event EventHandler StatisticsChanged;
 
 		protected override DataSyncContext CreateDataContext() {
 			var context = new DataContext();

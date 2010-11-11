@@ -32,7 +32,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			Globals.ThisAddIn.Application.WindowSelectionChange += delegate { ribbon.Invalidate(); };
 			Globals.ThisAddIn.Application.WindowDeactivate += delegate { ribbon.Invalidate(); };
 
-			Program.StatisticsChanged += delegate { ribbonUI.Invalidate(); };		//TODO: Move to StatsManager to avoid loading Data.UI
+			StatsManager.Changed += delegate { ribbonUI.Invalidate(); };
 		}
 		public Bitmap LoadImage(string name) {
 			return (Bitmap)Resources.ResourceManager.GetObject(name);

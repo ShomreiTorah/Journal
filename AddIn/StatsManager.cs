@@ -110,7 +110,10 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 
 		///<summary>Occurs when the statistics for any year change.</summary>
-		public event EventHandler Changed;
+		///<remarks>This event is static to allow the ribbon
+		///to handle it before the AppFramework is created,
+		///without loading any other assemblies.</remarks>
+		public static event EventHandler Changed;
 		///<summary>Raises the Changed event.</summary>
 		internal protected virtual void OnChanged() { OnChanged(EventArgs.Empty); }
 		///<summary>Raises the Changed event.</summary>
