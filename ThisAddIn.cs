@@ -7,7 +7,7 @@ using ShomreiTorah.Data;
 using Office = Microsoft.Office.Core;
 
 namespace ShomreiTorah.Journal.AddIn {
-	public partial class ThisAddIn {
+	public sealed partial class ThisAddIn {
 		readonly Dictionary<Presentation, JournalPresentation> openJournals = new Dictionary<Presentation, JournalPresentation>();
 
 		///<summary>Shows the JournalProperties form for a presentation, allowing the user to change the year.</summary>
@@ -46,7 +46,7 @@ namespace ShomreiTorah.Journal.AddIn {
 		void CreateTaskPane(JournalPresentation jp) {
 			var pane = CustomTaskPanes.Add(new AdPane(jp), "Ad Details", jp.Presentation.Windows[1]);
 			pane.DockPosition = Office.MsoCTPDockPosition.msoCTPDockPositionRight;
-			pane.Width = 450;
+			pane.Width = 650;
 			pane.Visible = true;
 		}
 
@@ -78,10 +78,11 @@ namespace ShomreiTorah.Journal.AddIn {
 				Program.Current.SaveDatabase();
 		}
 		void Application_PresentationCloseFinal(Presentation Pres) {
-			if (GetJournal(Pres) != null)
+			if (GetJournal(Pres) != null) {
 				Program.Current.SaveDatabase();
-			CustomTaskPanes.Remove(GetTaskPane(Pres));
-			openJournals.Remove(Pres);
+				CustomTaskPanes.Remove(GetTaskPane(Pres));
+				openJournals.Remove(Pres);
+			}
 		}
 		private void ThisAddIn_Shutdown(object sender, EventArgs e) {
 			if (Program.WasInitialized)
