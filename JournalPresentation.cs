@@ -259,14 +259,24 @@ namespace ShomreiTorah.Journal {
 				if (newPos > slide.SlideIndex) newPos--;
 				slide.MoveTo(newPos);
 			} else {	//If either the new or the old ad types are fractional pages, it must be handled differently.
+				//Deleting the shape may involve copying
+				//the last ad into its place. Therefore,
+				//I cannot delete it inside the scope in
+				//which I copy its text to the new shape
+				//Instead, I create the new shape, kill 
+				//the old one,  then attach the new one.
+				Shape newShape;
 				using (new ClipboardScope()) {
 					ad.Shape.TextFrame.TextRange.Copy();
-					DeleteAdShape(ad);
 
-					ad.Shape = CreateAdShape(newAdType);
-					ad.Shape.Name = ad.Row.AdId.ToString();
-					ad.Shape.TextFrame.TextRange.Paste();
+					newShape = CreateAdShape(newAdType);
+					newShape.TextFrame.TextRange.Paste();
 				}
+				DeleteAdShape(ad);	  
+
+				//After deleting the old shape, plug in the new one
+				ad.Shape = newShape;
+				ad.Shape.Name = ad.Row.AdId.ToString();
 			}
 			ad.Row.AdType = newAdType.Name;
 			typeSetter(newAdType);	//This sets the private field in AdShape
