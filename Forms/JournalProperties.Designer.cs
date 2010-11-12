@@ -52,9 +52,7 @@ namespace ShomreiTorah.Journal.Forms {
 			this.year.Name = "year";
 			this.year.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton()});
-			this.year.Properties.DisplayFormat.FormatString = "n0";
-			this.year.Properties.EditFormat.FormatString = "n0";
-			this.year.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+			this.year.Properties.Mask.EditMask = "f0";
 			this.year.Properties.NullText = "N/A";
 			this.year.Size = new System.Drawing.Size(75, 20);
 			this.year.TabIndex = 1;
@@ -92,7 +90,7 @@ namespace ShomreiTorah.Journal.Forms {
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancel;
-			this.ClientSize = new System.Drawing.Size(178, 95);
+			this.ClientSize = new System.Drawing.Size(176, 93);
 			this.ControlBox = false;
 			this.Controls.Add(this.ok);
 			this.Controls.Add(this.cancel);
