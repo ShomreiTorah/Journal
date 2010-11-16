@@ -1,6 +1,18 @@
 IF schema_id('MelaveMalka') IS NULL
 	EXECUTE('create schema MelaveMalka');
 
+CREATE TABLE MelaveMalka.MelaveMalkaInfo (
+	RowId			UNIQUEIDENTIFIER	NOT NULL	ROWGUIDCOL	PRIMARY KEY DEFAULT(newid()),
+	[RowVersion]	RowVersion,
+	
+	[Year]			INTEGER				NOT NULL	UNIQUE,
+	AdDeadline		DATETIME			NOT NULL,
+	MelaveMalkaDate	DATETIME			NOT NULL,
+
+	Honoree			UNIQUEIDENTIFIER	NOT NULL	REFERENCES Data.MasterDirectory(Id),
+	Speaker			NVARCHAR(128)		NOT NULL
+);
+
 --This table has the same format as a ListMaker list.
 CREATE TABLE MelaveMalka.Invitees (
 	RowId			UNIQUEIDENTIFIER	NOT NULL	ROWGUIDCOL	PRIMARY KEY DEFAULT(newid()),
