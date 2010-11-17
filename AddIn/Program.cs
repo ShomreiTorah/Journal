@@ -22,6 +22,9 @@ namespace ShomreiTorah.Journal.AddIn {
 				Current.RefreshDatabase();
 			return Current.DataContext.Table<TRow>();
 		}
+
+		public static void CheckDesignTime() { AppFramework.CheckDesignTime(new Program()); }
+
 		public static void Initialize() {
 			Current.ToString();	//Force property getter
 		}
@@ -74,17 +77,24 @@ namespace ShomreiTorah.Journal.AddIn {
 
 		protected override DataSyncContext CreateDataContext() {
 			var context = new DataContext();
+			CreateTables(context);
+			var dsc = new DataSyncContext(context, new SqlServerSqlProvider(DB.Default));
+			dsc.Tables.AddPrimaryMappings();
+			return dsc;
+		}
+
+		///<summary>Creates the tables used by the addin.</summary>
+		///<remarks>This method is called by the chart form to create
+		///a dummy datasource at runtime.</remarks>
+		public static void CreateTables(DataContext context) {
 			context.Tables.AddTable(Person.CreateTable());
 			context.Tables.AddTable(Pledge.CreateTable());
 			context.Tables.AddTable(Payment.CreateTable());
 			context.Tables.AddTable(Deposit.CreateTable());
 			context.Tables.AddTable(JournalAd.CreateTable());
 			context.Tables.AddTable(MelaveMalkaInvitation.CreateTable());
+			context.Tables.AddTable(MelaveMalkaInfo.CreateTable());
 			context.Tables.AddTable(MelaveMalkaSeat.CreateTable());
-
-			var dsc = new DataSyncContext(context, new SqlServerSqlProvider(DB.Default));
-			dsc.Tables.AddPrimaryMappings();
-			return dsc;
 		}
 
 		protected override Form CreateMainForm() { throw new NotSupportedException(); }
