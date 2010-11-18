@@ -53,9 +53,9 @@ namespace ShomreiTorah.Journal.Forms {
 			this.chartControl1 = new DevExpress.XtraCharts.ChartControl();
 			this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
 			this.chartControl2 = new DevExpress.XtraCharts.ChartControl();
-			this.runningTotalsSource = new ShomreiTorah.Journal.Forms.ChartBindingSource(this.components);
 			this.xtraTabPage3 = new DevExpress.XtraTab.XtraTabPage();
 			this.chartControl3 = new DevExpress.XtraCharts.ChartControl();
+			this.runningTotalsSource = new ShomreiTorah.Journal.Forms.ChartBindingSource(this.components);
 			this.xtraTabPage4 = new DevExpress.XtraTab.XtraTabPage();
 			this.chartControl4 = new DevExpress.XtraCharts.ChartControl();
 			((System.ComponentModel.ISupportInitialize)(this.adTypesSource)).BeginInit();
@@ -76,12 +76,12 @@ namespace ShomreiTorah.Journal.Forms {
 			((System.ComponentModel.ISupportInitialize)(pieSeriesView3)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(pieSeriesLabel4)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(pieSeriesView4)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.runningTotalsSource)).BeginInit();
 			this.xtraTabPage3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chartControl3)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(xyDiagram1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(pointSeriesLabel1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(stackedAreaSeriesView1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.runningTotalsSource)).BeginInit();
 			this.xtraTabPage4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chartControl4)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(xyDiagram2)).BeginInit();
@@ -127,7 +127,13 @@ namespace ShomreiTorah.Journal.Forms {
 			this.chartControl1.Name = "chartControl1";
 			series1.ArgumentDataMember = "Type";
 			series1.DataSource = this.adTypesSource;
+			pieSeriesLabel1.Antialiasing = true;
+			pieSeriesLabel1.Border.Visible = false;
+			pieSeriesLabel1.FillStyle.FillMode = DevExpress.XtraCharts.FillMode.Empty;
+			pieSeriesLabel1.Font = new System.Drawing.Font("Calibri", 11F);
 			pieSeriesLabel1.LineVisible = true;
+			pieSeriesLabel1.Position = DevExpress.XtraCharts.PieSeriesLabelPosition.Radial;
+			pieSeriesLabel1.TextColor = System.Drawing.Color.White;
 			series1.Label = pieSeriesLabel1;
 			piePointOptions1.Pattern = "{A}s: {V}";
 			piePointOptions1.PercentOptions.ValueAsPercent = false;
@@ -171,7 +177,13 @@ namespace ShomreiTorah.Journal.Forms {
 			this.chartControl2.Name = "chartControl2";
 			series2.ArgumentDataMember = "Type";
 			series2.DataSource = this.adTypesSource;
+			pieSeriesLabel3.Antialiasing = true;
+			pieSeriesLabel3.Border.Visible = false;
+			pieSeriesLabel3.FillStyle.FillMode = DevExpress.XtraCharts.FillMode.Empty;
+			pieSeriesLabel3.Font = new System.Drawing.Font("Calibri", 11F);
 			pieSeriesLabel3.LineVisible = true;
+			pieSeriesLabel3.Position = DevExpress.XtraCharts.PieSeriesLabelPosition.Radial;
+			pieSeriesLabel3.TextColor = System.Drawing.Color.White;
 			series2.Label = pieSeriesLabel3;
 			piePointOptions3.Pattern = "{A}s: {V}";
 			piePointOptions3.PercentOptions.ValueAsPercent = false;
@@ -193,11 +205,6 @@ namespace ShomreiTorah.Journal.Forms {
 			this.chartControl2.SeriesTemplate.View = pieSeriesView4;
 			this.chartControl2.Size = new System.Drawing.Size(745, 456);
 			this.chartControl2.TabIndex = 0;
-			// 
-			// runningTotalsSource
-			// 
-			this.runningTotalsSource.DataSet = ShomreiTorah.Journal.Forms.ChartDataSet.RunningTotals;
-			this.runningTotalsSource.Position = 0;
 			// 
 			// xtraTabPage3
 			// 
@@ -236,6 +243,11 @@ namespace ShomreiTorah.Journal.Forms {
 			this.chartControl3.SeriesTemplate.View = stackedAreaSeriesView1;
 			this.chartControl3.Size = new System.Drawing.Size(745, 456);
 			this.chartControl3.TabIndex = 0;
+			// 
+			// runningTotalsSource
+			// 
+			this.runningTotalsSource.DataSet = ShomreiTorah.Journal.Forms.ChartDataSet.RunningTotals;
+			this.runningTotalsSource.Position = 0;
 			// 
 			// xtraTabPage4
 			// 
@@ -301,12 +313,12 @@ namespace ShomreiTorah.Journal.Forms {
 			((System.ComponentModel.ISupportInitialize)(pieSeriesLabel4)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(pieSeriesView4)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.chartControl2)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.runningTotalsSource)).EndInit();
 			this.xtraTabPage3.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(xyDiagram1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(pointSeriesLabel1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(stackedAreaSeriesView1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.chartControl3)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.runningTotalsSource)).EndInit();
 			this.xtraTabPage4.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(xyDiagram2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(pointSeriesLabel2)).EndInit();
