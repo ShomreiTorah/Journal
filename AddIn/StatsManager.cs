@@ -13,9 +13,6 @@ namespace ShomreiTorah.Journal.AddIn {
 
 		readonly Dictionary<int, JournalStatistics> stats = new Dictionary<int, JournalStatistics>();
 
-		static bool IsJournal(string externalSource) { return externalSource != null && externalSource.StartsWith("Journal ", StringComparison.OrdinalIgnoreCase); }
-		static int GetYear(string externalSource) { return int.Parse(externalSource.Substring("Journal ".Length), CultureInfo.InvariantCulture); }
-
 		///<summary>Creates a StatsManager that tracks statistics from the given journal.</summary>
 		public StatsManager(DataContext context) {
 			if (context == null) throw new ArgumentNullException("context");
@@ -27,13 +24,13 @@ namespace ShomreiTorah.Journal.AddIn {
 			Context.Table<MelaveMalkaSeat>().ValueChanged += delegate { ReadSeating(); };
 			Context.Table<MelaveMalkaSeat>().RowRemoved += delegate { ReadSeating(); };
 
-			Context.Table<Pledge>().RowAdded += (sender, e) => { if (IsJournal(e.Row.ExternalSource)) ReadPledges(); };
-			Context.Table<Pledge>().ValueChanged += (sender, e) => { if (IsJournal(e.Row.ExternalSource)) ReadPledges(); };
-			Context.Table<Pledge>().RowRemoved += (sender, e) => { if (IsJournal(e.Row.ExternalSource)) ReadPledges(); };
+			Context.Table<Pledge>().RowAdded += (sender, e) => { if (e.Row.GetJournalYear() != null)		ReadPledges(); };
+			Context.Table<Pledge>().ValueChanged += (sender, e) => { if (e.Row.GetJournalYear() != null)	ReadPledges(); };
+			Context.Table<Pledge>().RowRemoved += (sender, e) => { if (e.Row.GetJournalYear() != null)		ReadPledges(); };
 
-			Context.Table<Payment>().RowAdded += (sender, e) => { if (IsJournal(e.Row.ExternalSource)) ReadPayments(); };
-			Context.Table<Payment>().ValueChanged += (sender, e) => { if (IsJournal(e.Row.ExternalSource)) ReadPayments(); };
-			Context.Table<Payment>().RowRemoved += (sender, e) => { if (IsJournal(e.Row.ExternalSource)) ReadPayments(); };
+			Context.Table<Payment>().RowAdded += (sender, e) => { if (e.Row.GetJournalYear() != null)		ReadPayments(); };
+			Context.Table<Payment>().ValueChanged += (sender, e) => { if (e.Row.GetJournalYear() != null)	ReadPayments(); };
+			Context.Table<Payment>().RowRemoved += (sender, e) => { if (e.Row.GetJournalYear() != null)		ReadPayments(); };
 
 			Context.Table<MelaveMalkaSeat>().LoadCompleted += Table_LoadCompleted;
 			Context.Table<Pledge>().LoadCompleted += Table_LoadCompleted;
@@ -89,8 +86,9 @@ namespace ShomreiTorah.Journal.AddIn {
 				js.TotalPledged = 0;
 
 			foreach (var pledge in Context.Table<Pledge>().Rows) {
-				if (!IsJournal(pledge.ExternalSource)) continue;
-				this[GetYear(pledge.ExternalSource)].TotalPledged += pledge.Amount;
+				var year = pledge.GetJournalYear();
+				if (year != null)
+					this[year.Value].TotalPledged += pledge.Amount;
 			}
 			OnChanged();
 		}
@@ -103,8 +101,9 @@ namespace ShomreiTorah.Journal.AddIn {
 				js.TotalPaid = 0;
 
 			foreach (var payment in Context.Table<Payment>().Rows) {
-				if (!IsJournal(payment.ExternalSource)) continue;
-				this[GetYear(payment.ExternalSource)].TotalPaid += payment.Amount;
+				var year = payment.GetJournalYear();
+				if (year != null)
+					this[year.Value].TotalPaid += payment.Amount;
 			}
 			OnChanged();
 		}

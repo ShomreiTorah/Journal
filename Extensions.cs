@@ -1,10 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Globalization;
+using ShomreiTorah.Data;
 
 namespace ShomreiTorah.Journal {
 	static class Extensions {
+		const string ExternalSourcePrefix = "Journal";
+
+		public static int? GetJournalYear(this Pledge pledge) { return GetJournalYear(pledge.ExternalSource); }
+		public static int? GetJournalYear(this Payment payment) { return GetJournalYear(payment.ExternalSource); }
+		public static int? GetJournalYear(string externalSource) {
+			if (externalSource == null || !externalSource.StartsWith(ExternalSourcePrefix, StringComparison.OrdinalIgnoreCase))
+				return null;
+			return int.Parse(externalSource.Substring(ExternalSourcePrefix.Length), CultureInfo.InvariantCulture);
+		}
+
 		//public static TValue? GetValue<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue? unused = null) where TValue : struct {
 		//    TValue retVal;
 		//    return dict.TryGetValue(key, out retVal) ? retVal : new TValue?();
