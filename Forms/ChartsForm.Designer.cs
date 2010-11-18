@@ -46,6 +46,9 @@ namespace ShomreiTorah.Journal.Forms {
 			DevExpress.XtraCharts.XYDiagram xyDiagram2 = new DevExpress.XtraCharts.XYDiagram();
 			DevExpress.XtraCharts.PointSeriesLabel pointSeriesLabel2 = new DevExpress.XtraCharts.PointSeriesLabel();
 			DevExpress.XtraCharts.StackedAreaSeriesView stackedAreaSeriesView2 = new DevExpress.XtraCharts.StackedAreaSeriesView();
+			DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
+			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
+			DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChartsForm));
 			this.adTypesSource = new ShomreiTorah.Journal.Forms.ChartBindingSource(this.components);
 			this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
@@ -58,6 +61,7 @@ namespace ShomreiTorah.Journal.Forms {
 			this.runningTotalsSource = new ShomreiTorah.Journal.Forms.ChartBindingSource(this.components);
 			this.xtraTabPage4 = new DevExpress.XtraTab.XtraTabPage();
 			this.chartControl4 = new DevExpress.XtraCharts.ChartControl();
+			this.refresh = new DevExpress.XtraEditors.SimpleButton();
 			((System.ComponentModel.ISupportInitialize)(this.adTypesSource)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
 			this.xtraTabControl1.SuspendLayout();
@@ -286,11 +290,29 @@ namespace ShomreiTorah.Journal.Forms {
 			this.chartControl4.Size = new System.Drawing.Size(745, 456);
 			this.chartControl4.TabIndex = 0;
 			// 
+			// refresh
+			// 
+			this.refresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.refresh.Image = global::ShomreiTorah.Journal.Properties.Resources.Refresh16;
+			this.refresh.Location = new System.Drawing.Point(728, 0);
+			this.refresh.Name = "refresh";
+			this.refresh.Size = new System.Drawing.Size(21, 21);
+			toolTipTitleItem1.Text = "Refresh Charts";
+			toolTipItem1.LeftIndent = 6;
+			toolTipItem1.Text = "Refreshes the data displayed by the charts.";
+			superToolTip1.Items.Add(toolTipTitleItem1);
+			superToolTip1.Items.Add(toolTipItem1);
+			this.refresh.SuperTip = superToolTip1;
+			this.refresh.TabIndex = 4;
+			this.refresh.Text = "Refresh";
+			this.refresh.Click += new System.EventHandler(this.refresh_Click);
+			// 
 			// ChartsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(753, 485);
+			this.Controls.Add(this.refresh);
 			this.Controls.Add(this.xtraTabControl1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "ChartsForm";
@@ -341,5 +363,6 @@ namespace ShomreiTorah.Journal.Forms {
 		private ChartBindingSource runningTotalsSource;
 		private DevExpress.XtraTab.XtraTabPage xtraTabPage4;
 		private DevExpress.XtraCharts.ChartControl chartControl4;
+		private DevExpress.XtraEditors.SimpleButton refresh;
 	}
 }

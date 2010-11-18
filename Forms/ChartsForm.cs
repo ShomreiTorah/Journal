@@ -24,11 +24,25 @@ namespace ShomreiTorah.Journal.Forms {
 	//called by the TabControl's Selected handler.
 	partial class ChartsForm : XtraForm {
 		readonly int year;
-		public ChartsForm(int year) {	//TODO: Refresh
+		public ChartsForm(int year) {
 			InitializeComponent();
 			this.year = year;
 			Text = "Journal " + year + " Charts";
 		}
+
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
+			switch (keyData) {
+				case Keys.Escape:
+					Close();
+					return true;
+				case Keys.F5:
+					RefreshCharts();
+					return true;
+			}
+
+			return base.ProcessCmdKey(ref msg, keyData);
+		}
+
 		protected override void OnShown(EventArgs e) {
 			base.OnShown(e);
 			ReloadTab(xtraTabControl1.SelectedTabPage);
@@ -39,10 +53,35 @@ namespace ShomreiTorah.Journal.Forms {
 			var chart = page.Controls[0] as ChartControl;
 			if (chart == null) return;
 
-			var source = chart.DataSource as ChartBindingSource;
-			Debug.Assert(source != null, page.Text + " chart has no datasource!");
-			if (!source.HasRealData)	//If we haven't loaded this datasource yet, do so.
-				source.RefreshList(year);
+			foreach (var source in GetDataSources(chart)) {
+				if (!source.HasRealData)	//If we haven't loaded this datasource yet, do so.
+					source.RefreshList(year);
+			}
+		}
+
+		private void refresh_Click(object sender, EventArgs e) { RefreshCharts(); }
+		void RefreshCharts() {
+			foreach (var source in xtraTabControl1.TabPages
+						.Where(t => t.Controls.Count > 0)
+						.Select(t => t.Controls[0])
+						.OfType<ChartControl>()
+						.SelectMany(GetDataSources)) {
+
+				if (source.HasRealData)			//If we already loaded this datasource,  refresh it.
+					source.RefreshList(year);	//Don't refresh datasources that haven't been loaded
+			}
+		}
+
+		static IEnumerable<ChartBindingSource> GetDataSources(ChartControl chart) {
+			var dataSource = chart.DataSource as ChartBindingSource;
+			if (dataSource != null)
+				yield return dataSource;
+
+			foreach (Series series in chart.Series) {
+				dataSource = series.DataSource as ChartBindingSource;
+				if (dataSource != null)
+					yield return dataSource;
+			}
 		}
 	}
 
