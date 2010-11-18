@@ -92,7 +92,6 @@ namespace ShomreiTorah.Journal.AddIn {
 
 		///<summary>Creates the tables used by the addin.</summary>
 		///<remarks>This method is called by the chart form to create
-		///a dummy datasource at runtime.</remarks>
 		public static void CreateTables(DataContext context) {
 			context.Tables.AddTable(Person.CreateTable());
 			context.Tables.AddTable(Pledge.CreateTable());
