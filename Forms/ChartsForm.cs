@@ -142,7 +142,7 @@ namespace ShomreiTorah.Journal.Forms {
 						p => p.SubType,
 						(subtype, pledges) => new {
 							Type = subtype,
-							Count = pledges.Count(),
+							Count = pledges.Select(p => p.ExternalId).Distinct().Count(),	//Ad count, not pledge count
 							Value = pledges.Sum(p => p.Amount)
 						}
 					)
@@ -179,7 +179,7 @@ namespace ShomreiTorah.Journal.Forms {
 					Date = date,
 					AdType = type.PledgeSubType,
 
-					TotalCount = totalCounts[type.PledgeSubType] += pledgeLookup[new { Date = date, SubType = type.PledgeSubType }].Count(),
+					TotalCount = totalCounts[type.PledgeSubType] += pledgeLookup[new { Date = date, SubType = type.PledgeSubType }].Select(p => p.ExternalId).Distinct().Count(),
 					TotalValue = totalValues[type.PledgeSubType] += pledgeLookup[new { Date = date, SubType = type.PledgeSubType }].Sum(p => p.Amount)
 				})
 			).ToArray();
