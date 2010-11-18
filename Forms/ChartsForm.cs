@@ -126,20 +126,24 @@ namespace ShomreiTorah.Journal.Forms {
 		static IList GenerateRunningTotals(int year, DataContext dc) {
 			var totalCounts = new DefaultDictionary<string, int>();
 			var totalValues = new DefaultDictionary<string, decimal>();
-			return dc.Table<Pledge>().Rows
-					.Where(p => p.GetJournalYear() == year && Names.AdTypes.Any(t => t.PledgeSubType == p.SubType))
-					.OrderBy(p => p.Date)
-					.GroupBy(
-						p => new { p.Date, p.SubType },
-						(o, pledges) => new {
-							o.Date,
-							AdType = o.SubType,
 
-							TotalCount = totalCounts[o.SubType] += pledges.Count(),
-							TotalValue = totalValues[o.SubType] += pledges.Sum(p => p.Amount)
-						}
-					)
+			var pledges = dc.Table<Pledge>().Rows
+					.Where(p => p.GetJournalYear() == year && Names.AdTypes.Any(t => t.PledgeSubType == p.SubType))
 					.ToArray();
+
+			DateTime firstAd = pledges.Min(p => p.Date.Date), lastAd = pledges.Max(p => p.Date.Date);
+			var dates = Enumerable.Range(0, (lastAd - firstAd).Days + 1).Select(i => firstAd.AddDays(i));
+			var pledgeLookup = pledges.ToLookup(p => new { p.Date.Date, p.SubType });
+
+			return dates.SelectMany(date =>
+				Names.AdTypes.Select(type => new {
+					Date = date,
+					AdType = type.PledgeSubType,
+
+					TotalCount = totalCounts[type.PledgeSubType] += pledgeLookup[new { Date = date, SubType = type.PledgeSubType }].Count(),
+					TotalValue = totalValues[type.PledgeSubType] += pledgeLookup[new { Date = date, SubType = type.PledgeSubType }].Sum(p => p.Amount)
+				})
+			).ToArray();
 		}
 
 		static readonly Dictionary<ChartDataSet, DataGenerator> DataSetGenerators = new Dictionary<ChartDataSet, DataGenerator> {
