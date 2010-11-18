@@ -85,6 +85,7 @@ namespace ShomreiTorah.Journal.Forms {
 		}
 	}
 
+	[DefaultProperty("DataSet")]
 	class ChartBindingSource : BindingSource {
 		[SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline")]
 		static ChartBindingSource() { Program.CheckDesignTime(); }
@@ -100,7 +101,7 @@ namespace ShomreiTorah.Journal.Forms {
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public new string DataMember { get { return base.DataMember; } set { base.DataMember = value; } }
 
-		const int DesignerYear = 2010;
+		const int DesignerYear = 2011;
 
 		ChartDataSet dataSet;
 		///<summary>Gets or sets the dataset exposed by the BindingSource.</summary>
@@ -142,7 +143,7 @@ namespace ShomreiTorah.Journal.Forms {
 						p => p.SubType,
 						(subtype, pledges) => new {
 							Type = subtype,
-							Count = pledges.Select(p => p.ExternalId).Distinct().Count(),	//Ad count, not pledge count
+							Count = pledges.AdCount(),
 							Value = pledges.Sum(p => p.Amount)
 						}
 					)
@@ -162,7 +163,7 @@ namespace ShomreiTorah.Journal.Forms {
 			}
 		}
 
-		static IList GenerateRunningTotals(int year, DataContext dc) {
+		static IList GenerateAdTypeRunningTotals(int year, DataContext dc) {
 			var totalCounts = new DefaultDictionary<string, int>();
 			var totalValues = new DefaultDictionary<string, decimal>();
 
@@ -179,15 +180,40 @@ namespace ShomreiTorah.Journal.Forms {
 					Date = date,
 					AdType = type.PledgeSubType,
 
-					TotalCount = totalCounts[type.PledgeSubType] += pledgeLookup[new { Date = date, SubType = type.PledgeSubType }].Select(p => p.ExternalId).Distinct().Count(),
+					TotalCount = totalCounts[type.PledgeSubType] += pledgeLookup[new { Date = date, SubType = type.PledgeSubType }].AdCount(),
 					TotalValue = totalValues[type.PledgeSubType] += pledgeLookup[new { Date = date, SubType = type.PledgeSubType }].Sum(p => p.Amount)
 				})
 			).ToArray();
 		}
 
+		static IList GenerateYearlyRunningTotals(int year, DataContext dc) {
+			var pledges = dc.Table<Pledge>().Rows
+					.Where(p => p.GetJournalYear() == year && Names.AdTypes.Any(t => t.PledgeSubType == p.SubType))
+					.ToArray();
+
+			var info = dc.Table<MelaveMalkaInfo>().Rows.FirstOrDefault(i => i.Year == year);
+			if (info == null) return null;
+
+			DateTime firstAd = pledges.Min(p => p.Date.Date), lastAd = pledges.Max(p => p.Date.Date);
+			var dates = Enumerable.Range(0, (lastAd - firstAd).Days + 1).Select(i => firstAd.AddDays(i));
+			var pledgeLookup = pledges.ToLookup(p => p.Date.Date);
+
+			int totalCount = 0;
+			decimal totalValue = 0;
+			return dates.Select(date => new {
+				Date = date,
+				DeadlineDelta = (info.AdDeadline - date).Days,
+
+				TotalCount = totalCount += pledgeLookup[date].AdCount(),
+				TotalValue = totalValue += pledgeLookup[date].Sum(p => p.Amount)
+			}).ToArray();
+		}
+
 		static readonly Dictionary<ChartDataSet, DataGenerator> DataSetGenerators = new Dictionary<ChartDataSet, DataGenerator> {
-			{ ChartDataSet.AdTypes,			GenerateAdTypes			},
-			{ ChartDataSet.RunningTotals,	GenerateRunningTotals	}
+			{ ChartDataSet.AdTypes,				GenerateAdTypes				},
+			{ ChartDataSet.RunningAdTypeTotals,	GenerateAdTypeRunningTotals	},
+			{ ChartDataSet.ThisYearRunningTotal, GenerateYearlyRunningTotals },
+			{ ChartDataSet.LastYearRunningTotal, (year, dc) => GenerateYearlyRunningTotals(year - 1, dc) },
 		};
 
 		delegate IList DataGenerator(int year, DataContext dc);
@@ -196,6 +222,8 @@ namespace ShomreiTorah.Journal.Forms {
 	enum ChartDataSet {
 		None,
 		AdTypes,
-		RunningTotals
+		RunningAdTypeTotals,
+		ThisYearRunningTotal,
+		LastYearRunningTotal
 	}
 }
