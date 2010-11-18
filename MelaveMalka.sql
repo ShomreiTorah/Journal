@@ -21,7 +21,26 @@ CREATE TABLE MelaveMalka.Invitees (
 	DateAdded		DATETIME			NOT NULL	DEFAULT getdate(),
 	--Custom fields:
 	[Year]			INTEGER				NOT NULL	DEFAULT year(getdate()),
-	[Source]		NVARCHAR(64)		NOT NULL
+	[Source]		NVARCHAR(64)		NOT NULL,
+
+	--For call list:
+	ShouldCall		BIT					NOT NULL	DEFAULT(0),
+	[Caller]		UNIQUEIDENTIFIER	NULL		DEFAULT(NULL)	REFERENCES Data.MasterDirectory(Id),
+	CallerNote		NVARCHAR(512)		NULL
+);
+
+ALTER TABLE MelaveMalka.Invitees ADD ShouldCall	BIT					NOT NULL	DEFAULT(0);
+ALTER TABLE MelaveMalka.Invitees ADD [Caller]	UNIQUEIDENTIFIER	NULL		DEFAULT(NULL)	REFERENCES MelaveMalka.Callers(RowId);
+ALTER TABLE MelaveMalka.Invitees ADD CallerNote	NVARCHAR(512)		NULL;
+
+--This table also has the same format as a ListMaker list.
+CREATE TABLE MelaveMalka.Callers (
+	RowId			UNIQUEIDENTIFIER	NOT NULL	ROWGUIDCOL	PRIMARY KEY DEFAULT(newid()),
+	PersonId		UNIQUEIDENTIFIER	NOT NULL	REFERENCES Data.MasterDirectory(Id),
+	[RowVersion]	RowVersion,
+	DateAdded		DATETIME			NOT NULL	DEFAULT getdate(),
+	--Custom fields:
+	[Year]			INTEGER				NOT NULL	DEFAULT year(getdate()),
 );
 
 CREATE TABLE MelaveMalka.Ads (
