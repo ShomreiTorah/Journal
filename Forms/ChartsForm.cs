@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Windows.Forms;
 using DevExpress.XtraCharts;
@@ -25,34 +26,46 @@ namespace ShomreiTorah.Journal.Forms {
 	//the properties for the chart to bind to.  To do this, I pass 
 	//an empty DataContext to the LINQ call.
 	partial class ChartsForm : XtraForm {
-		public ChartsForm() {	//TODO: Year, refresh
+		readonly int year;
+		public ChartsForm(int year) {	//TODO: Refresh
 			InitializeComponent();
+			this.year = year;
+			Text = "Journal " + year + " Charts";
 		}
-
-		private void xtraTabControl1_Selected(object sender, TabPageEventArgs e) {
-			if (e.Page == null || e.Page.Controls.Count == 0) return;
-			var chart = e.Page.Controls[0] as ChartControl;
+		protected override void OnShown(EventArgs e) {
+			base.OnShown(e);
+			ReloadTab(xtraTabControl1.SelectedTabPage);
+		}
+		private void xtraTabControl1_Selected(object sender, TabPageEventArgs e) { ReloadTab(e.Page); }
+		void ReloadTab(XtraTabPage page) {
+			if (page == null || page.Controls.Count == 0) return;
+			var chart = page.Controls[0] as ChartControl;
 			if (chart == null) return;
 
 			var source = chart.DataSource as ChartBindingSource;
-			Debug.Assert(source != null, e.Page.Text + " chart has no datasource!");
+			Debug.Assert(source != null, page.Text + " chart has no datasource!");
 			if (!source.HasRealData)	//If we haven't loaded this datasource yet, do so.
-				source.RefreshList();
+				source.RefreshList(year);
 		}
 	}
 
 	class ChartBindingSource : BindingSource {
 		static readonly DataContext dummyContext = new DataContext();
+		[SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline")]
 		static ChartBindingSource() { Program.CheckDesignTime(); Program.CreateTables(dummyContext); }
 		public ChartBindingSource() { }
 		public ChartBindingSource(IContainer container) : base(container) { }
 
+		[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Attribute replacement")]
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public new object DataSource { get { return base.DataSource; } set { base.DataSource = value; } }
+		[SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Attribute replacement")]
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public new string DataMember { get { return base.DataMember; } set { base.DataMember = value; } }
+
+		const int DesignerYear = 2010;
 
 		ChartDataSet dataSet;
 		///<summary>Gets or sets the dataset exposed by the BindingSource.</summary>
@@ -67,17 +80,18 @@ namespace ShomreiTorah.Journal.Forms {
 				if (value == ChartDataSet.None)
 					DataSource = null;
 				else if (Program.Current.IsDesignTime)
-					RefreshList();
+					RefreshList(DesignerYear);
 				else
-					DataSource = DataSetGenerators[value](dummyContext);
+					DataSource = DataSetGenerators[value](0, dummyContext);
 			}
 		}
+
 		///<summary>Refreshes the datasource from the Singularity DataContext.</summary>
 		///<remarks>This method is called when each tabpage is first selected 
 		///to initially populate the chart, and when the refresh button is clicked.</remarks>
-		public void RefreshList() {
+		public void RefreshList(int year) {
 			if (DataSet == ChartDataSet.None) return;
-			DataSource = DataSetGenerators[DataSet](Program.Current.DataContext);
+			DataSource = DataSetGenerators[DataSet](year, Program.Current.DataContext);
 			OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
 			HasRealData = true;
 		}
@@ -86,9 +100,9 @@ namespace ShomreiTorah.Journal.Forms {
 		public bool HasRealData { get; private set; }
 
 		#region Dataset Generators
-		static IList ReadAdTypes(DataContext dc) {
+		static IList ReadAdTypes(int year, DataContext dc) {
 			return dc.Table<Pledge>().Rows
-					.Where(p => Names.AdTypes.Any(t => t.PledgeSubType == p.SubType))
+					.Where(p => p.GetJournalYear() == year && Names.AdTypes.Any(t => t.PledgeSubType == p.SubType))
 					.GroupBy(
 						p => p.SubType,
 
@@ -100,9 +114,11 @@ namespace ShomreiTorah.Journal.Forms {
 					).ToArray();
 		}
 
-		static readonly Dictionary<ChartDataSet, Func<DataContext, IList>> DataSetGenerators = new Dictionary<ChartDataSet, Func<DataContext, IList>> {
+		static readonly Dictionary<ChartDataSet, DataGenerator> DataSetGenerators = new Dictionary<ChartDataSet, DataGenerator> {
 			{ ChartDataSet.AdTypes, ReadAdTypes }
 		};
+
+		delegate IList DataGenerator(int year, DataContext dc);
 		#endregion
 	}
 	enum ChartDataSet {
