@@ -1,17 +1,17 @@
 using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Windows.Forms;
+using DevExpress.LookAndFeel;
+using DevExpress.Skins;
+using DevExpress.UserSkins;
 using ShomreiTorah.Common;
 using ShomreiTorah.Data;
 using ShomreiTorah.Data.UI;
 using ShomreiTorah.Data.UI.Forms;
 using ShomreiTorah.Singularity;
 using ShomreiTorah.Singularity.Sql;
-using DevExpress.Skins;
-using DevExpress.LookAndFeel;
-using DevExpress.UserSkins;
 using ShomreiTorah.WinForms;
-using System.Threading;
 
 namespace ShomreiTorah.Journal.AddIn {
 	class Program : AppFramework {
@@ -23,7 +23,14 @@ namespace ShomreiTorah.Journal.AddIn {
 			return Current.DataContext.Table<TRow>();
 		}
 
-		public static void CheckDesignTime() { AppFramework.CheckDesignTime(new Program()); }
+		public static void CheckDesignTime() {
+			//If the project is re-built, AppFramework.Current
+			//will refer to the instance from the old assembly
+			if (AppFramework.Current != null && typeof(Program).Assembly != AppFramework.Current.GetType().Assembly) 
+				AppFramework.Current = null;
+			
+			AppFramework.CheckDesignTime(new Program());
+		}
 
 		public static void Initialize() {
 			Current.ToString();	//Force property getter
