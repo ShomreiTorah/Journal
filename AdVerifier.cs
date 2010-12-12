@@ -52,23 +52,25 @@ namespace ShomreiTorah.Journal {
 		[SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider")]
 		static bool HasName(Person person, string text) {
 			if (!String.IsNullOrEmpty(person.FullName)
-			 && Regex.IsMatch(text, String.Format(@"(^|\W){0}(\W|$)", Regex.Escape(person.FullName))))
+			 && Regex.IsMatch(text, String.Format(@"\b{0}\b", Regex.Escape(person.FullName))))
 				return true;
-			if (Regex.IsMatch(text, String.Format(@"(^|\W){0} Family(\W|$)", Regex.Escape(person.LastName))))
+			if (Regex.IsMatch(text, String.Format(@"\b{0} Family\b", Regex.Escape(person.LastName))))
+				return true;
+			if (Regex.IsMatch(text, String.Format(@"\bThe {0}s\b", Regex.Escape(person.LastName))))
 				return true;
 
 			if (String.IsNullOrEmpty(person.HerName)
-			 && Regex.IsMatch(text, String.Format(@"(^|\W){0} {1}(\W|$)", Regex.Escape(person.HisName), Regex.Escape(person.LastName))))
+			 && Regex.IsMatch(text, String.Format(@"\b{0} {1}\b", Regex.Escape(person.HisName), Regex.Escape(person.LastName))))
 				return true;
 			if (String.IsNullOrEmpty(person.HisName)
-			 && Regex.IsMatch(text, String.Format(@"(^|\W){0} {1}(\W|$)", Regex.Escape(person.HerName), Regex.Escape(person.LastName))))
+			 && Regex.IsMatch(text, String.Format(@"\b{0} {1}\b", Regex.Escape(person.HerName), Regex.Escape(person.LastName))))
 				return true;
 
-			if (Regex.IsMatch(text, String.Format(@"(^|\W){0}\W(.*?\W)?{1}\W(.*?\W)?{2}(\W|$)",
+			if (Regex.IsMatch(text, String.Format(@"\b{0}\W(.*?\W)?{1}\W(.*?\W)?{2}\b",
 									Regex.Escape(person.HisName), Regex.Escape(person.HerName), Regex.Escape(person.LastName))))
 				return true;
 
-			if (Regex.IsMatch(text, String.Format(@"(^|\W){1}\W(.*?\W)?{0}\W(.*?\W)?{2}(\W|$)",
+			if (Regex.IsMatch(text, String.Format(@"\b{1}\W(.*?\W)?{0}\W(.*?\W)?{2}\b",
 									Regex.Escape(person.HisName), Regex.Escape(person.HerName), Regex.Escape(person.LastName))))
 				return true;
 
