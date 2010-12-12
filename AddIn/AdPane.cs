@@ -14,8 +14,8 @@ using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using DevExpress.XtraLayout;
 using DevExpress.XtraLayout.Utils;
+using ShomreiTorah.Common;
 using ShomreiTorah.Data;
-using ShomreiTorah.Data.UI;
 using ShomreiTorah.Data.UI.Controls;
 using ShomreiTorah.Data.UI.DisplaySettings;
 using ShomreiTorah.Singularity;
@@ -55,6 +55,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			EditorRepository.PersonOwnedLookup.Apply(adSearcher.Properties);
 			adSearcher.Properties.Columns.Add(new DataSourceColumn("SubType") { Caption = "Type" });
 			adSearcher.Properties.Columns.Insert(0, new DataSourceColumn("ExternalId", 35) { Caption = "ID" });
+			adSearcher.Properties.Columns.RemoveAt(adSearcher.Properties.Columns.FindIndex(c => c.Caption == "Zip code"));
 
 			window.Application.WindowSelectionChange += Application_WindowSelectionChange;
 		}
