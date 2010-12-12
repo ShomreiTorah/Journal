@@ -1,5 +1,7 @@
 using System;
 using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using DevExpress.LookAndFeel;
@@ -8,6 +10,7 @@ using DevExpress.UserSkins;
 using ShomreiTorah.Common;
 using ShomreiTorah.Data;
 using ShomreiTorah.Data.UI;
+using ShomreiTorah.Data.UI.DisplaySettings;
 using ShomreiTorah.Data.UI.Forms;
 using ShomreiTorah.Singularity;
 using ShomreiTorah.Singularity.Sql;
@@ -26,9 +29,9 @@ namespace ShomreiTorah.Journal.AddIn {
 		public static void CheckDesignTime() {
 			//If the project is re-built, AppFramework.Current
 			//will refer to the instance from the old assembly
-			if (AppFramework.Current != null && typeof(Program).Assembly != AppFramework.Current.GetType().Assembly) 
+			if (AppFramework.Current != null && typeof(Program).Assembly != AppFramework.Current.GetType().Assembly)
 				AppFramework.Current = null;
-			
+
 			AppFramework.CheckDesignTime(new Program());
 		}
 
@@ -78,6 +81,20 @@ namespace ShomreiTorah.Journal.AddIn {
 			Dialog.DefaultTitle = "Shomrei Torah Journal";
 
 			RegisterRowDetail<Person>(p => new SimplePersonDetails(p).Show(Globals.ThisAddIn == null ? null : Globals.ThisAddIn.Application.Window()));
+			GridManager.RegisterBehavior(Pledge.Schema,
+				DeletionBehavior.WithMessages<Pledge>(
+					singular: p => {
+						var message = "Are you sure you want to delete this " + p.Amount.ToString("c", CultureInfo.CurrentCulture) + " pledge?";
+						if (p.Person.MelaveMalkaSeats.Any(mms => mms.Year == p.GetJournalYear()))
+							message += p.Person.FullName + "'s seating reservations will not be deleted";
+						return message;
+					},
+					plural: pledges => "Are you sure you want to delete "
+									  + (pledges.Count().ToString(CultureInfo.InvariantCulture) + " pledges totaling "
+									   + pledges.Sum(p => p.Amount).ToString("c", CultureInfo.CurrentCulture) + "?\r\nNo seating reservations will be deleted.")
+				)
+			);
+
 		}
 
 		public StatsManager Statistics { get; private set; }
