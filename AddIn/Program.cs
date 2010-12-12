@@ -85,8 +85,16 @@ namespace ShomreiTorah.Journal.AddIn {
 				DeletionBehavior.WithMessages<Pledge>(
 					singular: p => {
 						var message = "Are you sure you want to delete this " + p.Amount.ToString("c", CultureInfo.CurrentCulture) + " pledge?";
-						if (p.Person.MelaveMalkaSeats.Any(mms => mms.Year == p.GetJournalYear()))
-							message += Environment.NewLine + p.Person.FullName + "'s seating reservations will not be deleted";
+
+						var year = p.GetJournalYear();
+						if (year.HasValue) {
+							if (p.Person.MelaveMalkaSeats.Any(mms => mms.Year == year))
+								message += Environment.NewLine + p.Person.FullName + "'s seating reservations will not be deleted.";
+
+							var ad = Table<JournalAd>().Rows.FirstOrDefault(a => a.Year == year && p.ExternalId == a.ExternalId);
+							if (ad != null && ad.Pledges.Has(2))	//If the pledge's ad has another pledge
+								message += Environment.NewLine + "Remember to adjust the other pledge amounts.";
+						}
 						return message;
 					},
 					plural: pledges => "Are you sure you want to delete "
@@ -94,7 +102,6 @@ namespace ShomreiTorah.Journal.AddIn {
 									   + pledges.Sum(p => p.Amount).ToString("c", CultureInfo.CurrentCulture) + "?\r\nNo seating reservations will be deleted.")
 				)
 			);
-
 		}
 
 		public StatsManager Statistics { get; private set; }
