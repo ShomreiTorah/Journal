@@ -315,14 +315,14 @@ namespace ShomreiTorah.Journal.AddIn {
 				var seat = pledge.Person.MelaveMalkaSeats.FirstOrDefault(s => s.Year == journal.Year);
 
 				if (e.IsGetData) {
-					e.Value = seat == null ? 0 : seat[field];	//No reservation means 0, not unsure.
-				} else {
+					e.Value = seat == null ? null : seat[field];	//No reservation means unsure
+				} else {	//Modify the existing seating row or add a new one
 					if (seat != null) {
 						seat[field] = e.Value;
-						if (seat.MensSeats == 0 && seat.WomensSeats == 0)
+						if (seat.MensSeats == null && seat.WomensSeats == null)
 							seat.RemoveRow();
-					} else {	//There isn't an existing seat row
-						if (e.Value != null && (int)e.Value == 0)	//Don't change anything
+					} else {					//There isn't an existing seat row
+						if (e.Value == null)	//If it's still null, don't change anything
 							return;
 						else {
 							seat = new MelaveMalkaSeat {
