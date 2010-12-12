@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -112,9 +113,21 @@ namespace ShomreiTorah.Journal.AddIn {
 			control.Window().View.Slide = control.Window().Presentation.Slides.Add(1, PpSlideLayout.ppLayoutBlank);
 		}
 		public void DeleteAd(IRibbonControl control) {
-			//TODO: Delete confirmation
-			if (Dialog.Warn("Are you sure you want to delete this ad?"))
-				control.CurrentAd().Delete();
+			string message;
+			var ad = control.CurrentAd();
+			if (ad == null) return;
+
+			if (ad.Row.Payments.Any())
+				message = String.Format(CultureInfo.CurrentCulture, "Are you sure you want to delete this ad?\r\nThe ad's {0:c} in payments will not be deleted.\r\nYou should probably delete them first.",
+										ad.Row.Payments.Sum(p => p.Amount));
+			else if (ad.Row.Pledges.Any())
+				message = String.Format(CultureInfo.CurrentCulture, "Are you sure you want to delete this ad?\r\nThe ad's {0:c} in pledges will not be deleted.\r\nYou should probably delete them first.",
+										ad.Row.Pledges.Sum(p => p.Amount));
+			else
+				message = "Are you sure you want to delete this ad?";
+
+			if (Dialog.Warn(message))
+				ad.Delete();
 		}
 	}
 }
