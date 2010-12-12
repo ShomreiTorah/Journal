@@ -86,7 +86,7 @@ namespace ShomreiTorah.Journal.AddIn {
 					singular: p => {
 						var message = "Are you sure you want to delete this " + p.Amount.ToString("c", CultureInfo.CurrentCulture) + " pledge?";
 						if (p.Person.MelaveMalkaSeats.Any(mms => mms.Year == p.GetJournalYear()))
-							message += p.Person.FullName + "'s seating reservations will not be deleted";
+							message += Environment.NewLine + p.Person.FullName + "'s seating reservations will not be deleted";
 						return message;
 					},
 					plural: pledges => "Are you sure you want to delete "
@@ -110,6 +110,13 @@ namespace ShomreiTorah.Journal.AddIn {
 		///<summary>Creates the tables used by the addin.</summary>
 		///<remarks>This method is called by the chart form to create
 		public static void CreateTables(DataContext context) {
+			//Remove unused calculated columns.  These columns are 
+			//used by the billing system, and reference tables that
+			//we don't load.
+			MelaveMalkaInvitation.Schema.Columns.RemoveColumn(MelaveMalkaInvitation.EmailAddressesColumn);
+			MelaveMalkaInvitation.Schema.Columns.RemoveColumn(MelaveMalkaInvitation.AdAmountColumn);
+			MelaveMalkaInvitation.Schema.Columns.RemoveColumn(MelaveMalkaInvitation.CallerColumn);
+
 			context.Tables.AddTable(Person.CreateTable());
 			context.Tables.AddTable(Pledge.CreateTable());
 			context.Tables.AddTable(Payment.CreateTable());
