@@ -22,16 +22,14 @@ namespace ShomreiTorah.Journal.Forms {
 			get { return isJournal.Checked ? (int)year.Value : new int?(); }
 			set {
 				isJournal.Checked = value.HasValue;
-				year.Value = value ?? DefaultYear;
-
-				UpdateEditState();
+				UpdateEditState(value ?? -1);
 			}
 		}
 
-		private void isJournal_CheckedChanged(object sender, EventArgs e) { UpdateEditState(); }
-		void UpdateEditState(){
+		private void isJournal_CheckedChanged(object sender, EventArgs e) { UpdateEditState(DefaultYear); }
+		void UpdateEditState(int newYear) {
 			year.Enabled = isJournal.Checked;
-			year.EditValue = isJournal.Checked ? (object)DefaultYear : null;
+			year.EditValue = isJournal.Checked ? (object)newYear : null;
 		}
 	}
 }
