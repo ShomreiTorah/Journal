@@ -299,7 +299,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			adSearcher.EditValue = null;
 		}
 		private void externalId_Validating(object sender, CancelEventArgs e) {
-			if (journal.Ads.Any(a => a.Row.ExternalId == externalId.Value)) {
+			if (journal.Ads.Any(a => a.Row.ExternalId == externalId.Value && a.Row != ad.Row)) {
 				externalId.ErrorText = "There is already an ad with external ID " + externalId.Value;
 				e.Cancel = true;
 			}
