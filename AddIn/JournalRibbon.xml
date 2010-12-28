@@ -42,8 +42,8 @@
 				</group>
 				<group id="StatsGroup" label="Ads">
 					<box id="StatsLabels" boxStyle="vertical">
-						<labelControl id="L14" label="Value"/>
-						<labelControl id="L15" label="Ads"/>
+						<labelControl id="L14" label="Pledged"/>
+						<labelControl id="L15" label="Paid"/>
 						<labelControl id="L16" label="Pages"/>
 					</box>
 					<box id="StatsValues" boxStyle="vertical">
