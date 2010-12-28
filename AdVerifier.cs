@@ -51,18 +51,21 @@ namespace ShomreiTorah.Journal {
 		}
 		[SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider")]
 		static bool HasName(Person person, string text) {
-			if (!String.IsNullOrEmpty(person.FullName)
+			if (!String.IsNullOrWhiteSpace(person.FullName)
 			 && Regex.IsMatch(text, String.Format(@"\b{0}\b", Regex.Escape(person.FullName))))
+				return true;
+			if (!String.IsNullOrWhiteSpace(person.Salutation)
+			 && Regex.IsMatch(text, String.Format(@"\b{0}\b", Regex.Escape(person.Salutation))))
 				return true;
 			if (Regex.IsMatch(text, String.Format(@"\b{0} Family\b", Regex.Escape(person.LastName))))
 				return true;
 			if (Regex.IsMatch(text, String.Format(@"\bThe {0}s\b", Regex.Escape(person.LastName))))
 				return true;
 
-			if (String.IsNullOrEmpty(person.HerName)
+			if (String.IsNullOrWhiteSpace(person.HerName)
 			 && Regex.IsMatch(text, String.Format(@"\b{0} {1}\b", Regex.Escape(person.HisName), Regex.Escape(person.LastName))))
 				return true;
-			if (String.IsNullOrEmpty(person.HisName)
+			if (String.IsNullOrWhiteSpace(person.HisName)
 			 && Regex.IsMatch(text, String.Format(@"\b{0} {1}\b", Regex.Escape(person.HerName), Regex.Escape(person.LastName))))
 				return true;
 
