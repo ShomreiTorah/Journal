@@ -85,3 +85,18 @@ CREATE TABLE MelaveMalka.SeatReservations (
 	MensSeats		INTEGER				NULL,
 	WomensSeats		INTEGER				NULL
 );
+
+
+
+CREATE TABLE MelaveMalka.RaffleTickets (
+	RowId			UNIQUEIDENTIFIER	NOT NULL	ROWGUIDCOL	PRIMARY KEY DEFAULT(newid()),
+	PersonId		UNIQUEIDENTIFIER	NOT NULL	REFERENCES Data.MasterDirectory(Id),
+	[RowVersion]	RowVersion,
+	DateAdded		DATETIME			NOT NULL	DEFAULT getdate(),
+	--Custom fields:
+	[Year]			INTEGER				NOT NULL	DEFAULT year(getdate()),
+
+	TicketId		INTEGER				NOT NULL,
+	Paid			BIT					NOT NULL	DEFAULT(0),
+	Comments		NVARCHAR(512)		NULL
+);
