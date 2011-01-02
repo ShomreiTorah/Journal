@@ -104,15 +104,18 @@ namespace ShomreiTorah.Journal.AddIn {
 			//the filter. However, I want to pick up changes
 			//to the ad's ExternalId, so I use a function.
 			Func<int> externalId = () => ad.Row.ExternalId;
-			pledgesSource.DataSource = pledges = new FilteredTable<Pledge>(
-				Program.Table<Pledge>(),
+
+			pledgesSource.DataSource = pledges = Program.Table<Pledge>().Filter(
 				p => p.ExternalSource == "Journal " + journal.Year && p.ExternalId == externalId()
 			);
-			paymentsSource.DataSource = payments = new FilteredTable<Payment>(
-				Program.Table<Payment>(),
+			paymentsSource.DataSource = payments = Program.Table<Payment>().Filter(
 				p => p.ExternalSource == "Journal " + journal.Year && p.ExternalId == externalId()
 			);
 			CheckWarnings();
+
+			//I need to call BeginInvoke so that the new row gets painted first.
+			pledges.RowAdded += delegate {BeginInvoke(new Action( pledgesView.BestFitColumns)); };
+			payments.RowAdded += delegate {BeginInvoke(new Action( paymentsView.BestFitColumns)); };
 		}
 
 		private void adType_SelectedValueChanged(object sender, EventArgs e) {
