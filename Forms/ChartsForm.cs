@@ -28,6 +28,7 @@ namespace ShomreiTorah.Journal.Forms {
 			InitializeComponent();
 			this.year = year;
 			Text = "Journal " + year + " Charts";
+			xtraTabControl1.SelectedTabPageIndex = 0;
 		}
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
