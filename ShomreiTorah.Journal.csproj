@@ -39,7 +39,7 @@
     <PublishUrl>L:\Community\Rabbi Weinberger%27s Shul\Melave Malka\Journal Addin\Singularity Publish\</PublishUrl>
     <InstallUrl>\\Schabse\Personal Files\Community\Rabbi Weinberger%27s Shul\Melave Malka\Journal Addin\Singularity Publish\</InstallUrl>
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.6</ApplicationVersion>
+    <ApplicationVersion>1.0.0.8</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -243,6 +243,12 @@
     <Compile Include="AdShape.cs" />
     <Compile Include="AdVerifier.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Forms\AdsGridForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AdsGridForm.Designer.cs">
+      <DependentUpon>AdsGridForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ChartsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -269,6 +275,9 @@
     </Compile>
     <EmbeddedResource Include="AddIn\AdPane.resx">
       <DependentUpon>AdPane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AdsGridForm.resx">
+      <DependentUpon>AdsGridForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ChartsForm.resx">
       <DependentUpon>ChartsForm.cs</DependentUpon>

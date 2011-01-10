@@ -97,6 +97,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			new Forms.WarningsForm(control.Journal()).Show(Globals.ThisAddIn.Application.Window());
 		}
 		public void ShowCharts(IRibbonControl control) { new Forms.ChartsForm(control.Journal().Year).Show(Globals.ThisAddIn.Application.Window()); }
+		public void ShowGrid(IRibbonControl control) { new Forms.AdsGridForm(control.Journal()).Show(Globals.ThisAddIn.Application.Window()); }
 
 		public void SaveDB(IRibbonControl control) { Program.Current.SaveDatabase(); }
 		public void RefreshDB(IRibbonControl control) {

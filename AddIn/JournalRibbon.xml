@@ -23,8 +23,12 @@
 					<button id="RefreshDB" label="Refresh Data" imageMso="DataRefreshAll" size="large" supertip="Saves any changes, then reloads the database from SQL Server."
 							onAction="RefreshDB"/>
 					<separator id="S3" />
-					<button id="ShowAllWarnings" label="All Warnings" image="WarningWindow32" size="large" supertip="Shows all warnings about ads in the journal."
-							onAction="ShowWarningsForm"/>
+					<button id="ShowCharts"			label="Show Charts"		size="large" imageMso="ChartTypeAreaInsertGallery"
+							onAction="ShowCharts"		supertip="Displays charts of the various aspects of  the journal." />
+					<button id="ShowGrid"			label="Show Grid"		size="large" imageMso="CustomTablesGallery"
+							onAction="ShowGrid"		supertip="Displays a grid with all of the ads." />
+					<button id="ShowAllWarnings"	label="All Warnings"	size="large" image="WarningWindow32"
+							onAction="ShowWarningsForm" supertip="Shows all warnings about ads in the journal." />
 				</group>
 				<group id="AdsGroup" label="Ads">
 					<button id="DeleteAd" imageMso="ReviewDeleteComment" label="Delete Ad" size="large" screentip="Delete Ad" supertip="Deletes this ad from the presentation and the database."
@@ -44,7 +48,7 @@
 					<box id="StatsLabels" boxStyle="vertical">
 						<labelControl id="L14" label="Pledged"/>
 						<labelControl id="L15" label="Paid"/>
-						<labelControl id="L16" label="Pages"/>
+						<labelControl id="L16" label="Ads"/>
 					</box>
 					<box id="StatsValues" boxStyle="vertical">
 						<labelControl id="TotalPledged"	getLabel="GetTotalPledged"	/>
@@ -52,7 +56,7 @@
 						<labelControl id="AdCount"		getLabel="GetAdCount"		/>
 					</box>
 					<dialogBoxLauncher>
-						<button id="ShowCharts" label="Show Charts" supertip="Displays charts of the various aspects of  the journal." onAction="ShowCharts"/>
+						<button id="ShowCharts2" label="Show Charts" supertip="Displays charts of the various aspects of  the journal." onAction="ShowCharts"/>
 					</dialogBoxLauncher>
 				</group>
 				<group id="AttendanceGroup" label="Attendance">
