@@ -252,6 +252,7 @@ namespace ShomreiTorah.Journal {
 
 			if (ad.AdType.AdsPerPage == 1 && newAdType.AdsPerPage == 1) {
 				slide.CustomLayout = Presentation.SlideMaster.CustomLayouts.GetLayout(newAdType.Name);
+				slide.Tags.Add(TagAdType, newAdType.Name);	//Add overwrites existing tags.
 
 				int newPos = GetAdPosition(newAdType);
 				//If it is after than the current position,  decrement it
@@ -272,7 +273,7 @@ namespace ShomreiTorah.Journal {
 					newShape = CreateAdShape(newAdType);
 					newShape.TextFrame.TextRange.Paste();
 				}
-				DeleteAdShape(ad);	  
+				DeleteAdShape(ad);
 
 				//After deleting the old shape, plug in the new one
 				ad.Shape = newShape;
