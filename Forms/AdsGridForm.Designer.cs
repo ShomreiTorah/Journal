@@ -53,6 +53,8 @@ namespace ShomreiTorah.Journal.Forms {
 			// 
 			// colDateAdded
 			// 
+			this.colDateAdded.DisplayFormat.FormatString = "g";
+			this.colDateAdded.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
 			this.colDateAdded.FieldName = "DateAdded";
 			this.colDateAdded.Name = "colDateAdded";
 			this.colDateAdded.OptionsColumn.AllowEdit = false;

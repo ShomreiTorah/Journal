@@ -19,6 +19,7 @@ namespace ShomreiTorah.Journal.Forms {
 			InitializeComponent();
 			journal = jp;
 			Text = "Journal " + jp.Year + " Ads";
+			grid.DataMember = null;
 			grid.DataSource = datasource = Program.Table<JournalAd>().Filter(ad => ad.Year == journal.Year);
 		}
 
