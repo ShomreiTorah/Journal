@@ -33,15 +33,6 @@ CREATE TABLE MelaveMalka.Invitees (
 	EmailSubject	NVARCHAR(256)		NULL		DEFAULT(NULL),
 	EmailSource		NTEXT				NULL		DEFAULT(NULL)
 );
---For call list
-ALTER TABLE MelaveMalka.Invitees ADD ShouldCall	BIT					NOT NULL	DEFAULT(0);
-ALTER TABLE MelaveMalka.Invitees ADD [Caller]	UNIQUEIDENTIFIER	NULL		DEFAULT(NULL)	REFERENCES MelaveMalka.Callers(RowId);
-ALTER TABLE MelaveMalka.Invitees ADD CallerNote	NVARCHAR(512)		NULL;
-
---For reminder emails
-ALTER TABLE MelaveMalka.Invitees ADD ShouldEmail	BIT				NOT NULL	DEFAULT(0);
-ALTER TABLE MelaveMalka.Invitees ADD EmailSubject	NVARCHAR(256)	NULL		DEFAULT(NULL);
-ALTER TABLE MelaveMalka.Invitees ADD EmailSource	NTEXT			NULL		DEFAULT(NULL);
 
 CREATE TABLE MelaveMalka.ReminderEmailLog (
 	RowId			UNIQUEIDENTIFIER	NOT NULL	ROWGUIDCOL	PRIMARY KEY DEFAULT(newid()),
