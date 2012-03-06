@@ -62,11 +62,6 @@ namespace ShomreiTorah.Journal {
 			if (Regex.IsMatch(text, String.Format(@"\bThe {0}s\b", Regex.Escape(person.LastName))))
 				return true;
 
-			if (Regex.IsMatch(text, String.Format(@"[\n\r\v^]{0} {1}[\n\r\v$]", Regex.Escape(person.HisName), Regex.Escape(person.LastName))))
-				return true;
-			if (Regex.IsMatch(text, String.Format(@"[\n\r\v^]{0} {1}[\n\r\v$]", Regex.Escape(person.HerName), Regex.Escape(person.LastName))))
-				return true;
-
 			if (!String.IsNullOrWhiteSpace(person.HisName)
 			 && Regex.IsMatch(text, String.Format(@"(^|[\n\r\v])\s*{0} {1}\s*([\n\r\v]|$)", Regex.Escape(person.HisName), Regex.Escape(person.LastName))))
 				return true;
@@ -75,11 +70,11 @@ namespace ShomreiTorah.Journal {
 				return true;
 
 			if (Regex.IsMatch(text, String.Format(@"\b{0}\W(.*?\W)?{1}\W(.*?\W)?{2}\b",
-									Regex.Escape(person.HisName), Regex.Escape(person.HerName), Regex.Escape(person.LastName))))
+									Regex.Escape(person.HisName ?? ""), Regex.Escape(person.HerName ?? ""), Regex.Escape(person.LastName))))
 				return true;
 
 			if (Regex.IsMatch(text, String.Format(@"\b{1}\W(.*?\W)?{0}\W(.*?\W)?{2}\b",
-									Regex.Escape(person.HisName), Regex.Escape(person.HerName), Regex.Escape(person.LastName))))
+									Regex.Escape(person.HisName ?? ""), Regex.Escape(person.HerName ?? ""), Regex.Escape(person.LastName))))
 				return true;
 
 			return false;
