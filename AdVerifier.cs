@@ -69,11 +69,11 @@ namespace ShomreiTorah.Journal {
 			 && Regex.IsMatch(text, String.Format(@"(^|[\n\r\v])\s*{0} {1}\s*([\n\r\v]|$)", Regex.Escape(person.HerName), Regex.Escape(person.LastName))))
 				return true;
 
-			if (Regex.IsMatch(text, String.Format(@"\b{0}\W(.*?\W)?{1}\W(.*?\W)?{2}\b",
+			if (Regex.IsMatch(text, String.Format(@"\b{0} & {1}\W(.*?\W)?{2}\b",
 									Regex.Escape(person.HisName ?? ""), Regex.Escape(person.HerName ?? ""), Regex.Escape(person.LastName))))
 				return true;
 
-			if (Regex.IsMatch(text, String.Format(@"\b{1}\W(.*?\W)?{0}\W(.*?\W)?{2}\b",
+			if (Regex.IsMatch(text, String.Format(@"\b{1} & {0}\W(.*?\W)?{2}\b",
 									Regex.Escape(person.HisName ?? ""), Regex.Escape(person.HerName ?? ""), Regex.Escape(person.LastName))))
 				return true;
 
