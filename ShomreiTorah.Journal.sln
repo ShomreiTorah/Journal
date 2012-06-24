@@ -1,26 +1,58 @@
-
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShomreiTorah.Journal", "ShomreiTorah.Journal.csproj", "{106AD9A0-F555-4B18-87FC-40B57B413D08}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{CF873929-CE4F-4032-8D20-BF30BECF6053}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShomreiTorah.Common", "..\..\Libraries\ShomreiTorah.Common\ShomreiTorah.Common.csproj", "{1308A6E1-7787-49F6-A19C-8AF327DAF9B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShomreiTorah.WinForms", "..\..\Libraries\ShomreiTorah.WinForms\ShomreiTorah.WinForms.csproj", "{0B927F97-8CDD-47CB-B775-CA1E0AB2409C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShomreiTorah.Data", "..\..\Libraries\ShomreiTorah.Data\ShomreiTorah.Data.csproj", "{88D62EF0-7A6C-403E-80EF-6CEFE734DD53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShomreiTorah.Singularity", "..\..\Libraries\ShomreiTorah.Singularity\ShomreiTorah.Singularity.csproj", "{53C1A3A0-B443-4C28-895B-5E4DFE803A1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShomreiTorah.Data.UI", "..\..\Libraries\ShomreiTorah.Data.UI\ShomreiTorah.Data.UI.csproj", "{43AD72A0-F262-4561-B5C4-2686AE0B5E03}"
+EndProject
 Global
-	GlobalSection(SourceCodeControl) = preSolution
-		SccNumberOfProjects = 2
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = ShomreiTorah.Journal.csproj
-		SccLocalPath1 = .
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0B927F97-8CDD-47CB-B775-CA1E0AB2409C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B927F97-8CDD-47CB-B775-CA1E0AB2409C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B927F97-8CDD-47CB-B775-CA1E0AB2409C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B927F97-8CDD-47CB-B775-CA1E0AB2409C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{106AD9A0-F555-4B18-87FC-40B57B413D08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{106AD9A0-F555-4B18-87FC-40B57B413D08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{106AD9A0-F555-4B18-87FC-40B57B413D08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{106AD9A0-F555-4B18-87FC-40B57B413D08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1308A6E1-7787-49F6-A19C-8AF327DAF9B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1308A6E1-7787-49F6-A19C-8AF327DAF9B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1308A6E1-7787-49F6-A19C-8AF327DAF9B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1308A6E1-7787-49F6-A19C-8AF327DAF9B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43AD72A0-F262-4561-B5C4-2686AE0B5E03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43AD72A0-F262-4561-B5C4-2686AE0B5E03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43AD72A0-F262-4561-B5C4-2686AE0B5E03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43AD72A0-F262-4561-B5C4-2686AE0B5E03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53C1A3A0-B443-4C28-895B-5E4DFE803A1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53C1A3A0-B443-4C28-895B-5E4DFE803A1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53C1A3A0-B443-4C28-895B-5E4DFE803A1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53C1A3A0-B443-4C28-895B-5E4DFE803A1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88D62EF0-7A6C-403E-80EF-6CEFE734DD53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88D62EF0-7A6C-403E-80EF-6CEFE734DD53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88D62EF0-7A6C-403E-80EF-6CEFE734DD53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88D62EF0-7A6C-403E-80EF-6CEFE734DD53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0B927F97-8CDD-47CB-B775-CA1E0AB2409C} = {CF873929-CE4F-4032-8D20-BF30BECF6053}
+		{1308A6E1-7787-49F6-A19C-8AF327DAF9B5} = {CF873929-CE4F-4032-8D20-BF30BECF6053}
+		{43AD72A0-F262-4561-B5C4-2686AE0B5E03} = {CF873929-CE4F-4032-8D20-BF30BECF6053}
+		{53C1A3A0-B443-4C28-895B-5E4DFE803A1C} = {CF873929-CE4F-4032-8D20-BF30BECF6053}
+		{88D62EF0-7A6C-403E-80EF-6CEFE734DD53} = {CF873929-CE4F-4032-8D20-BF30BECF6053}
 	EndGlobalSection
 EndGlobal
