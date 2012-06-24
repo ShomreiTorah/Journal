@@ -219,7 +219,7 @@ namespace ShomreiTorah.Journal.Forms {
 			piePointOptions2.PointView = DevExpress.XtraCharts.PointView.Argument;
 			piePointOptions2.ValueNumericOptions.Format = DevExpress.XtraCharts.NumericFormat.Currency;
 			piePointOptions2.ValueNumericOptions.Precision = 0;
-			series1.PointOptions = piePointOptions2;
+			series1.Label.PointOptions = piePointOptions2;
 			series1.SynchronizePointOptions = false;
 			series1.ValueDataMembersSerializable = "Value";
 			pieSeriesView1.RuntimeExploding = false;
@@ -283,7 +283,7 @@ namespace ShomreiTorah.Journal.Forms {
 			pointOptions5.Pattern = "This year: {V}";
 			pointOptions5.ValueNumericOptions.Format = DevExpress.XtraCharts.NumericFormat.Currency;
 			pointOptions5.ValueNumericOptions.Precision = 0;
-			series4.PointOptions = pointOptions5;
+			series4.Label.PointOptions = pointOptions5;
 			series4.SynchronizePointOptions = false;
 			series4.ValueDataMembersSerializable = "TotalValue";
 			lineSeriesView4.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
@@ -301,7 +301,7 @@ namespace ShomreiTorah.Journal.Forms {
 			series5.Label = pointSeriesLabel5;
 			series5.Name = "LastYear";
 			pointOptions6.ValueNumericOptions.Format = DevExpress.XtraCharts.NumericFormat.Currency;
-			series5.PointOptions = pointOptions6;
+			series5.Label.PointOptions= pointOptions6;
 			series5.ValueDataMembersSerializable = "TotalValue";
 			lineSeriesView5.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
 			lineSeriesView5.LineMarkerOptions.Visible = false;
@@ -346,7 +346,7 @@ namespace ShomreiTorah.Journal.Forms {
 			series6.Name = "Series 1";
 			piePointOptions4.Pattern = "{A}s";
 			piePointOptions4.PointView = DevExpress.XtraCharts.PointView.Argument;
-			series6.PointOptions = piePointOptions4;
+			series6.Label.PointOptions = piePointOptions4;
 			series6.SynchronizePointOptions = false;
 			series6.ValueDataMembersSerializable = "Count";
 			pieSeriesView3.RuntimeExploding = false;
@@ -392,7 +392,7 @@ namespace ShomreiTorah.Journal.Forms {
 			pointSeriesLabel7.Visible = false;
 			this.chartControl3.SeriesTemplate.Label = pointSeriesLabel7;
 			pointOptions7.ArgumentDateTimeOptions.Format = DevExpress.XtraCharts.DateTimeFormat.MonthAndDay;
-			this.chartControl3.SeriesTemplate.PointOptions = pointOptions7;
+			this.chartControl3.SeriesTemplate.Label.PointOptions = pointOptions7;
 			this.chartControl3.SeriesTemplate.ValueDataMembersSerializable = "TotalCount";
 			this.chartControl3.SeriesTemplate.View = stackedAreaSeriesView1;
 			this.chartControl3.Size = new System.Drawing.Size(745, 456);
@@ -507,7 +507,7 @@ namespace ShomreiTorah.Journal.Forms {
 			pointOptions2.Pattern = "This year: {V}";
 			pointOptions2.ValueNumericOptions.Format = DevExpress.XtraCharts.NumericFormat.Currency;
 			pointOptions2.ValueNumericOptions.Precision = 0;
-			series2.PointOptions = pointOptions2;
+			series2.Label.PointOptions = pointOptions2;
 			series2.SynchronizePointOptions = false;
 			series2.ValueDataMembersSerializable = "TotalCount";
 			lineSeriesView1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
@@ -525,7 +525,7 @@ namespace ShomreiTorah.Journal.Forms {
 			series3.Label = pointSeriesLabel2;
 			series3.Name = "LastYear";
 			pointOptions3.ValueNumericOptions.Format = DevExpress.XtraCharts.NumericFormat.Currency;
-			series3.PointOptions = pointOptions3;
+			series3.Label.PointOptions = pointOptions3;
 			series3.ValueDataMembersSerializable = "TotalCount";
 			lineSeriesView2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
 			lineSeriesView2.LineMarkerOptions.Visible = false;

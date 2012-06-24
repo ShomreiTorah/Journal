@@ -95,7 +95,7 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 
 		public Microsoft.Office.Tools.CustomTaskPane GetTaskPane(Presentation presentation) {
-			return CustomTaskPanes.FirstOrDefault(ctp => presentation.Windows.Cast<object>().Contains(ctp.Window));
+			return CustomTaskPanes.FirstOrDefault(ctp => presentation.Windows.Cast<object>().Contains((object)ctp.Window));
 		}
 		#endregion
 

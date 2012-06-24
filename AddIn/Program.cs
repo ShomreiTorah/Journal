@@ -75,7 +75,6 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 
 		protected override void RegisterSettings() {
-			OfficeSkins.Register();
 			SkinManager.EnableFormSkinsIfNotVista();
 			UserLookAndFeel.Default.SkinName = "Office 2010 Blue";
 			Dialog.DefaultTitle = "Shomrei Torah Journal";
