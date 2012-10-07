@@ -114,8 +114,8 @@ namespace ShomreiTorah.Journal.AddIn {
 			CheckWarnings();
 
 			//I need to call BeginInvoke so that the new row gets painted first.
-			pledges.RowAdded += delegate {BeginInvoke(new Action( pledgesView.BestFitColumns)); };
-			payments.RowAdded += delegate {BeginInvoke(new Action( paymentsView.BestFitColumns)); };
+			pledges.RowAdded += delegate { BeginInvoke(new Action(pledgesView.BestFitColumns)); };
+			payments.RowAdded += delegate { BeginInvoke(new Action(paymentsView.BestFitColumns)); };
 		}
 
 		private void adType_SelectedValueChanged(object sender, EventArgs e) {
@@ -258,6 +258,7 @@ namespace ShomreiTorah.Journal.AddIn {
 					payment.Person = pledge.Person;
 					payment.Amount = pledge.Amount;
 					Program.Table<Payment>().Rows.Add(payment);
+					Program.Table<PledgeLink>().Rows.Add(new PledgeLink { Pledge = pledge, Payment = payment, Amount = pledge.Amount });
 
 					var rowHandle = paymentsView.GetRowHandle(payments.Rows.IndexOf(payment));
 					paymentsView.SetSelection(rowHandle, makeVisible: true);
