@@ -52,6 +52,9 @@ namespace ShomreiTorah.Journal.AddIn {
 		JournalPresentation RegisterJournal(Presentation presentation, bool createTaskPane = true) {
 			Program.Initialize();	//Force Dialog.DefaultTitle before warning dialogs
 
+			if (Program.Current.DataContext.Table<Person>().Rows.Count == 0)
+				Program.Current.RefreshDatabase();
+
 			if (!addedAppHandlers) {
 				//Since I only need these handlers if there's a journal open,
 				//I only add them now so that they won't load assemblies when
@@ -76,7 +79,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			if (parsedYear < 2000)	//If we didn't find any years in the segments
 				Dialog.Show("The journal probably ought to be in a folder for its year.", MessageBoxIcon.Warning);
 
-			var jp = new JournalPresentation(presentation, Program.Table<JournalAd>());
+			var jp = new JournalPresentation(presentation, Program.Current.DataContext);
 			openJournals.Add(presentation, jp);
 			if (createTaskPane)
 				CreateTaskPane(jp);

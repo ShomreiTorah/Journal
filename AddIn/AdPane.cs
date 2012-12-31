@@ -127,6 +127,10 @@ namespace ShomreiTorah.Journal.AddIn {
 			}
 			if (newType == ad.AdType)
 				return;
+
+			if (!journal.ConfirmModification())
+				return;
+
 			if (!CheckAdjustPledges("Change Ad Type", newType: newType)) {
 				adType.EditValue = ad.AdType;		//Reset the editor's value.
 				return;
@@ -220,7 +224,8 @@ namespace ShomreiTorah.Journal.AddIn {
 					return;
 				}
 			}
-			if (!e.Person.Invitees.Any(i => i.Year == journal.Year)) {
+			if (e.Method == PersonSelectionReason.ResultClick
+			 && !e.Person.Invitees.Any(i => i.Year == journal.Year)) {
 				if (!Dialog.Warn(e.Person.VeryFullName + " has not been invited to the Melave Malka.\r\nAre you sure you selected the correct person?"))
 					e.Cancel = true;
 			}
@@ -228,6 +233,10 @@ namespace ShomreiTorah.Journal.AddIn {
 
 		private void pledgeAdder_EditValueChanged(object sender, EventArgs e) {
 			if (pledgeAdder.SelectedPerson == null) return;
+
+			if (!journal.ConfirmModification())
+				return;
+
 			var pledge = ad.Row.CreatePledge();
 			pledge.Person = pledgeAdder.SelectedPerson;
 			pledge.Amount = ad.AdType.DefaultPrice;

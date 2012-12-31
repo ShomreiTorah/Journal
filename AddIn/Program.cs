@@ -125,6 +125,7 @@ namespace ShomreiTorah.Journal.AddIn {
 
 			context.Tables.AddTable(Person.CreateTable());
 			context.Tables.AddTable(Pledge.CreateTable());
+			context.Tables.AddTable(PledgeLink.CreateTable());
 			context.Tables.AddTable(Payment.CreateTable());
 			context.Tables.AddTable(Deposit.CreateTable());
 			context.Tables.AddTable(JournalAd.CreateTable());

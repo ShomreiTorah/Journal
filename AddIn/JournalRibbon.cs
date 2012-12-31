@@ -107,6 +107,10 @@ namespace ShomreiTorah.Journal.AddIn {
 
 		public void InsertAd(IRibbonControl control, string selectedId, int selectedIndex) {
 			var jp = control.Journal();
+
+			if (!jp.ConfirmModification())
+				return;
+
 			var typeName = selectedId.Substring("Insert".Length);
 			jp.CreateAd(Names.AdTypes.First(t => t.Name == typeName)).Shape.ForceSelect();
 		}
@@ -117,6 +121,9 @@ namespace ShomreiTorah.Journal.AddIn {
 			string message;
 			var ad = control.CurrentAd();
 			if (ad == null) return;
+
+			if (!control.Journal().ConfirmModification())
+				return;
 
 			if (ad.Row.Payments.Any())
 				message = String.Format(CultureInfo.CurrentCulture, "Are you sure you want to delete this ad?\r\nThe ad's {0:c} in payments will not be deleted.\r\nYou should probably delete them first.",

@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using Microsoft.Office.Interop.PowerPoint;
 using ShomreiTorah.Common;
 using ShomreiTorah.Data;
@@ -51,17 +49,18 @@ namespace ShomreiTorah.Journal {
 			presentation.Tags.Delete(TagYear);
 		}
 
-		///<summary>Creates a JournalPresentation from an existing PowerPoint presentation and a Singularity table containing ad data.</summary>
-		public JournalPresentation(Presentation presentation, TypedTable<JournalAd> adsTable) {
+		///<summary>Creates a JournalPresentation from an existing PowerPoint presentation and a Singularity database.</summary>
+		public JournalPresentation(Presentation presentation, DataContext dc) {
 			if (presentation == null) throw new ArgumentNullException("presentation");
-			if (adsTable == null) throw new ArgumentNullException("adsTable");
+			if (dc == null) throw new ArgumentNullException("dc");
 
 			Year = GetYear(presentation).Value;
+			MelaveMalka = dc.Table<MelaveMalkaInfo>().Rows.FirstOrDefault(i => i.Year == Year);
 			Ads = new ReadOnlyCollection<AdShape>(writableAds);
 			Presentation = presentation;
-			AdsTable = adsTable;
+			AdsTable = dc.Table<JournalAd>();
 
-			var idMap = adsTable.Rows.Where(ad => ad.Year == Year).ToDictionary(ad => ad.AdId.ToString());
+			var idMap = AdsTable.Rows.Where(ad => ad.Year == Year).ToDictionary(ad => ad.AdId.ToString());
 			writableAds.AddRange(
 				from slide in Presentation.Slides.Items()
 				where slide.AdType() != null
@@ -74,6 +73,8 @@ namespace ShomreiTorah.Journal {
 
 		///<summary>Gets the year of the journal managed by this instance.</summary>
 		public int Year { get; private set; }
+		///<summary>Gets the information about the Melava Malka managed by this instance.</summary>
+		public MelaveMalkaInfo MelaveMalka { get; private set; }
 		///<summary>Gets the presentation containing the ads.</summary>
 		public Presentation Presentation { get; private set; }
 		///<summary>Gets the Singularity table containing the ad data.</summary>
@@ -90,6 +91,18 @@ namespace ShomreiTorah.Journal {
 		public AdShape GetAd(JournalAd ad) {
 			if (ad == null) throw new ArgumentNullException("ad");
 			return writableAds.GetAd(ad.AdId.ToString());
+		}
+
+		///<summary>Confirms that the user is not mistakenly modifying an old journal.</summary>
+		///<returns>False if the user is making a mistake.</returns>
+		public bool ConfirmModification() {
+			if (MelaveMalka == null) {
+				Dialog.Inform("Please enter the Melave Malka info in the Billing.");
+			} else if (DateTime.Now > MelaveMalka.MelaveMalkaDate) {
+				if (!Dialog.Warn("Are you sure you want to modify the " + Year + " journal post-facto?"))
+					return false;
+			}
+			return true;
 		}
 
 		#region Creation
