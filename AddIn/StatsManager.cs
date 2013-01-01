@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using ShomreiTorah.Data;
 using ShomreiTorah.Singularity;
-using System.Globalization;
 
 namespace ShomreiTorah.Journal.AddIn {
 	class StatsManager {

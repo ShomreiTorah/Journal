@@ -32,6 +32,19 @@ namespace ShomreiTorah.Journal.Forms {
 			DevExpress.XtraCharts.PieSeriesView pieSeriesView1 = new DevExpress.XtraCharts.PieSeriesView();
 			DevExpress.XtraCharts.PieSeriesLabel pieSeriesLabel2 = new DevExpress.XtraCharts.PieSeriesLabel();
 			DevExpress.XtraCharts.PieSeriesView pieSeriesView2 = new DevExpress.XtraCharts.PieSeriesView();
+			DevExpress.XtraCharts.XYDiagram xyDiagram1 = new DevExpress.XtraCharts.XYDiagram();
+			DevExpress.XtraCharts.ConstantLine constantLine1 = new DevExpress.XtraCharts.ConstantLine();
+			DevExpress.XtraCharts.Series series2 = new DevExpress.XtraCharts.Series();
+			DevExpress.XtraCharts.PointSeriesLabel pointSeriesLabel1 = new DevExpress.XtraCharts.PointSeriesLabel();
+			DevExpress.XtraCharts.PointOptions pointOptions1 = new DevExpress.XtraCharts.PointOptions();
+			DevExpress.XtraCharts.PointOptions pointOptions2 = new DevExpress.XtraCharts.PointOptions();
+			DevExpress.XtraCharts.LineSeriesView lineSeriesView1 = new DevExpress.XtraCharts.LineSeriesView();
+			DevExpress.XtraCharts.Series series3 = new DevExpress.XtraCharts.Series();
+			DevExpress.XtraCharts.PointSeriesLabel pointSeriesLabel2 = new DevExpress.XtraCharts.PointSeriesLabel();
+			DevExpress.XtraCharts.PointOptions pointOptions3 = new DevExpress.XtraCharts.PointOptions();
+			DevExpress.XtraCharts.LineSeriesView lineSeriesView2 = new DevExpress.XtraCharts.LineSeriesView();
+			DevExpress.XtraCharts.PointSeriesLabel pointSeriesLabel3 = new DevExpress.XtraCharts.PointSeriesLabel();
+			DevExpress.XtraCharts.LineSeriesView lineSeriesView3 = new DevExpress.XtraCharts.LineSeriesView();
 			DevExpress.XtraCharts.XYDiagram xyDiagram2 = new DevExpress.XtraCharts.XYDiagram();
 			DevExpress.XtraCharts.ConstantLine constantLine2 = new DevExpress.XtraCharts.ConstantLine();
 			DevExpress.XtraCharts.Series series4 = new DevExpress.XtraCharts.Series();
@@ -62,19 +75,6 @@ namespace ShomreiTorah.Journal.Forms {
 			DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
-			DevExpress.XtraCharts.XYDiagram xyDiagram1 = new DevExpress.XtraCharts.XYDiagram();
-			DevExpress.XtraCharts.ConstantLine constantLine1 = new DevExpress.XtraCharts.ConstantLine();
-			DevExpress.XtraCharts.Series series2 = new DevExpress.XtraCharts.Series();
-			DevExpress.XtraCharts.PointSeriesLabel pointSeriesLabel1 = new DevExpress.XtraCharts.PointSeriesLabel();
-			DevExpress.XtraCharts.PointOptions pointOptions1 = new DevExpress.XtraCharts.PointOptions();
-			DevExpress.XtraCharts.PointOptions pointOptions2 = new DevExpress.XtraCharts.PointOptions();
-			DevExpress.XtraCharts.LineSeriesView lineSeriesView1 = new DevExpress.XtraCharts.LineSeriesView();
-			DevExpress.XtraCharts.Series series3 = new DevExpress.XtraCharts.Series();
-			DevExpress.XtraCharts.PointSeriesLabel pointSeriesLabel2 = new DevExpress.XtraCharts.PointSeriesLabel();
-			DevExpress.XtraCharts.PointOptions pointOptions3 = new DevExpress.XtraCharts.PointOptions();
-			DevExpress.XtraCharts.LineSeriesView lineSeriesView2 = new DevExpress.XtraCharts.LineSeriesView();
-			DevExpress.XtraCharts.PointSeriesLabel pointSeriesLabel3 = new DevExpress.XtraCharts.PointSeriesLabel();
-			DevExpress.XtraCharts.LineSeriesView lineSeriesView3 = new DevExpress.XtraCharts.LineSeriesView();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChartsForm));
 			this.adTypesSource = new ShomreiTorah.Journal.Forms.ChartBindingSource(this.components);
 			this.thisYearsRunningTotal = new ShomreiTorah.Journal.Forms.ChartBindingSource(this.components);
@@ -82,6 +82,8 @@ namespace ShomreiTorah.Journal.Forms {
 			this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
 			this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
 			this.chartControl1 = new DevExpress.XtraCharts.ChartControl();
+			this.xtraTabPage6 = new DevExpress.XtraTab.XtraTabPage();
+			this.chartControl6 = new DevExpress.XtraCharts.ChartControl();
 			this.xtraTabPage5 = new DevExpress.XtraTab.XtraTabPage();
 			this.chartControl5 = new DevExpress.XtraCharts.ChartControl();
 			this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
@@ -92,8 +94,6 @@ namespace ShomreiTorah.Journal.Forms {
 			this.xtraTabPage4 = new DevExpress.XtraTab.XtraTabPage();
 			this.chartControl4 = new DevExpress.XtraCharts.ChartControl();
 			this.refresh = new DevExpress.XtraEditors.SimpleButton();
-			this.xtraTabPage6 = new DevExpress.XtraTab.XtraTabPage();
-			this.chartControl6 = new DevExpress.XtraCharts.ChartControl();
 			((System.ComponentModel.ISupportInitialize)(this.adTypesSource)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.thisYearsRunningTotal)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.lastYearsRunningTotal)).BeginInit();
@@ -107,6 +107,17 @@ namespace ShomreiTorah.Journal.Forms {
 			((System.ComponentModel.ISupportInitialize)(pieSeriesView1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(pieSeriesLabel2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(pieSeriesView2)).BeginInit();
+			this.xtraTabPage6.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.chartControl6)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(xyDiagram1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(series2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(pointSeriesLabel1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(lineSeriesView1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(series3)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(pointSeriesLabel2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(lineSeriesView2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(pointSeriesLabel3)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(lineSeriesView3)).BeginInit();
 			this.xtraTabPage5.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chartControl5)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(xyDiagram2)).BeginInit();
@@ -136,17 +147,6 @@ namespace ShomreiTorah.Journal.Forms {
 			((System.ComponentModel.ISupportInitialize)(xyDiagram4)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(pointSeriesLabel8)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(stackedAreaSeriesView2)).BeginInit();
-			this.xtraTabPage6.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.chartControl6)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(xyDiagram1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(series2)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(pointSeriesLabel1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(lineSeriesView1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(series3)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(pointSeriesLabel2)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(lineSeriesView2)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(pointSeriesLabel3)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(lineSeriesView3)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// adTypesSource
@@ -185,7 +185,7 @@ namespace ShomreiTorah.Journal.Forms {
 			// 
 			this.xtraTabPage1.Controls.Add(this.chartControl1);
 			this.xtraTabPage1.Name = "xtraTabPage1";
-			this.xtraTabPage1.Size = new System.Drawing.Size(745, 456);
+			this.xtraTabPage1.Size = new System.Drawing.Size(747, 457);
 			this.xtraTabPage1.Text = "Ad Value by Type";
 			// 
 			// chartControl1
@@ -204,22 +204,22 @@ namespace ShomreiTorah.Journal.Forms {
 			pieSeriesLabel1.FillStyle.FillMode = DevExpress.XtraCharts.FillMode.Empty;
 			pieSeriesLabel1.Font = new System.Drawing.Font("Calibri", 11F);
 			pieSeriesLabel1.LineVisible = true;
+			piePointOptions1.Pattern = "{A}s";
+			piePointOptions1.PercentOptions.ValueAsPercent = false;
+			piePointOptions1.PointView = DevExpress.XtraCharts.PointView.Argument;
+			piePointOptions1.ValueNumericOptions.Format = DevExpress.XtraCharts.NumericFormat.Currency;
+			piePointOptions1.ValueNumericOptions.Precision = 0;
+			pieSeriesLabel1.PointOptions = piePointOptions1;
 			pieSeriesLabel1.Position = DevExpress.XtraCharts.PieSeriesLabelPosition.Radial;
 			pieSeriesLabel1.TextColor = System.Drawing.Color.White;
 			series1.Label = pieSeriesLabel1;
-			piePointOptions1.Pattern = "{A}s: {V}";
-			piePointOptions1.PercentOptions.ValueAsPercent = false;
-			piePointOptions1.PointView = DevExpress.XtraCharts.PointView.ArgumentAndValues;
-			piePointOptions1.ValueNumericOptions.Format = DevExpress.XtraCharts.NumericFormat.Currency;
-			piePointOptions1.ValueNumericOptions.Precision = 0;
-			series1.LegendPointOptions = piePointOptions1;
-			series1.Name = "Series 1";
-			piePointOptions2.Pattern = "{A}s";
+			piePointOptions2.Pattern = "{A}s: {V}";
 			piePointOptions2.PercentOptions.ValueAsPercent = false;
-			piePointOptions2.PointView = DevExpress.XtraCharts.PointView.Argument;
+			piePointOptions2.PointView = DevExpress.XtraCharts.PointView.ArgumentAndValues;
 			piePointOptions2.ValueNumericOptions.Format = DevExpress.XtraCharts.NumericFormat.Currency;
 			piePointOptions2.ValueNumericOptions.Precision = 0;
-			series1.Label.PointOptions = piePointOptions2;
+			series1.LegendPointOptions = piePointOptions2;
+			series1.Name = "Series 1";
 			series1.SynchronizePointOptions = false;
 			series1.ValueDataMembersSerializable = "Value";
 			pieSeriesView1.RuntimeExploding = false;
@@ -230,238 +230,14 @@ namespace ShomreiTorah.Journal.Forms {
 			this.chartControl1.SeriesTemplate.Label = pieSeriesLabel2;
 			pieSeriesView2.RuntimeExploding = false;
 			this.chartControl1.SeriesTemplate.View = pieSeriesView2;
-			this.chartControl1.Size = new System.Drawing.Size(745, 456);
+			this.chartControl1.Size = new System.Drawing.Size(747, 457);
 			this.chartControl1.TabIndex = 0;
-			// 
-			// xtraTabPage5
-			// 
-			this.xtraTabPage5.Controls.Add(this.chartControl5);
-			this.xtraTabPage5.Name = "xtraTabPage5";
-			this.xtraTabPage5.Size = new System.Drawing.Size(745, 456);
-			this.xtraTabPage5.Text = "This Year vs. Last Year (Price)";
-			// 
-			// chartControl5
-			// 
-			constantLine2.AxisValueSerializable = "0";
-			constantLine2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			constantLine2.LineStyle.DashStyle = DevExpress.XtraCharts.DashStyle.Dash;
-			constantLine2.LineStyle.Thickness = 2;
-			constantLine2.Name = "Deadline";
-			constantLine2.ShowBehind = true;
-			constantLine2.Title.Alignment = DevExpress.XtraCharts.ConstantLineTitleAlignment.Far;
-			constantLine2.Title.Font = new System.Drawing.Font("Tahoma", 10F);
-			xyDiagram2.AxisX.ConstantLines.AddRange(new DevExpress.XtraCharts.ConstantLine[] {
-            constantLine2});
-			xyDiagram2.AxisX.Label.EndText = " days";
-			xyDiagram2.AxisX.Range.ScrollingRange.SideMarginsEnabled = true;
-			xyDiagram2.AxisX.Range.SideMarginsEnabled = true;
-			xyDiagram2.AxisX.Reverse = true;
-			xyDiagram2.AxisX.Title.Text = "Days until deadline";
-			xyDiagram2.AxisX.Title.Visible = true;
-			xyDiagram2.AxisX.VisibleInPanesSerializable = "-1";
-			xyDiagram2.AxisY.NumericOptions.Format = DevExpress.XtraCharts.NumericFormat.Currency;
-			xyDiagram2.AxisY.NumericOptions.Precision = 0;
-			xyDiagram2.AxisY.Range.ScrollingRange.SideMarginsEnabled = true;
-			xyDiagram2.AxisY.Range.SideMarginsEnabled = true;
-			xyDiagram2.AxisY.VisibleInPanesSerializable = "-1";
-			xyDiagram2.LabelsResolveOverlappingMinIndent = 3;
-			this.chartControl5.Diagram = xyDiagram2;
-			this.chartControl5.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.chartControl5.Location = new System.Drawing.Point(0, 0);
-			this.chartControl5.Name = "chartControl5";
-			series4.ArgumentDataMember = "DeadlineDelta";
-			series4.ArgumentScaleType = DevExpress.XtraCharts.ScaleType.Numerical;
-			series4.DataSource = this.thisYearsRunningTotal;
-			pointSeriesLabel4.LineLength = 20;
-			pointSeriesLabel4.LineVisible = true;
-			pointSeriesLabel4.ResolveOverlappingMode = DevExpress.XtraCharts.ResolveOverlappingMode.HideOverlapped;
-			pointSeriesLabel4.Visible = false;
-			series4.Label = pointSeriesLabel4;
-			pointOptions4.PointView = DevExpress.XtraCharts.PointView.SeriesName;
-			series4.LegendPointOptions = pointOptions4;
-			series4.Name = "This Year";
-			pointOptions5.Pattern = "This year: {V}";
-			pointOptions5.ValueNumericOptions.Format = DevExpress.XtraCharts.NumericFormat.Currency;
-			pointOptions5.ValueNumericOptions.Precision = 0;
-			series4.Label.PointOptions = pointOptions5;
-			series4.SynchronizePointOptions = false;
-			series4.ValueDataMembersSerializable = "TotalValue";
-			lineSeriesView4.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-			lineSeriesView4.LineMarkerOptions.Color = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-			lineSeriesView4.LineMarkerOptions.Kind = DevExpress.XtraCharts.MarkerKind.Diamond;
-			lineSeriesView4.LineMarkerOptions.Size = 12;
-			lineSeriesView4.LineStyle.Thickness = 3;
-			lineSeriesView4.Shadow.Visible = true;
-			series4.View = lineSeriesView4;
-			series5.ArgumentDataMember = "DeadlineDelta";
-			series5.ArgumentScaleType = DevExpress.XtraCharts.ScaleType.Numerical;
-			series5.DataSource = this.lastYearsRunningTotal;
-			pointSeriesLabel5.LineVisible = true;
-			pointSeriesLabel5.Visible = false;
-			series5.Label = pointSeriesLabel5;
-			series5.Name = "LastYear";
-			pointOptions6.ValueNumericOptions.Format = DevExpress.XtraCharts.NumericFormat.Currency;
-			series5.Label.PointOptions= pointOptions6;
-			series5.ValueDataMembersSerializable = "TotalValue";
-			lineSeriesView5.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-			lineSeriesView5.LineMarkerOptions.Visible = false;
-			series5.View = lineSeriesView5;
-			this.chartControl5.SeriesSerializable = new DevExpress.XtraCharts.Series[] {
-        series4,
-        series5};
-			pointSeriesLabel6.LineVisible = true;
-			this.chartControl5.SeriesTemplate.Label = pointSeriesLabel6;
-			this.chartControl5.SeriesTemplate.View = lineSeriesView6;
-			this.chartControl5.Size = new System.Drawing.Size(745, 456);
-			this.chartControl5.TabIndex = 0;
-			// 
-			// xtraTabPage2
-			// 
-			this.xtraTabPage2.Controls.Add(this.chartControl2);
-			this.xtraTabPage2.Name = "xtraTabPage2";
-			this.xtraTabPage2.Size = new System.Drawing.Size(745, 456);
-			this.xtraTabPage2.Text = "Ad Count by Type";
-			// 
-			// chartControl2
-			// 
-			this.chartControl2.DataSource = this.adTypesSource;
-			this.chartControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.chartControl2.Legend.AlignmentHorizontal = DevExpress.XtraCharts.LegendAlignmentHorizontal.Left;
-			this.chartControl2.Location = new System.Drawing.Point(0, 0);
-			this.chartControl2.Name = "chartControl2";
-			series6.ArgumentDataMember = "Type";
-			series6.DataSource = this.adTypesSource;
-			pieSeriesLabel3.Antialiasing = true;
-			pieSeriesLabel3.Border.Visible = false;
-			pieSeriesLabel3.FillStyle.FillMode = DevExpress.XtraCharts.FillMode.Empty;
-			pieSeriesLabel3.Font = new System.Drawing.Font("Calibri", 11F);
-			pieSeriesLabel3.LineVisible = true;
-			pieSeriesLabel3.Position = DevExpress.XtraCharts.PieSeriesLabelPosition.Radial;
-			pieSeriesLabel3.TextColor = System.Drawing.Color.White;
-			series6.Label = pieSeriesLabel3;
-			piePointOptions3.Pattern = "{A}s: {V}";
-			piePointOptions3.PercentOptions.ValueAsPercent = false;
-			piePointOptions3.PointView = DevExpress.XtraCharts.PointView.ArgumentAndValues;
-			series6.LegendPointOptions = piePointOptions3;
-			series6.Name = "Series 1";
-			piePointOptions4.Pattern = "{A}s";
-			piePointOptions4.PointView = DevExpress.XtraCharts.PointView.Argument;
-			series6.Label.PointOptions = piePointOptions4;
-			series6.SynchronizePointOptions = false;
-			series6.ValueDataMembersSerializable = "Count";
-			pieSeriesView3.RuntimeExploding = false;
-			series6.View = pieSeriesView3;
-			this.chartControl2.SeriesSerializable = new DevExpress.XtraCharts.Series[] {
-        series6};
-			pieSeriesLabel4.LineVisible = true;
-			this.chartControl2.SeriesTemplate.Label = pieSeriesLabel4;
-			pieSeriesView4.RuntimeExploding = false;
-			this.chartControl2.SeriesTemplate.View = pieSeriesView4;
-			this.chartControl2.Size = new System.Drawing.Size(745, 456);
-			this.chartControl2.TabIndex = 0;
-			// 
-			// xtraTabPage3
-			// 
-			this.xtraTabPage3.Controls.Add(this.chartControl3);
-			this.xtraTabPage3.Name = "xtraTabPage3";
-			this.xtraTabPage3.Size = new System.Drawing.Size(745, 456);
-			this.xtraTabPage3.Text = "Ads over Time";
-			// 
-			// chartControl3
-			// 
-			this.chartControl3.DataSource = this.runningTotalsSource;
-			xyDiagram3.AxisX.DateTimeOptions.Format = DevExpress.XtraCharts.DateTimeFormat.MonthAndDay;
-			xyDiagram3.AxisX.Label.Staggered = true;
-			xyDiagram3.AxisX.Range.ScrollingRange.SideMarginsEnabled = false;
-			xyDiagram3.AxisX.Range.SideMarginsEnabled = false;
-			xyDiagram3.AxisX.VisibleInPanesSerializable = "-1";
-			xyDiagram3.AxisY.Range.ScrollingRange.SideMarginsEnabled = true;
-			xyDiagram3.AxisY.Range.SideMarginsEnabled = true;
-			xyDiagram3.AxisY.VisibleInPanesSerializable = "-1";
-			this.chartControl3.Diagram = xyDiagram3;
-			this.chartControl3.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.chartControl3.Legend.AlignmentHorizontal = DevExpress.XtraCharts.LegendAlignmentHorizontal.Left;
-			this.chartControl3.Location = new System.Drawing.Point(0, 0);
-			this.chartControl3.Name = "chartControl3";
-			this.chartControl3.SeriesDataMember = "AdType";
-			this.chartControl3.SeriesNameTemplate.EndText = "s";
-			this.chartControl3.SeriesSerializable = new DevExpress.XtraCharts.Series[0];
-			this.chartControl3.SeriesTemplate.ArgumentDataMember = "Date";
-			this.chartControl3.SeriesTemplate.ArgumentScaleType = DevExpress.XtraCharts.ScaleType.DateTime;
-			pointSeriesLabel7.LineVisible = true;
-			pointSeriesLabel7.Visible = false;
-			this.chartControl3.SeriesTemplate.Label = pointSeriesLabel7;
-			pointOptions7.ArgumentDateTimeOptions.Format = DevExpress.XtraCharts.DateTimeFormat.MonthAndDay;
-			this.chartControl3.SeriesTemplate.Label.PointOptions = pointOptions7;
-			this.chartControl3.SeriesTemplate.ValueDataMembersSerializable = "TotalCount";
-			this.chartControl3.SeriesTemplate.View = stackedAreaSeriesView1;
-			this.chartControl3.Size = new System.Drawing.Size(745, 456);
-			this.chartControl3.TabIndex = 0;
-			// 
-			// runningTotalsSource
-			// 
-			this.runningTotalsSource.DataSet = ShomreiTorah.Journal.Forms.ChartDataSet.RunningAdTypeTotals;
-			this.runningTotalsSource.Position = 0;
-			// 
-			// xtraTabPage4
-			// 
-			this.xtraTabPage4.Controls.Add(this.chartControl4);
-			this.xtraTabPage4.Name = "xtraTabPage4";
-			this.xtraTabPage4.Size = new System.Drawing.Size(745, 456);
-			this.xtraTabPage4.Text = "Ad Value over Time";
-			// 
-			// chartControl4
-			// 
-			this.chartControl4.DataSource = this.runningTotalsSource;
-			xyDiagram4.AxisX.DateTimeOptions.Format = DevExpress.XtraCharts.DateTimeFormat.MonthAndDay;
-			xyDiagram4.AxisX.Range.ScrollingRange.SideMarginsEnabled = false;
-			xyDiagram4.AxisX.Range.SideMarginsEnabled = false;
-			xyDiagram4.AxisX.VisibleInPanesSerializable = "-1";
-			xyDiagram4.AxisY.NumericOptions.Format = DevExpress.XtraCharts.NumericFormat.Currency;
-			xyDiagram4.AxisY.NumericOptions.Precision = 0;
-			xyDiagram4.AxisY.Range.ScrollingRange.SideMarginsEnabled = true;
-			xyDiagram4.AxisY.Range.SideMarginsEnabled = true;
-			xyDiagram4.AxisY.VisibleInPanesSerializable = "-1";
-			this.chartControl4.Diagram = xyDiagram4;
-			this.chartControl4.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.chartControl4.Legend.AlignmentHorizontal = DevExpress.XtraCharts.LegendAlignmentHorizontal.Left;
-			this.chartControl4.Location = new System.Drawing.Point(0, 0);
-			this.chartControl4.Name = "chartControl4";
-			this.chartControl4.SeriesDataMember = "AdType";
-			this.chartControl4.SeriesNameTemplate.EndText = "s";
-			this.chartControl4.SeriesSerializable = new DevExpress.XtraCharts.Series[0];
-			this.chartControl4.SeriesTemplate.ArgumentDataMember = "Date";
-			this.chartControl4.SeriesTemplate.ArgumentScaleType = DevExpress.XtraCharts.ScaleType.DateTime;
-			pointSeriesLabel8.LineVisible = true;
-			pointSeriesLabel8.Visible = false;
-			this.chartControl4.SeriesTemplate.Label = pointSeriesLabel8;
-			this.chartControl4.SeriesTemplate.ValueDataMembersSerializable = "TotalValue";
-			this.chartControl4.SeriesTemplate.View = stackedAreaSeriesView2;
-			this.chartControl4.Size = new System.Drawing.Size(745, 456);
-			this.chartControl4.TabIndex = 0;
-			// 
-			// refresh
-			// 
-			this.refresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.refresh.Image = global::ShomreiTorah.Journal.Properties.Resources.Refresh16;
-			this.refresh.Location = new System.Drawing.Point(728, 0);
-			this.refresh.Name = "refresh";
-			this.refresh.Size = new System.Drawing.Size(21, 21);
-			toolTipTitleItem1.Text = "Refresh Charts";
-			toolTipItem1.LeftIndent = 6;
-			toolTipItem1.Text = "Refreshes the data displayed by the charts.";
-			superToolTip1.Items.Add(toolTipTitleItem1);
-			superToolTip1.Items.Add(toolTipItem1);
-			this.refresh.SuperTip = superToolTip1;
-			this.refresh.TabIndex = 4;
-			this.refresh.Text = "Refresh";
-			this.refresh.Click += new System.EventHandler(this.refresh_Click);
 			// 
 			// xtraTabPage6
 			// 
 			this.xtraTabPage6.Controls.Add(this.chartControl6);
 			this.xtraTabPage6.Name = "xtraTabPage6";
-			this.xtraTabPage6.Size = new System.Drawing.Size(745, 456);
+			this.xtraTabPage6.Size = new System.Drawing.Size(747, 457);
 			this.xtraTabPage6.Text = "This Year vs. Last Year (Count)";
 			// 
 			// chartControl6
@@ -498,16 +274,16 @@ namespace ShomreiTorah.Journal.Forms {
 			series2.DataSource = this.thisYearsRunningTotal;
 			pointSeriesLabel1.LineLength = 20;
 			pointSeriesLabel1.LineVisible = true;
+			pointOptions1.Pattern = "This year: {V}";
+			pointOptions1.ValueNumericOptions.Format = DevExpress.XtraCharts.NumericFormat.Currency;
+			pointOptions1.ValueNumericOptions.Precision = 0;
+			pointSeriesLabel1.PointOptions = pointOptions1;
 			pointSeriesLabel1.ResolveOverlappingMode = DevExpress.XtraCharts.ResolveOverlappingMode.HideOverlapped;
-			pointSeriesLabel1.Visible = false;
 			series2.Label = pointSeriesLabel1;
-			pointOptions1.PointView = DevExpress.XtraCharts.PointView.SeriesName;
-			series2.LegendPointOptions = pointOptions1;
+			series2.LabelsVisibility = DevExpress.Utils.DefaultBoolean.False;
+			pointOptions2.PointView = DevExpress.XtraCharts.PointView.SeriesName;
+			series2.LegendPointOptions = pointOptions2;
 			series2.Name = "This Year";
-			pointOptions2.Pattern = "This year: {V}";
-			pointOptions2.ValueNumericOptions.Format = DevExpress.XtraCharts.NumericFormat.Currency;
-			pointOptions2.ValueNumericOptions.Precision = 0;
-			series2.Label.PointOptions = pointOptions2;
 			series2.SynchronizePointOptions = false;
 			series2.ValueDataMembersSerializable = "TotalCount";
 			lineSeriesView1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
@@ -521,11 +297,11 @@ namespace ShomreiTorah.Journal.Forms {
 			series3.ArgumentScaleType = DevExpress.XtraCharts.ScaleType.Numerical;
 			series3.DataSource = this.lastYearsRunningTotal;
 			pointSeriesLabel2.LineVisible = true;
-			pointSeriesLabel2.Visible = false;
-			series3.Label = pointSeriesLabel2;
-			series3.Name = "LastYear";
 			pointOptions3.ValueNumericOptions.Format = DevExpress.XtraCharts.NumericFormat.Currency;
-			series3.Label.PointOptions = pointOptions3;
+			pointSeriesLabel2.PointOptions = pointOptions3;
+			series3.Label = pointSeriesLabel2;
+			series3.LabelsVisibility = DevExpress.Utils.DefaultBoolean.False;
+			series3.Name = "LastYear";
 			series3.ValueDataMembersSerializable = "TotalCount";
 			lineSeriesView2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
 			lineSeriesView2.LineMarkerOptions.Visible = false;
@@ -536,8 +312,232 @@ namespace ShomreiTorah.Journal.Forms {
 			pointSeriesLabel3.LineVisible = true;
 			this.chartControl6.SeriesTemplate.Label = pointSeriesLabel3;
 			this.chartControl6.SeriesTemplate.View = lineSeriesView3;
-			this.chartControl6.Size = new System.Drawing.Size(745, 456);
+			this.chartControl6.Size = new System.Drawing.Size(747, 457);
 			this.chartControl6.TabIndex = 1;
+			// 
+			// xtraTabPage5
+			// 
+			this.xtraTabPage5.Controls.Add(this.chartControl5);
+			this.xtraTabPage5.Name = "xtraTabPage5";
+			this.xtraTabPage5.Size = new System.Drawing.Size(747, 457);
+			this.xtraTabPage5.Text = "This Year vs. Last Year (Price)";
+			// 
+			// chartControl5
+			// 
+			constantLine2.AxisValueSerializable = "0";
+			constantLine2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			constantLine2.LineStyle.DashStyle = DevExpress.XtraCharts.DashStyle.Dash;
+			constantLine2.LineStyle.Thickness = 2;
+			constantLine2.Name = "Deadline";
+			constantLine2.ShowBehind = true;
+			constantLine2.Title.Alignment = DevExpress.XtraCharts.ConstantLineTitleAlignment.Far;
+			constantLine2.Title.Font = new System.Drawing.Font("Tahoma", 10F);
+			xyDiagram2.AxisX.ConstantLines.AddRange(new DevExpress.XtraCharts.ConstantLine[] {
+            constantLine2});
+			xyDiagram2.AxisX.Label.EndText = " days";
+			xyDiagram2.AxisX.Range.ScrollingRange.SideMarginsEnabled = true;
+			xyDiagram2.AxisX.Range.SideMarginsEnabled = true;
+			xyDiagram2.AxisX.Reverse = true;
+			xyDiagram2.AxisX.Title.Text = "Days until deadline";
+			xyDiagram2.AxisX.Title.Visible = true;
+			xyDiagram2.AxisX.VisibleInPanesSerializable = "-1";
+			xyDiagram2.AxisY.NumericOptions.Format = DevExpress.XtraCharts.NumericFormat.Currency;
+			xyDiagram2.AxisY.NumericOptions.Precision = 0;
+			xyDiagram2.AxisY.Range.ScrollingRange.SideMarginsEnabled = true;
+			xyDiagram2.AxisY.Range.SideMarginsEnabled = true;
+			xyDiagram2.AxisY.VisibleInPanesSerializable = "-1";
+			xyDiagram2.LabelsResolveOverlappingMinIndent = 3;
+			this.chartControl5.Diagram = xyDiagram2;
+			this.chartControl5.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.chartControl5.Location = new System.Drawing.Point(0, 0);
+			this.chartControl5.Name = "chartControl5";
+			series4.ArgumentDataMember = "DeadlineDelta";
+			series4.ArgumentScaleType = DevExpress.XtraCharts.ScaleType.Numerical;
+			series4.DataSource = this.thisYearsRunningTotal;
+			pointSeriesLabel4.LineLength = 20;
+			pointSeriesLabel4.LineVisible = true;
+			pointOptions4.Pattern = "This year: {V}";
+			pointOptions4.ValueNumericOptions.Format = DevExpress.XtraCharts.NumericFormat.Currency;
+			pointOptions4.ValueNumericOptions.Precision = 0;
+			pointSeriesLabel4.PointOptions = pointOptions4;
+			pointSeriesLabel4.ResolveOverlappingMode = DevExpress.XtraCharts.ResolveOverlappingMode.HideOverlapped;
+			series4.Label = pointSeriesLabel4;
+			series4.LabelsVisibility = DevExpress.Utils.DefaultBoolean.False;
+			pointOptions5.PointView = DevExpress.XtraCharts.PointView.SeriesName;
+			series4.LegendPointOptions = pointOptions5;
+			series4.Name = "This Year";
+			series4.SynchronizePointOptions = false;
+			series4.ValueDataMembersSerializable = "TotalValue";
+			lineSeriesView4.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+			lineSeriesView4.LineMarkerOptions.Color = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+			lineSeriesView4.LineMarkerOptions.Kind = DevExpress.XtraCharts.MarkerKind.Diamond;
+			lineSeriesView4.LineMarkerOptions.Size = 12;
+			lineSeriesView4.LineStyle.Thickness = 3;
+			lineSeriesView4.Shadow.Visible = true;
+			series4.View = lineSeriesView4;
+			series5.ArgumentDataMember = "DeadlineDelta";
+			series5.ArgumentScaleType = DevExpress.XtraCharts.ScaleType.Numerical;
+			series5.DataSource = this.lastYearsRunningTotal;
+			pointSeriesLabel5.LineVisible = true;
+			pointOptions6.ValueNumericOptions.Format = DevExpress.XtraCharts.NumericFormat.Currency;
+			pointSeriesLabel5.PointOptions = pointOptions6;
+			series5.Label = pointSeriesLabel5;
+			series5.LabelsVisibility = DevExpress.Utils.DefaultBoolean.False;
+			series5.Name = "LastYear";
+			series5.ValueDataMembersSerializable = "TotalValue";
+			lineSeriesView5.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+			lineSeriesView5.LineMarkerOptions.Visible = false;
+			series5.View = lineSeriesView5;
+			this.chartControl5.SeriesSerializable = new DevExpress.XtraCharts.Series[] {
+        series4,
+        series5};
+			pointSeriesLabel6.LineVisible = true;
+			this.chartControl5.SeriesTemplate.Label = pointSeriesLabel6;
+			this.chartControl5.SeriesTemplate.View = lineSeriesView6;
+			this.chartControl5.Size = new System.Drawing.Size(747, 457);
+			this.chartControl5.TabIndex = 0;
+			// 
+			// xtraTabPage2
+			// 
+			this.xtraTabPage2.Controls.Add(this.chartControl2);
+			this.xtraTabPage2.Name = "xtraTabPage2";
+			this.xtraTabPage2.Size = new System.Drawing.Size(747, 457);
+			this.xtraTabPage2.Text = "Ad Count by Type";
+			// 
+			// chartControl2
+			// 
+			this.chartControl2.DataSource = this.adTypesSource;
+			this.chartControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.chartControl2.Legend.AlignmentHorizontal = DevExpress.XtraCharts.LegendAlignmentHorizontal.Left;
+			this.chartControl2.Location = new System.Drawing.Point(0, 0);
+			this.chartControl2.Name = "chartControl2";
+			series6.ArgumentDataMember = "Type";
+			series6.DataSource = this.adTypesSource;
+			pieSeriesLabel3.Antialiasing = true;
+			pieSeriesLabel3.Border.Visible = false;
+			pieSeriesLabel3.FillStyle.FillMode = DevExpress.XtraCharts.FillMode.Empty;
+			pieSeriesLabel3.Font = new System.Drawing.Font("Calibri", 11F);
+			pieSeriesLabel3.LineVisible = true;
+			piePointOptions3.Pattern = "{A}s";
+			piePointOptions3.PointView = DevExpress.XtraCharts.PointView.Argument;
+			pieSeriesLabel3.PointOptions = piePointOptions3;
+			pieSeriesLabel3.Position = DevExpress.XtraCharts.PieSeriesLabelPosition.Radial;
+			pieSeriesLabel3.TextColor = System.Drawing.Color.White;
+			series6.Label = pieSeriesLabel3;
+			piePointOptions4.Pattern = "{A}s: {V}";
+			piePointOptions4.PercentOptions.ValueAsPercent = false;
+			piePointOptions4.PointView = DevExpress.XtraCharts.PointView.ArgumentAndValues;
+			series6.LegendPointOptions = piePointOptions4;
+			series6.Name = "Series 1";
+			series6.SynchronizePointOptions = false;
+			series6.ValueDataMembersSerializable = "Count";
+			pieSeriesView3.RuntimeExploding = false;
+			series6.View = pieSeriesView3;
+			this.chartControl2.SeriesSerializable = new DevExpress.XtraCharts.Series[] {
+        series6};
+			pieSeriesLabel4.LineVisible = true;
+			this.chartControl2.SeriesTemplate.Label = pieSeriesLabel4;
+			pieSeriesView4.RuntimeExploding = false;
+			this.chartControl2.SeriesTemplate.View = pieSeriesView4;
+			this.chartControl2.Size = new System.Drawing.Size(747, 457);
+			this.chartControl2.TabIndex = 0;
+			// 
+			// xtraTabPage3
+			// 
+			this.xtraTabPage3.Controls.Add(this.chartControl3);
+			this.xtraTabPage3.Name = "xtraTabPage3";
+			this.xtraTabPage3.Size = new System.Drawing.Size(747, 457);
+			this.xtraTabPage3.Text = "Ads over Time";
+			// 
+			// chartControl3
+			// 
+			this.chartControl3.DataSource = this.runningTotalsSource;
+			xyDiagram3.AxisX.DateTimeOptions.Format = DevExpress.XtraCharts.DateTimeFormat.MonthAndDay;
+			xyDiagram3.AxisX.Label.Staggered = true;
+			xyDiagram3.AxisX.Range.ScrollingRange.SideMarginsEnabled = false;
+			xyDiagram3.AxisX.Range.SideMarginsEnabled = false;
+			xyDiagram3.AxisX.VisibleInPanesSerializable = "-1";
+			xyDiagram3.AxisY.Range.ScrollingRange.SideMarginsEnabled = true;
+			xyDiagram3.AxisY.Range.SideMarginsEnabled = true;
+			xyDiagram3.AxisY.VisibleInPanesSerializable = "-1";
+			this.chartControl3.Diagram = xyDiagram3;
+			this.chartControl3.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.chartControl3.Legend.AlignmentHorizontal = DevExpress.XtraCharts.LegendAlignmentHorizontal.Left;
+			this.chartControl3.Location = new System.Drawing.Point(0, 0);
+			this.chartControl3.Name = "chartControl3";
+			this.chartControl3.SeriesDataMember = "AdType";
+			this.chartControl3.SeriesNameTemplate.EndText = "s";
+			this.chartControl3.SeriesSerializable = new DevExpress.XtraCharts.Series[0];
+			this.chartControl3.SeriesTemplate.ArgumentDataMember = "Date";
+			this.chartControl3.SeriesTemplate.ArgumentScaleType = DevExpress.XtraCharts.ScaleType.DateTime;
+			pointSeriesLabel7.LineVisible = true;
+			pointOptions7.ArgumentDateTimeOptions.Format = DevExpress.XtraCharts.DateTimeFormat.MonthAndDay;
+			pointSeriesLabel7.PointOptions = pointOptions7;
+			this.chartControl3.SeriesTemplate.Label = pointSeriesLabel7;
+			this.chartControl3.SeriesTemplate.LabelsVisibility = DevExpress.Utils.DefaultBoolean.False;
+			this.chartControl3.SeriesTemplate.ValueDataMembersSerializable = "TotalCount";
+			this.chartControl3.SeriesTemplate.View = stackedAreaSeriesView1;
+			this.chartControl3.Size = new System.Drawing.Size(747, 457);
+			this.chartControl3.TabIndex = 0;
+			// 
+			// runningTotalsSource
+			// 
+			this.runningTotalsSource.DataSet = ShomreiTorah.Journal.Forms.ChartDataSet.RunningAdTypeTotals;
+			this.runningTotalsSource.Position = 0;
+			// 
+			// xtraTabPage4
+			// 
+			this.xtraTabPage4.Controls.Add(this.chartControl4);
+			this.xtraTabPage4.Name = "xtraTabPage4";
+			this.xtraTabPage4.Size = new System.Drawing.Size(747, 457);
+			this.xtraTabPage4.Text = "Ad Value over Time";
+			// 
+			// chartControl4
+			// 
+			this.chartControl4.DataSource = this.runningTotalsSource;
+			xyDiagram4.AxisX.DateTimeOptions.Format = DevExpress.XtraCharts.DateTimeFormat.MonthAndDay;
+			xyDiagram4.AxisX.Range.ScrollingRange.SideMarginsEnabled = false;
+			xyDiagram4.AxisX.Range.SideMarginsEnabled = false;
+			xyDiagram4.AxisX.VisibleInPanesSerializable = "-1";
+			xyDiagram4.AxisY.NumericOptions.Format = DevExpress.XtraCharts.NumericFormat.Currency;
+			xyDiagram4.AxisY.NumericOptions.Precision = 0;
+			xyDiagram4.AxisY.Range.ScrollingRange.SideMarginsEnabled = true;
+			xyDiagram4.AxisY.Range.SideMarginsEnabled = true;
+			xyDiagram4.AxisY.VisibleInPanesSerializable = "-1";
+			this.chartControl4.Diagram = xyDiagram4;
+			this.chartControl4.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.chartControl4.Legend.AlignmentHorizontal = DevExpress.XtraCharts.LegendAlignmentHorizontal.Left;
+			this.chartControl4.Location = new System.Drawing.Point(0, 0);
+			this.chartControl4.Name = "chartControl4";
+			this.chartControl4.SeriesDataMember = "AdType";
+			this.chartControl4.SeriesNameTemplate.EndText = "s";
+			this.chartControl4.SeriesSerializable = new DevExpress.XtraCharts.Series[0];
+			this.chartControl4.SeriesTemplate.ArgumentDataMember = "Date";
+			this.chartControl4.SeriesTemplate.ArgumentScaleType = DevExpress.XtraCharts.ScaleType.DateTime;
+			pointSeriesLabel8.LineVisible = true;
+			this.chartControl4.SeriesTemplate.Label = pointSeriesLabel8;
+			this.chartControl4.SeriesTemplate.LabelsVisibility = DevExpress.Utils.DefaultBoolean.False;
+			this.chartControl4.SeriesTemplate.ValueDataMembersSerializable = "TotalValue";
+			this.chartControl4.SeriesTemplate.View = stackedAreaSeriesView2;
+			this.chartControl4.Size = new System.Drawing.Size(747, 457);
+			this.chartControl4.TabIndex = 0;
+			// 
+			// refresh
+			// 
+			this.refresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.refresh.Image = global::ShomreiTorah.Journal.Properties.Resources.Refresh16;
+			this.refresh.Location = new System.Drawing.Point(728, 0);
+			this.refresh.Name = "refresh";
+			this.refresh.Size = new System.Drawing.Size(21, 21);
+			toolTipTitleItem1.Text = "Refresh Charts";
+			toolTipItem1.LeftIndent = 6;
+			toolTipItem1.Text = "Refreshes the data displayed by the charts.";
+			superToolTip1.Items.Add(toolTipTitleItem1);
+			superToolTip1.Items.Add(toolTipItem1);
+			this.refresh.SuperTip = superToolTip1;
+			this.refresh.TabIndex = 4;
+			this.refresh.Text = "Refresh";
+			this.refresh.Click += new System.EventHandler(this.refresh_Click);
 			// 
 			// ChartsForm
 			// 
@@ -562,6 +562,17 @@ namespace ShomreiTorah.Journal.Forms {
 			((System.ComponentModel.ISupportInitialize)(pieSeriesLabel2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(pieSeriesView2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.chartControl1)).EndInit();
+			this.xtraTabPage6.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(xyDiagram1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(pointSeriesLabel1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(lineSeriesView1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(series2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(pointSeriesLabel2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(lineSeriesView2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(series3)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(pointSeriesLabel3)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(lineSeriesView3)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.chartControl6)).EndInit();
 			this.xtraTabPage5.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(xyDiagram2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(pointSeriesLabel4)).EndInit();
@@ -591,17 +602,6 @@ namespace ShomreiTorah.Journal.Forms {
 			((System.ComponentModel.ISupportInitialize)(pointSeriesLabel8)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(stackedAreaSeriesView2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.chartControl4)).EndInit();
-			this.xtraTabPage6.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(xyDiagram1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(pointSeriesLabel1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(lineSeriesView1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(series2)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(pointSeriesLabel2)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(lineSeriesView2)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(series3)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(pointSeriesLabel3)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(lineSeriesView3)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.chartControl6)).EndInit();
 			this.ResumeLayout(false);
 
 		}
