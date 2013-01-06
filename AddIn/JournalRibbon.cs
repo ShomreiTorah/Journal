@@ -91,7 +91,9 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 		public void ShowDetailPane(IRibbonControl control) {
 			var window = control.Window();
-			Globals.ThisAddIn.CustomTaskPanes.FirstOrDefault(p => p.Window == window).Visible = true;
+			var jp = control.Journal();
+			// CustomTaskPanes cannot be reused; I need to create a new one.
+			Globals.ThisAddIn.CustomTaskPanes.Add(new AdPane(jp), "Ad Details", jp.Presentation.Windows[1]).Visible = true;
 		}
 		public void ShowWarningsForm(IRibbonControl control) {
 			new Forms.WarningsForm(control.Journal()).Show(Globals.ThisAddIn.Application.Window());
