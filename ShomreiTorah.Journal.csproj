@@ -50,7 +50,7 @@
     <PublishUrl>L:\Community\Rabbi Weinberger%27s Shul\Melave Malka\Journal Addin\Singularity Publish\</PublishUrl>
     <InstallUrl>\\Schabse\Personal Files\Community\Rabbi Weinberger%27s Shul\Melave Malka\Journal Addin\Singularity Publish\</InstallUrl>
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.19</ApplicationVersion>
+    <ApplicationVersion>1.0.0.20</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -173,10 +173,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>Certificate.pfx</ManifestKeyFile>
+    <ManifestKeyFile>Journal.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>2390304FB4E61D651AC91B0E336A7F6B590E86AC</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>1E36739F58579F8D911F05D8D59FA7B674F316AC</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!--
     This section specifies references for the project.
@@ -330,6 +330,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Certificate.pfx" />
+    <None Include="Journal.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -343,7 +345,7 @@
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="Certificate.pfx" />
+    <None Include="ShomreiTorah.Journal_TemporaryKey.pfx" />
     <None Include="ThisAddIn.Designer.xml">
       <DependentUpon>ThisAddIn.cs</DependentUpon>
     </None>
