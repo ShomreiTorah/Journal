@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.PowerPoint;
 using ShomreiTorah.Data;
@@ -31,7 +32,7 @@ namespace ShomreiTorah.Journal.AddIn {
 				if (form.JournalYear.HasValue) {
 					JournalPresentation.MakeJournal(presentation, form.JournalYear.Value);
 
-					var jp = RegisterJournal(presentation, createTaskPane: oldYear == null);	//Only create a new taskpane if it wasn't already a journal
+					var jp = RegisterJournal(presentation, createTaskPane: oldYear == null);    //Only create a new taskpane if it wasn't already a journal
 
 					if (oldYear != null)
 						((AdPane)GetTaskPane(presentation).Control).ReplaceJournal(jp);
@@ -50,10 +51,14 @@ namespace ShomreiTorah.Journal.AddIn {
 
 		bool addedAppHandlers;
 		JournalPresentation RegisterJournal(Presentation presentation, bool createTaskPane = true) {
-			Program.Initialize();	//Force Dialog.DefaultTitle before warning dialogs
+			Program.Initialize();   //Force Dialog.DefaultTitle before warning dialogs
 
-			if (Program.Current.DataContext.Table<Person>().Rows.Count == 0)
-				Program.Current.RefreshDatabase();
+			try {
+				if (Program.Current.DataContext.Table<Person>().Rows.Count == 0)
+					Program.Current.RefreshDatabase();
+			} catch (TargetInvocationException ex) {
+				Dialog.ShowError("An error occurred while reading the database.  Please fix the problem and restart PowerPoint.\n\n" + ex.InnerException.Message);
+			}
 
 			if (!addedAppHandlers) {
 				//Since I only need these handlers if there's a journal open,
@@ -73,10 +78,10 @@ namespace ShomreiTorah.Journal.AddIn {
 									  + " journal.\r\nDo you want to link the file to " + parsedYear + "?"))
 							JournalPresentation.MakeJournal(presentation, parsedYear);
 					}
-					break;	//If we found any year in the path, stop searching
+					break;  //If we found any year in the path, stop searching
 				}
 			}
-			if (parsedYear < 2000)	//If we didn't find any years in the segments
+			if (parsedYear < 2000)  //If we didn't find any years in the segments
 				Dialog.Show("The journal probably ought to be in a folder for its year.", MessageBoxIcon.Warning);
 
 			var jp = new JournalPresentation(presentation, Program.Current.DataContext);
