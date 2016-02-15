@@ -35,7 +35,7 @@ namespace ShomreiTorah.Journal {
 		public static int? GetYear(Presentation presentation) {
 			if (presentation == null) throw new ArgumentNullException("presentation");
 			var tag = presentation.Tags[TagYear];
-			return String.IsNullOrEmpty(tag) ? new int?() : int.Parse(presentation.Tags[TagYear], CultureInfo.InvariantCulture);
+			return String.IsNullOrEmpty(tag) ? new int?() : int.Parse(tag, CultureInfo.InvariantCulture);
 		}
 		///<summary>Marks a PowerPoint presentation as being a journal.</summary>
 		///<remarks>After calling this method, you can create a JournalPresentation object from the presentation.</remarks>
@@ -171,7 +171,7 @@ namespace ShomreiTorah.Journal {
 		///<returns>The slide index: a number between 1 and 1 + the number of slides, that can be passed to Slides.Add().</returns>
 		private int GetAdPosition(AdType type) {
 			//Get the number of slides with ads that precede ours,
-			//(including special pages with no ad type), then add 
+			//(including special pages with no ad type), then add
 			//one to get a one-based index.
 			return 1 + Presentation.Slides.Items()
 				.TakeWhile(s => s.AdType() == null || s.AdType().Id <= type.Id)
@@ -189,6 +189,7 @@ namespace ShomreiTorah.Journal {
 			DeleteAdShape(ad);
 			ad.Row.RemoveRow();
 			ad.Presentation = null;
+			writableAds.Remove(ad);
 		}
 		///<summary>Deletes an ad's shape.</summary>
 		///<remarks>The ad's row is not affected.</remarks>
@@ -198,7 +199,7 @@ namespace ShomreiTorah.Journal {
 			} else {												//If it is a fractional ad,
 				//Find the last ad of our type and delete
 				//it.  If it isn't the ad we're trying to
-				//delete, move it to our ad, then delete 
+				//delete, move it to our ad, then delete
 				//its original.
 				Slide lastSlide = GetLastSlide(ad.AdType);
 				AdShape lastAd = lastSlide.Shapes.Placeholders.Items()
@@ -208,7 +209,7 @@ namespace ShomreiTorah.Journal {
 					DeleteFractionalAdShape(ad.Shape);
 				else {
 					//If the last ad isn't the one we're trying to delete,
-					//replace our ad with the last ad before deleting the 
+					//replace our ad with the last ad before deleting the
 					//last ad.
 					using (new ClipboardScope()) {
 						lastAd.Shape.TextFrame.TextRange.Copy();	//Copy the text of the last ad.
@@ -277,7 +278,7 @@ namespace ShomreiTorah.Journal {
 				//the last ad into its place. Therefore,
 				//I cannot delete it inside the scope in
 				//which I copy its text to the new shape
-				//Instead, I create the new shape, kill 
+				//Instead, I create the new shape, kill
 				//the old one,  then attach the new one.
 				Shape newShape;
 				using (new ClipboardScope()) {
