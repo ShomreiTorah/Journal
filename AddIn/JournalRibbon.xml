@@ -4,17 +4,8 @@
 		<tabs>
 			<tab id="JournalTab" label="Journal" insertBeforeMso="TabHome" getVisible="IsJournal">
 				<group id="JournalGroup" label="Journal">
-					<gallery id="InsertAdGallery" label="Create Ad" imageMso="GroupComments" size="large" supertip="Inserts a new ad in the journal." onAction="InsertAd">
-						<item id="InsertDiamond"	label="Diamond"		/>
-						<item id="InsertSilver"		label="Silver"		/>
-						<item id="InsertHalf"		label="Half"		/>
-						<item id="InsertPlatinum"	label="Platinum"	/>
-						<item id="InsertBronze"		label="Bronze"		/>
-						<item id="InsertQuarter"	label="Quarter"		/>
-						<item id="InsertGold"		label="Gold"		/>
-						<item id="InsertFull"		label="Full"		/>
-						<item id="InsertGreeting"	label="Greeting"	/>
-					</gallery>
+					<gallery id="InsertAdGallery" label="Create Ad" imageMso="GroupComments" size="large" supertip="Inserts a new ad in the journal." onAction="InsertAd"
+							 columns="3" getItemCount="GetAdTypeCount" getItemLabel="GetAdTypeLabel" getItemID="GetAdTypeId" />
 					<button id="InsertPage" label="Create Special Page" imageMso="SourceControlAddObjects" size="large"	supertip="Inserts a new page into the journal.  The page will stay wherever you put it."
 							onAction="InsertSpecialPage" />
 					<separator id="S1" />

@@ -107,6 +107,18 @@ namespace ShomreiTorah.Journal.AddIn {
 			Program.Current.RefreshDatabase();
 		}
 
+		#region AdType Callbacks
+		public int GetAdTypeCount(IRibbonControl control) { return Names.AdTypes.Count; }
+
+		static int WarpIndex(int index) {
+			// Converts 0,1,2,  3,4,5,  6,7
+			// to       0,3,6,  1,4,7,  2,5
+			return 3 * (index % 3) + index / 3;
+		}
+
+		public string GetAdTypeLabel(IRibbonControl control, int index) { return Names.AdTypes[WarpIndex(index)].Name; }
+		public string GetAdTypeId(IRibbonControl control, int index) { return "Insert" + Names.AdTypes[WarpIndex(index)].Name; }
+
 		public void InsertAd(IRibbonControl control, string selectedId, int selectedIndex) {
 			var jp = control.Journal();
 
@@ -116,6 +128,8 @@ namespace ShomreiTorah.Journal.AddIn {
 			var typeName = selectedId.Substring("Insert".Length);
 			jp.CreateAd(Names.AdTypes.First(t => t.Name == typeName)).Shape.ForceSelect();
 		}
+		#endregion
+
 		public void InsertSpecialPage(IRibbonControl control) {
 			control.Window().View.Slide = control.Window().Presentation.Slides.Add(1, PpSlideLayout.ppLayoutBlank);
 		}
