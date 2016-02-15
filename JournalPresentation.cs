@@ -265,6 +265,7 @@ namespace ShomreiTorah.Journal {
 			Slide slide = (Slide)ad.Shape.Parent;
 
 			if (ad.AdType.AdsPerPage == 1 && newAdType.AdsPerPage == 1) {
+				bool isPlaceholder = ad.Shape.Type == Microsoft.Office.Core.MsoShapeType.msoPlaceholder;
 				slide.CustomLayout = Presentation.SlideMaster.CustomLayouts.GetLayout(newAdType.Name);
 				slide.Tags.Add(TagAdType, newAdType.Name);	//Add overwrites existing tags.
 
@@ -273,6 +274,13 @@ namespace ShomreiTorah.Journal {
 				//to allow for the ad's removal from its current location
 				if (newPos > slide.SlideIndex) newPos--;
 				slide.MoveTo(newPos);
+				// If the ad had no text, its placeholder Shape object is
+				// replaced by the layout change.  Change the ad to point
+				// to the new placeholder.
+				if (isPlaceholder) {
+					ad.Shape = slide.Shapes.Placeholders[1];
+					ad.Shape.Name = ad.Row.AdId.ToString();
+				}
 			} else {	//If either the new or the old ad types are fractional pages, it must be handled differently.
 				//Deleting the shape may involve copying
 				//the last ad into its place. Therefore,
