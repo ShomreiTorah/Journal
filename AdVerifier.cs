@@ -92,7 +92,7 @@ namespace ShomreiTorah.Journal {
 
 				if (slideType == null) continue;	//Skip special pages in the middle of the ads
 
-				if (slideType.Id > ad.AdType.Id)
+				if (slideType.Index > ad.AdType.Index)
 					yield return new AdWarning(ad, "This ad is after a " + slideType.Name.ToLowerInvariant() + " page");
 				//Either the ad is preceded by an OK slide or
 				//we just gave an error. Either way, stop now

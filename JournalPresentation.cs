@@ -174,7 +174,7 @@ namespace ShomreiTorah.Journal {
 			//(including special pages with no ad type), then add
 			//one to get a one-based index.
 			return 1 + Presentation.Slides.Items()
-				.TakeWhile(s => s.AdType() == null || s.AdType().Id <= type.Id)
+				.TakeWhile(s => s.AdType() == null || s.AdType().Index <= type.Index)
 				.Count();
 		}
 		#endregion
