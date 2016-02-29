@@ -20,6 +20,12 @@
 							onAction="ShowGrid"		supertip="Displays a grid with all of the ads." />
 					<button id="ShowAllWarnings"	label="All Warnings"	size="large" image="WarningWindow32"
 							onAction="ShowWarningsForm" supertip="Shows all warnings about ads in the journal." />
+					<separator id="S4" />
+					<menu id="ExportMenu" imageMso="FileSaveAsCurrentFileFormat" label="Export PDF" size="large">
+						<button id="SavePdfFull" onAction="SavePdf" label="Entire journal" />
+						<button id="SavePdfSlide" onAction="SavePdf" label="This slide" />
+						<button id="SavePdfTypes" onAction="SavePdfTypes" label="By ad type" />
+					</menu>
 				</group>
 				<group id="AdsGroup" label="Ads">
 					<button id="AutoFormat" imageMso="AdpDiagramIndexKeys" label="AutoFormat" size="large" screentip="AutoFormat" supertip="Applies automatic formatting rules to the ad text."

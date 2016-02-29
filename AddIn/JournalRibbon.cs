@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -114,6 +115,54 @@ namespace ShomreiTorah.Journal.AddIn {
 		public void RefreshDB(IRibbonControl control) {
 			SynchronizationContext.SetSynchronizationContext(new WindowsFormsSynchronizationContext());
 			Program.Current.RefreshDatabase();
+		}
+
+		public void SavePdfTypes(IRibbonControl control) {
+			using (var dialog = new FolderBrowserDialog {
+				Description = "Export PDFs by ad type",
+				ShowNewFolderButton = true
+			}) {
+				if (dialog.ShowDialog(new ArbitraryWindow((IntPtr)control.Window().HWND)) == DialogResult.Cancel)
+					return;
+				var ranges = new List<PageRange>();
+				var presentation = control.Journal().Presentation;
+				for (int i = 1; i <= presentation.Slides.Count; i++) {
+					var currentType = presentation.Slides[i].CustomLayout.Name;
+					if (ranges.Count == 0 || ranges.Last().Type != currentType)
+						ranges.Add(new PageRange { Type = currentType, Start = i, End = i });
+					else
+						ranges.Last().End = i;
+				}
+
+				for (int i = 0; i < ranges.Count; i++) {
+					var range = ranges[i];
+					presentation.ExportAsFixedFormat(
+						Path.Combine(dialog.SelectedPath, $"{i:00} - {range.Type} "
+														+ (range.Start == range.End ? $"(Page {range.Start}).pdf" : $"(Pages {range.Start} - {range.End}).pdf")),
+						PpFixedFormatType.ppFixedFormatTypePDF, PpFixedFormatIntent.ppFixedFormatIntentPrint,
+						PrintRange: presentation.PrintOptions.Ranges.Add(range.Start, range.End),
+						RangeType: PpPrintRangeType.ppPrintSlideRange);
+				}
+			}
+		}
+		class PageRange {
+			public string Type { get; set; }
+			public int Start { get; set; }
+			public int End { get; set; }
+		}
+
+		public void SavePdf(IRibbonControl control) {
+			using (var dialog = new SaveFileDialog {
+				Filter = "PDF Files (*.pdf)|*.pdf",
+				FileName = Path.ChangeExtension(control.Journal().Presentation.FullName, ".pdf"),
+				Title = "Export PDF"
+			}) {
+				if (dialog.ShowDialog(new ArbitraryWindow((IntPtr)control.Window().HWND)) == DialogResult.Cancel)
+					return;
+				control.Journal().Presentation.ExportAsFixedFormat(dialog.FileName,
+					PpFixedFormatType.ppFixedFormatTypePDF, PpFixedFormatIntent.ppFixedFormatIntentPrint,
+					RangeType: control.Id == "SavePdfSlide" ? PpPrintRangeType.ppPrintCurrent : PpPrintRangeType.ppPrintAll);
+			}
 		}
 
 		#region AdType Callbacks
