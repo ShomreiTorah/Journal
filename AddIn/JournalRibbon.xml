@@ -53,8 +53,8 @@
 				<group id="AttendanceGroup" label="Attendance">
 					<box id="AttendanceLabels" boxStyle="vertical">
 						<labelControl id="L17" label="Families"/>
-						<labelControl id="L18" label="Men"/>
-						<labelControl id="L19" label="Women"/>
+						<labelControl id="L18" getLabel="GetMensSeatsCaption"/>
+						<labelControl id="L19" getLabel="GetWomensSeatsCaption"/>
 					</box>
 					<box id="AttendanceValues" boxStyle="vertical">
 						<labelControl id="FamilySeats"	getLabel="GetFamilySeats"	/>

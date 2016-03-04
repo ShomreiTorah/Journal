@@ -83,6 +83,14 @@ namespace ShomreiTorah.Journal.AddIn {
 			if (journal == null) return "(N/A)";
 			return Program.Current.Statistics[journal.Year].WomensSeats.ToString("n0", CultureInfo.CurrentCulture);
 		}
+		public string GetMensSeatsCaption(IRibbonControl control) {
+			if (!Program.WasInitialized) return "Men";
+			return MelaveMalkaSeat.MensSeatsCaption;
+		}
+		public string GetWomensSeatsCaption(IRibbonControl control) {
+			if (!Program.WasInitialized) return "Women";
+			return MelaveMalkaSeat.WomensSeatsCaption;
+		}
 		#endregion
 
 		public void ShowProperties(IRibbonControl control) {

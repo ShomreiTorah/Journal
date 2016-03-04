@@ -41,6 +41,9 @@ namespace ShomreiTorah.Journal.AddIn {
 			adType.Properties.Items.AddRange(Names.AdTypes);
 			adType.Properties.DropDownRows = Names.AdTypes.Count;
 
+			colMensSeats.Caption = MelaveMalkaSeat.MensSeatsCaption;
+			colWomensSeats.Caption = MelaveMalkaSeat.WomensSeatsCaption;
+
 			//The grids are bound indirectly through two FrameworkBindingSource
 			//so that they don't re-apply settings at every change.
 			paymentsSource.DataMember = pledgesSource.DataMember = null;
