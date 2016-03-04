@@ -171,7 +171,7 @@ namespace ShomreiTorah.Journal.AddIn {
 						ToolTip = "You probably want to adjust the pledge amounts.",
 					});
 				} else {
-					decimal newAmount = (decimal)newType.DefaultPrice / newPledges.Count;
+					decimal newAmount = newType.DefaultPrice / newPledges.Count;
 					int baseAmount = (int)newAmount;	//Truncate
 					int higherAdCount = 0;		//The number of ads which should receive $(baseAmount + 1) pledges to add up correctly
 					string message;
@@ -182,7 +182,7 @@ namespace ShomreiTorah.Journal.AddIn {
 							baseAmount, newType.PledgeSubType.ToLowerInvariant()
 						);
 					else {
-						higherAdCount = newType.DefaultPrice - (baseAmount * newPledges.Count);
+						higherAdCount = (int)newType.DefaultPrice - (baseAmount * newPledges.Count);
 
 						if (higherAdCount == 1)
 							message = String.Format(
