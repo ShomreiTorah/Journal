@@ -171,7 +171,11 @@ namespace ShomreiTorah.Journal.AddIn {
 		static int WarpIndex(int index) {
 			// Converts 0,1,2,  3,4,5,  6,7
 			// to       0,3,6,  1,4,7,  2,5
-			return 3 * (index % 3) + index / 3;
+			var columnSize = Names.AdTypes.Count / 3;
+			var tallerColumns = Names.AdTypes.Count % 3;
+			return columnSize * (index % 3) // Add the number of items in the preceding columns.
+				 + Math.Min(tallerColumns, (index % 3))	// Add one for each taller preceding column.
+				 + index / 3;
 		}
 
 		public string GetAdTypeLabel(IRibbonControl control, int index) { return Names.AdTypes[WarpIndex(index)].Name; }
