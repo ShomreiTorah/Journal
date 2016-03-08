@@ -6,31 +6,34 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.Office.Core;
+using ShomreiTorah.Common;
 
 namespace ShomreiTorah.Journal {
 	///<summary>Applies preset text formatting to specific substrings in an ad.</summary>
 	class AdFormatter {
-		readonly List<FormatRule> rules = new List<FormatRule>();
+		readonly IReadOnlyCollection<FormatRule> rules;
 		public AdFormatter(AdShape ad, XElement configuredRules) {
 			Ad = ad;
-			var honoreeFormat = configuredRules.Element("Honorees");
-			if (honoreeFormat != null)
-				rules.AddRange(from honoree in ad.Presentation.MelaveMalka.Honorees
-							   from regex in AdVerifier.GetNameRegexes(honoree)
-							   select new FormatRule(regex, honoreeFormat.Element("Format")));
-
-			var donorFormat = configuredRules.Element("Donors");
-			if (donorFormat != null)
-				rules.AddRange(from pledge in ad.Row.Pledges
-							   from regex in AdVerifier.GetNameRegexes(pledge.Person)
-							   select new FormatRule(regex, donorFormat.Element("Format")));
-
-			rules.AddRange(from rule in configuredRules.Elements("Pattern")
-						   from regex in rule.Attributes("Regex")
-						   select new FormatRule(new Regex(regex.Value), rule.Element("Format")));
+			rules = (from rule in configuredRules.Elements("FormatRule")
+					 from regex in rule.Elements().SelectMany(GetRegexes)
+					 select new FormatRule(regex, rule.Element("Format"))
+					).ToList().AsReadOnly();
 		}
 		public AdShape Ad { get; }
-
+		IEnumerable<Regex> GetRegexes(XElement element) {
+			switch (element.Name.LocalName) {
+				case "MatchHonorees":
+					return Ad.Presentation.MelaveMalka.Honorees.SelectMany(AdVerifier.GetNameRegexes);
+				case "MatchDonors":
+					return Ad.Row.Pledges.SelectMany(p => AdVerifier.GetNameRegexes(p.Person));
+				case "Match":
+					return new[] { new Regex(element.Attribute("Regex").Value) };
+				case "Format":  // Ignore this element.
+					return Enumerable.Empty<Regex>();
+				default:
+					throw new ConfigurationException($"Unexpected <{element.Name}> element in <FormatRule>.");
+			}
+		}
 
 		///<summary>Formats the text of the ad.  Avoid calling this method if the ad has warnings.</summary>
 		public void FormatText() {
