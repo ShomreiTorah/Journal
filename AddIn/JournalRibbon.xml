@@ -22,6 +22,8 @@
 							onAction="ShowWarningsForm" supertip="Shows all warnings about ads in the journal." />
 				</group>
 				<group id="AdsGroup" label="Ads">
+					<button id="AutoFormat" imageMso="AdpDiagramIndexKeys" label="AutoFormat" size="large" screentip="AutoFormat" supertip="Applies automatic formatting rules to the ad text."
+							getEnabled="IsAdSelected" onAction="AutoFormat" />
 					<button id="DeleteAd" imageMso="ReviewDeleteComment" label="Delete Ad" size="large" screentip="Delete Ad" supertip="Deletes this ad from the presentation and the database."
 							getEnabled="IsAdSelected" onAction="DeleteAd" />
 					<toggleButton idMso="SlideHide" label="Hide Page" size="large" screentip="Hide Page" supertip="Hides this slide (8.5 x 5.5 page) so that it will be included by the paginator or in the PDF."/>

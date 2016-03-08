@@ -49,35 +49,33 @@ namespace ShomreiTorah.Journal {
 				.Where(p => !HasName(p.Person, body))
 				.Select(p => new AdWarning(ad, p.Person.VeryFullName + " does not appear in the ad text"));
 		}
-		[SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider")]
 		static bool HasName(Person person, string text) {
-			if (!String.IsNullOrWhiteSpace(person.FullName)
-			 && Regex.IsMatch(text, String.Format(@"\b{0}\b", Regex.Escape(person.FullName))))
-				return true;
-			if (!String.IsNullOrWhiteSpace(person.Salutation)
-			 && Regex.IsMatch(text, String.Format(@"\b{0}\b", Regex.Escape(person.Salutation))))
-				return true;
-			if (Regex.IsMatch(text, String.Format(@"\b{0} Family\b", Regex.Escape(person.LastName))))
-				return true;
-			if (Regex.IsMatch(text, String.Format(@"\bThe {0}s\b", Regex.Escape(person.LastName))))
-				return true;
+			return GetNameRegexes(person).Any(r => r.IsMatch(text));
+		}
 
-			if (!String.IsNullOrWhiteSpace(person.HisName)
-			 && Regex.IsMatch(text, String.Format(@"(^|[\n\r\v])\s*{0} {1}\s*([\n\r\v]|$)", Regex.Escape(person.HisName), Regex.Escape(person.LastName))))
-				return true;
-			if (!String.IsNullOrWhiteSpace(person.HerName)
-			 && Regex.IsMatch(text, String.Format(@"(^|[\n\r\v])\s*{0} {1}\s*([\n\r\v]|$)", Regex.Escape(person.HerName), Regex.Escape(person.LastName))))
-				return true;
+		///<summary>Gets a collection of regexes to match all known forms that a person's name may be mentioned in an ad.</summary>
+		[SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider")]
+		public static IEnumerable<Regex> GetNameRegexes(Person person) {
+			if (!String.IsNullOrWhiteSpace(person.FullName))
+				yield return new Regex(String.Format(@"\b{0}\b", Regex.Escape(person.FullName)));
 
-			if (Regex.IsMatch(text, String.Format(@"\b{0} & {1}\W(.*?\W)?{2}\b",
-									Regex.Escape(person.HisName ?? ""), Regex.Escape(person.HerName ?? ""), Regex.Escape(person.LastName))))
-				return true;
+			if (!String.IsNullOrWhiteSpace(person.Salutation))
+				yield return new Regex(String.Format(@"\b{0}\b", Regex.Escape(person.Salutation)));
 
-			if (Regex.IsMatch(text, String.Format(@"\b{1} & {0}\W(.*?\W)?{2}\b",
-									Regex.Escape(person.HisName ?? ""), Regex.Escape(person.HerName ?? ""), Regex.Escape(person.LastName))))
-				return true;
+			yield return new Regex(String.Format(@"\b{0} Family\b", Regex.Escape(person.LastName)));
+			yield return new Regex(String.Format(@"\bThe {0}s\b", Regex.Escape(person.LastName)));
 
-			return false;
+			if (!String.IsNullOrWhiteSpace(person.HisName))
+				yield return new Regex(String.Format(@"(^|[\n\r\v])\s*{0} {1}\s*([\n\r\v]|$)", Regex.Escape(person.HisName), Regex.Escape(person.LastName)));
+
+			if (!String.IsNullOrWhiteSpace(person.HerName))
+				yield return new Regex(String.Format(@"(^|[\n\r\v])\s*{0} {1}\s*([\n\r\v]|$)", Regex.Escape(person.HerName), Regex.Escape(person.LastName)));
+
+			yield return new Regex(String.Format(@"\b{0} & {1}\W(.*?\W)?{2}\b",
+								   Regex.Escape(person.HisName ?? ""), Regex.Escape(person.HerName ?? ""), Regex.Escape(person.LastName)));
+
+			yield return new Regex(String.Format(@"\b{1} & {0}\W(.*?\W)?{2}\b",
+								   Regex.Escape(person.HisName ?? ""), Regex.Escape(person.HerName ?? ""), Regex.Escape(person.LastName)));
 		}
 		#endregion
 
@@ -90,7 +88,7 @@ namespace ShomreiTorah.Journal {
 				previousSlide = ad.Presentation.Presentation.Slides[previousSlide.SlideIndex - 1];
 				var slideType = previousSlide.AdType();
 
-				if (slideType == null) continue;	//Skip special pages in the middle of the ads
+				if (slideType == null) continue;    //Skip special pages in the middle of the ads
 
 				if (slideType.Index > ad.AdType.Index)
 					yield return new AdWarning(ad, "This ad is after a " + slideType.Name.ToLowerInvariant() + " page");

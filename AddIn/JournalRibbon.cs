@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.PowerPoint;
+using ShomreiTorah.Common;
 using ShomreiTorah.Data;
 using ShomreiTorah.Journal.Properties;
 using ShomreiTorah.WinForms;
@@ -160,6 +161,17 @@ namespace ShomreiTorah.Journal.AddIn {
 
 			if (Dialog.Warn(message))
 				ad.Delete();
+		}
+
+		public void AutoFormat(IRibbonControl control) {
+			var ad = control.CurrentAd();
+			if (ad == null) return;
+			var warnings = ad.CheckWarnings();
+			if (warnings.Any()
+			 && !Dialog.Warn("This ad has unresolved warnings:\r\n • " + warnings.Join("\r\n • ", w => w.Message)
+						   + "\r\nThe autoformatter may not catch everything.  Do you want to autoformat anyway?"))
+				return;
+			new AdFormatter(ad, Config.GetElement("Journal", "AutoFormatRules")).FormatText();
 		}
 	}
 }
