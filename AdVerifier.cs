@@ -66,10 +66,10 @@ namespace ShomreiTorah.Journal {
 			yield return new Regex(String.Format(@"\bThe {0}s\b", Regex.Escape(person.LastName)));
 
 			if (!String.IsNullOrWhiteSpace(person.HisName))
-				yield return new Regex(String.Format(@"(^|[\n\r\v])\s*{0} {1}\s*([\n\r\v]|$)", Regex.Escape(person.HisName), Regex.Escape(person.LastName)));
+				yield return new Regex(String.Format(@"\b{0} {1}\b", Regex.Escape(person.HisName), Regex.Escape(person.LastName)));
 
 			if (!String.IsNullOrWhiteSpace(person.HerName))
-				yield return new Regex(String.Format(@"(^|[\n\r\v])\s*{0} {1}\s*([\n\r\v]|$)", Regex.Escape(person.HerName), Regex.Escape(person.LastName)));
+				yield return new Regex(String.Format(@"\b{0} {1}\b", Regex.Escape(person.HerName), Regex.Escape(person.LastName)));
 
 			yield return new Regex(String.Format(@"\b{0} & {1}\W(.*?\W)?{2}\b",
 								   Regex.Escape(person.HisName ?? ""), Regex.Escape(person.HerName ?? ""), Regex.Escape(person.LastName)));
