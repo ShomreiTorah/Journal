@@ -23,6 +23,8 @@ namespace ShomreiTorah.Journal {
 		IEnumerable<Regex> GetRegexes(XElement element) {
 			switch (element.Name.LocalName) {
 				case "MatchHonorees":
+					if (Ad.Presentation.MelaveMalka == null)
+						return Enumerable.Empty<Regex>();
 					return Ad.Presentation.MelaveMalka.Honorees.SelectMany(AdVerifier.GetNameRegexes);
 				case "MatchDonors":
 					return Ad.Row.Pledges.SelectMany(p => AdVerifier.GetNameRegexes(p.Person));

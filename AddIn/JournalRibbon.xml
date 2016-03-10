@@ -28,7 +28,7 @@
 					</menu>
 				</group>
 				<group id="AdsGroup" label="Ads">
-					<button id="AutoFormat" imageMso="AdpDiagramIndexKeys" label="AutoFormat" size="large" screentip="AutoFormat" supertip="Applies automatic formatting rules to the ad text."
+					<button id="AutoFormat" imageMso="AdpDiagramIndexesKeys" label="AutoFormat" size="large" screentip="AutoFormat" supertip="Applies automatic formatting rules to the ad text."
 							getEnabled="IsAdSelected" onAction="AutoFormat" />
 					<button id="DeleteAd" imageMso="ReviewDeleteComment" label="Delete Ad" size="large" screentip="Delete Ad" supertip="Deletes this ad from the presentation and the database."
 							getEnabled="IsAdSelected" onAction="DeleteAd" />
