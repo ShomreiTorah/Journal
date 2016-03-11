@@ -12,26 +12,29 @@ using ShomreiTorah.Journal.AddIn;
 
 namespace ShomreiTorah.Journal {
 	///<summary>Applies preset text formatting to specific substrings in an ad.</summary>
-	class AdFormatter {
+	public class AdFormatter {
 		readonly IReadOnlyCollection<FormatRule> rules;
-		public AdFormatter(AdShape ad, XElement configuredRules) {
-			Ad = ad;
+		public AdFormatter(JournalPresentation presentation, XElement configuredRules) {
+			Presentation = presentation;
 			rules = (from rule in configuredRules.Elements("FormatRule")
-					 from regex in rule.Elements().SelectMany(GetRegexes)
-					 select new FormatRule(regex, rule.Element("Format"))
+					 from element in rule.Elements()
+					 select new FormatRule(GetRegexes(element), rule.Element("Format"))
 					).ToList().AsReadOnly();
 		}
-		public AdShape Ad { get; }
-		IEnumerable<Regex> GetRegexes(XElement element) {
+		public JournalPresentation Presentation { get; }
+
+		static MatchFactory FixedRegexes(params Regex[] regexes) => FixedRegexes((IEnumerable<Regex>)regexes);
+		static MatchFactory FixedRegexes(IEnumerable<Regex> regexes) => ad => regexes;
+		MatchFactory GetRegexes(XElement element) {
 			switch (element.Name.LocalName) {
 				case "MatchHonorees":
-					if (Ad.Presentation.MelaveMalka == null)
-						return Enumerable.Empty<Regex>();
-					return Ad.Presentation.MelaveMalka.Honorees.SelectMany(AdVerifier.GetNameRegexes);
+					if (Presentation.MelaveMalka == null)
+						return FixedRegexes();
+					return FixedRegexes(Presentation.MelaveMalka.Honorees.SelectMany(AdVerifier.GetNameRegexes));
 				case "MatchDonors":
-					return Ad.Row.Pledges.SelectMany(p => AdVerifier.GetNameRegexes(p.Person));
+					return ad => ad.Row.Pledges.SelectMany(p => AdVerifier.GetNameRegexes(p.Person));
 				case "Match":
-					return new[] { new Regex(element.Attribute("Regex").Value) };
+					return FixedRegexes(new Regex(element.Attribute("Regex").Value));
 				case "MatchPerson":
 					foreach (var field in element.Attributes())
 						if (!Person.Schema.Columns.Contains(field.Name.LocalName))
@@ -46,27 +49,28 @@ namespace ShomreiTorah.Journal {
 					var person = people.FirstOrDefault();
 					if (person == null)
 						throw new ConfigurationException($"Format rule {element} doesn't match anyone in the master directory.");
-					return AdVerifier.GetNameRegexes(person);
+					return FixedRegexes(AdVerifier.GetNameRegexes(person));
 				case "Format":  // Ignore this element.
-					return Enumerable.Empty<Regex>();
+					return FixedRegexes();
 				default:
 					throw new ConfigurationException($"Unexpected <{element.Name}> element in <FormatRule>.");
 			}
 		}
 
 		///<summary>Formats the text of the ad.  Avoid calling this method if the ad has warnings.</summary>
-		public void FormatText() {
-			var text = Ad.Shape.TextFrame2.TextRange.Text;
+		public void FormatText(AdShape ad) {
+			var text = ad.Shape.TextFrame2.TextRange.Text;
 			foreach (var rule in rules) {
-				foreach (Match match in rule.Regex.Matches(text)) {
-					rule.Apply(Ad.Shape.TextFrame2.TextRange.Characters[match.Index + 1, match.Length]);
+				foreach (var match in rule.Regexes(ad).SelectMany(r => r.Matches(text).Cast<Match>())) {
+					rule.Apply(ad.Shape.TextFrame2.TextRange.Characters[match.Index + 1, match.Length]);
 				}
 			}
 		}
 
+		delegate IEnumerable<Regex> MatchFactory(AdShape ad);
 		class FormatRule {
-			public FormatRule(Regex regex, XElement format) {
-				Regex = regex;
+			public FormatRule(MatchFactory regexes, XElement format) {
+				Regexes = regexes;
 
 				FontFamily = (string)format.Element("FontFamily");
 				FontSize = (float?)format.Element("FontSize");
@@ -81,7 +85,7 @@ namespace ShomreiTorah.Journal {
 																  "msoAlign" + alignment, ignoreCase: true);
 			}
 
-			public Regex Regex { get; }
+			public MatchFactory Regexes { get; }
 
 			string FontFamily { get; }
 			float? FontSize { get; }

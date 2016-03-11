@@ -69,7 +69,11 @@ namespace ShomreiTorah.Journal {
 				where row != null
 				select new AdShape(this, shape, row)
 			);
+
+			Formatter = new AdFormatter(this, Config.GetElement("Journal", "AutoFormat"));
 		}
+
+		public AdFormatter Formatter { get; }
 
 		///<summary>Gets the year of the journal managed by this instance.</summary>
 		public int Year { get; private set; }

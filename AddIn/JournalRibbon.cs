@@ -224,7 +224,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			 && !Dialog.Warn("This ad has unresolved warnings:\r\n • " + warnings.Join("\r\n • ", w => w.Message)
 						   + "\r\nThe autoformatter may not catch everything.  Do you want to autoformat anyway?"))
 				return;
-			new AdFormatter(ad, Config.GetElement("Journal", "AutoFormat")).FormatText();
+			ad.Presentation.Formatter.FormatText(ad);
 		}
 	}
 }
