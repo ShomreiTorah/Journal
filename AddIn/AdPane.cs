@@ -94,6 +94,7 @@ namespace ShomreiTorah.Journal.AddIn {
 				CheckWarnings();
 				return;
 			}
+			Focus();	// Commit any pending edits.
 			DisposeDataSources();
 
 			this.ad = newAd;
