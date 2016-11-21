@@ -381,7 +381,7 @@ namespace ShomreiTorah.Journal.AddIn {
 
 					var button = new SimpleButton {
 						Text = "Suppress",
-						MaximumSize = new Size(60, 22),
+						MaximumSize = new Size(90, 48),
 						SuperTip = Utilities.CreateSuperTip(title: "Suppress warning", body: "Adds a line to the ad's comments that suppresses this warning")
 					};
 					button.Click += delegate {
@@ -389,7 +389,7 @@ namespace ShomreiTorah.Journal.AddIn {
 						CheckWarnings();
 					};
 					var item = warningsGroup.AddItem(warning.Message, button);
-					item.ControlAlignment = ContentAlignment.MiddleLeft;
+					item.ControlAlignment = ContentAlignment.MiddleRight;
 				}
 			} finally { warningsGroup.EndUpdate(); }
 		}

@@ -14,15 +14,24 @@ namespace ShomreiTorah.Journal.AddIn {
 		/// </summary>
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
-			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
+			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject13 = new DevExpress.Utils.SerializableAppearanceObject();
+			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject14 = new DevExpress.Utils.SerializableAppearanceObject();
+			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject15 = new DevExpress.Utils.SerializableAppearanceObject();
+			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject16 = new DevExpress.Utils.SerializableAppearanceObject();
 			DevExpress.Utils.SuperToolTip superToolTip3 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipItem toolTipItem3 = new DevExpress.Utils.ToolTipItem();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdPane));
-			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject5 = new DevExpress.Utils.SerializableAppearanceObject();
+			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject17 = new DevExpress.Utils.SerializableAppearanceObject();
+			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject18 = new DevExpress.Utils.SerializableAppearanceObject();
+			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject19 = new DevExpress.Utils.SerializableAppearanceObject();
+			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject20 = new DevExpress.Utils.SerializableAppearanceObject();
 			DevExpress.Utils.SuperToolTip superToolTip4 = new DevExpress.Utils.SuperToolTip();
 			DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
 			DevExpress.Utils.ToolTipItem toolTipItem4 = new DevExpress.Utils.ToolTipItem();
 			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
+			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
+			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
+			DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
 			this.layoutControl1 = new DevExpress.XtraDataLayout.DataLayoutControl();
 			this.adDate = new DevExpress.XtraEditors.LabelControl();
 			this.adsBindingSource = new ShomreiTorah.Data.UI.FrameworkBindingSource(this.components);
@@ -114,19 +123,21 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.layoutControl1.DataSource = this.adsBindingSource;
 			this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.layoutControl1.Location = new System.Drawing.Point(0, 0);
+			this.layoutControl1.Margin = new System.Windows.Forms.Padding(4);
 			this.layoutControl1.Name = "layoutControl1";
 			this.layoutControl1.Root = this.layoutControlGroup1;
-			this.layoutControl1.Size = new System.Drawing.Size(510, 568);
+			this.layoutControl1.Size = new System.Drawing.Size(765, 833);
 			this.layoutControl1.TabIndex = 0;
 			this.layoutControl1.Text = "layoutControl1";
 			// 
 			// adDate
 			// 
 			this.adDate.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.adsBindingSource, "DateAdded", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "F"));
-			this.adDate.Location = new System.Drawing.Point(96, 133);
-			this.adDate.MinimumSize = new System.Drawing.Size(5, 20);
+			this.adDate.Location = new System.Drawing.Point(137, 192);
+			this.adDate.Margin = new System.Windows.Forms.Padding(4);
+			this.adDate.MinimumSize = new System.Drawing.Size(8, 29);
 			this.adDate.Name = "adDate";
-			this.adDate.Size = new System.Drawing.Size(387, 20);
+			this.adDate.Size = new System.Drawing.Size(139, 29);
 			this.adDate.StyleController = this.layoutControl1;
 			this.adDate.TabIndex = 10;
 			this.adDate.Text = "11/5/2010 2:13 PM";
@@ -138,11 +149,13 @@ namespace ShomreiTorah.Journal.AddIn {
 			// 
 			// paymentsGrid
 			// 
-			this.paymentsGrid.Location = new System.Drawing.Point(13, 414);
+			this.paymentsGrid.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(6);
+			this.paymentsGrid.Location = new System.Drawing.Point(19, 602);
 			this.paymentsGrid.MainView = this.paymentsView;
+			this.paymentsGrid.Margin = new System.Windows.Forms.Padding(4);
 			this.paymentsGrid.Name = "paymentsGrid";
-			this.paymentsGrid.RegistrationCount = 39;
-			this.paymentsGrid.Size = new System.Drawing.Size(484, 141);
+			this.paymentsGrid.RegistrationCount = 54;
+			this.paymentsGrid.Size = new System.Drawing.Size(727, 212);
 			this.paymentsGrid.Source = this.paymentsSource;
 			this.paymentsGrid.TabIndex = 9;
 			this.paymentsGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -167,6 +180,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			// 
 			// colPerson1
 			// 
+			this.colPerson1.AllowKeyboardActivation = false;
 			this.colPerson1.Caption = "Full Name";
 			this.colPerson1.FieldName = "Person";
 			this.colPerson1.Name = "colPerson1";
@@ -175,11 +189,11 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.colPerson1.OptionsColumn.ReadOnly = true;
 			this.colPerson1.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
 			this.colPerson1.ShowEditorOnMouseDown = true;
-			this.colPerson1.SummaryItem.DisplayFormat = "{0} Payments";
-			this.colPerson1.SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Count;
+			this.colPerson1.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "Person", "{0} Payments")});
 			this.colPerson1.Visible = true;
 			this.colPerson1.VisibleIndex = 0;
-			this.colPerson1.Width = 81;
+			this.colPerson1.Width = 118;
 			// 
 			// colPaymentDate
 			// 
@@ -187,7 +201,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.colPaymentDate.Name = "colPaymentDate";
 			this.colPaymentDate.Visible = true;
 			this.colPaymentDate.VisibleIndex = 1;
-			this.colPaymentDate.Width = 57;
+			this.colPaymentDate.Width = 95;
 			// 
 			// colMethod
 			// 
@@ -196,7 +210,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.colMethod.Name = "colMethod";
 			this.colMethod.Visible = true;
 			this.colMethod.VisibleIndex = 2;
-			this.colMethod.Width = 55;
+			this.colMethod.Width = 70;
 			// 
 			// colCheckNumber
 			// 
@@ -204,7 +218,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.colCheckNumber.Name = "colCheckNumber";
 			this.colCheckNumber.Visible = true;
 			this.colCheckNumber.VisibleIndex = 3;
-			this.colCheckNumber.Width = 88;
+			this.colCheckNumber.Width = 133;
 			// 
 			// colPaymentAmount
 			// 
@@ -213,8 +227,8 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.colPaymentAmount.FieldName = "Amount";
 			this.colPaymentAmount.MaxWidth = 85;
 			this.colPaymentAmount.Name = "colPaymentAmount";
-			this.colPaymentAmount.SummaryItem.DisplayFormat = "{0:c} Total Paid";
-			this.colPaymentAmount.SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
+			this.colPaymentAmount.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Amount", "{0:c} Total Paid")});
 			this.colPaymentAmount.Visible = true;
 			this.colPaymentAmount.VisibleIndex = 4;
 			this.colPaymentAmount.Width = 85;
@@ -231,7 +245,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.colDeposit.OptionsColumn.ReadOnly = true;
 			this.colDeposit.Visible = true;
 			this.colDeposit.VisibleIndex = 5;
-			this.colDeposit.Width = 67;
+			this.colDeposit.Width = 90;
 			// 
 			// colModified1
 			// 
@@ -250,11 +264,12 @@ namespace ShomreiTorah.Journal.AddIn {
 			// paymentsSource
 			// 
 			this.paymentsSource.DataMember = "Payments";
-			this.paymentsSource.Position = 47;
+			this.paymentsSource.Position = 0;
 			// 
 			// pledgeAdder
 			// 
-			this.pledgeAdder.Location = new System.Drawing.Point(74, 218);
+			this.pledgeAdder.Location = new System.Drawing.Point(108, 320);
+			this.pledgeAdder.Margin = new System.Windows.Forms.Padding(4);
 			this.pledgeAdder.Name = "pledgeAdder";
 			toolTipItem3.Text = "Click to select a person";
 			superToolTip3.Items.Add(toolTipItem3);
@@ -263,9 +278,10 @@ namespace ShomreiTorah.Journal.AddIn {
 			superToolTip4.Items.Add(toolTipTitleItem2);
 			superToolTip4.Items.Add(toolTipItem4);
 			this.pledgeAdder.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject4, "", null, superToolTip3, true),
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "New person...", 90, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleLeft, ((System.Drawing.Image)(resources.GetObject("pledgeAdder.Properties.Buttons"))), new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject5, "", null, superToolTip4, true)});
-			this.pledgeAdder.Size = new System.Drawing.Size(424, 20);
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject13, serializableAppearanceObject14, serializableAppearanceObject15, serializableAppearanceObject16, "", null, superToolTip3, true),
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "New person...", 90, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleLeft, ((System.Drawing.Image)(resources.GetObject("pledgeAdder.Properties.Buttons"))), new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject17, serializableAppearanceObject18, serializableAppearanceObject19, serializableAppearanceObject20, "", null, superToolTip4, true)});
+			this.pledgeAdder.Properties.NewPersonTemplate = null;
+			this.pledgeAdder.Size = new System.Drawing.Size(639, 28);
 			this.pledgeAdder.StyleController = this.layoutControl1;
 			this.pledgeAdder.TabIndex = 8;
 			this.pledgeAdder.PersonSelecting += new System.EventHandler<ShomreiTorah.Data.UI.Controls.PersonSelectingEventArgs>(this.pledgeAdder_PersonSelecting);
@@ -273,14 +289,16 @@ namespace ShomreiTorah.Journal.AddIn {
 			// 
 			// pledgesGrid
 			// 
-			this.pledgesGrid.Location = new System.Drawing.Point(12, 242);
+			this.pledgesGrid.EmbeddedNavigator.Margin = new System.Windows.Forms.Padding(6);
+			this.pledgesGrid.Location = new System.Drawing.Point(18, 354);
 			this.pledgesGrid.MainView = this.pledgesView;
+			this.pledgesGrid.Margin = new System.Windows.Forms.Padding(4);
 			this.pledgesGrid.Name = "pledgesGrid";
-			this.pledgesGrid.RegistrationCount = 39;
+			this.pledgesGrid.RegistrationCount = 54;
 			this.pledgesGrid.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.seatsEdit,
             this.paymentMenuEdit});
-			this.pledgesGrid.Size = new System.Drawing.Size(486, 141);
+			this.pledgesGrid.Size = new System.Drawing.Size(729, 207);
 			this.pledgesGrid.Source = this.paymentsSource;
 			this.pledgesGrid.TabIndex = 7;
 			this.pledgesGrid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -302,11 +320,12 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.pledgesView.Name = "pledgesView";
 			this.pledgesView.OptionsView.ShowFooter = true;
 			this.pledgesView.SortInfo.AddRange(new DevExpress.XtraGrid.Columns.GridColumnSortInfo[] {
-            new DevExpress.XtraGrid.Columns.GridColumnSortInfo(this.colPerson, DevExpress.Data.ColumnSortOrder.Ascending)});
+            new DevExpress.XtraGrid.Columns.GridColumnSortInfo(this.colWomensSeats, DevExpress.Data.ColumnSortOrder.Ascending)});
 			this.pledgesView.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.pledgesView_CustomUnboundColumnData);
 			// 
 			// colPerson
 			// 
+			this.colPerson.AllowKeyboardActivation = false;
 			this.colPerson.Caption = "Full Name";
 			this.colPerson.FieldName = "Person";
 			this.colPerson.Name = "colPerson";
@@ -315,11 +334,11 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.colPerson.OptionsColumn.ReadOnly = true;
 			this.colPerson.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
 			this.colPerson.ShowEditorOnMouseDown = true;
-			this.colPerson.SummaryItem.DisplayFormat = "{0} Pledges";
-			this.colPerson.SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Count;
+			this.colPerson.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "Person", "{0} Pledges")});
 			this.colPerson.Visible = true;
 			this.colPerson.VisibleIndex = 0;
-			this.colPerson.Width = 78;
+			this.colPerson.Width = 333;
 			// 
 			// colPledgeDate
 			// 
@@ -334,8 +353,8 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.colPledgeAmount.FieldName = "Amount";
 			this.colPledgeAmount.MaxWidth = 85;
 			this.colPledgeAmount.Name = "colPledgeAmount";
-			this.colPledgeAmount.SummaryItem.DisplayFormat = "{0:c} Total Pledges";
-			this.colPledgeAmount.SummaryItem.SummaryType = DevExpress.Data.SummaryItemType.Sum;
+			this.colPledgeAmount.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Amount", "{0:c} Total Paid")});
 			this.colPledgeAmount.Visible = true;
 			this.colPledgeAmount.VisibleIndex = 1;
 			this.colPledgeAmount.Width = 85;
@@ -346,7 +365,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.colNote.Name = "colNote";
 			this.colNote.Visible = true;
 			this.colNote.VisibleIndex = 2;
-			this.colNote.Width = 42;
+			this.colNote.Width = 62;
 			// 
 			// colModified
 			// 
@@ -371,7 +390,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.colMensSeats.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
 			this.colMensSeats.Visible = true;
 			this.colMensSeats.VisibleIndex = 3;
-			this.colMensSeats.Width = 76;
+			this.colMensSeats.Width = 110;
 			// 
 			// seatsEdit
 			// 
@@ -393,33 +412,32 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.colWomensSeats.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
 			this.colWomensSeats.Visible = true;
 			this.colWomensSeats.VisibleIndex = 4;
-			this.colWomensSeats.Width = 92;
+			this.colWomensSeats.Width = 153;
 			// 
 			// colAddPayment
 			// 
 			this.colAddPayment.Caption = " ";
 			this.colAddPayment.ColumnEditor = this.paymentMenuEdit;
+			this.colAddPayment.MaxWidth = 180;
 			this.colAddPayment.Name = "colAddPayment";
 			this.colAddPayment.OptionsColumn.AllowGroup = DevExpress.Utils.DefaultBoolean.False;
 			this.colAddPayment.OptionsColumn.AllowMove = false;
 			this.colAddPayment.OptionsColumn.AllowShowHide = false;
 			this.colAddPayment.OptionsColumn.AllowSize = false;
-			this.colAddPayment.OptionsColumn.FixedWidth = true;
-			this.colAddPayment.OptionsColumn.ReadOnly = true;
 			this.colAddPayment.OptionsFilter.AllowAutoFilter = false;
 			this.colAddPayment.OptionsFilter.AllowFilter = false;
 			this.colAddPayment.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways;
 			this.colAddPayment.ShowEditorOnMouseDown = true;
 			this.colAddPayment.Visible = true;
 			this.colAddPayment.VisibleIndex = 5;
-			this.colAddPayment.Width = 90;
+			this.colAddPayment.Width = 131;
 			// 
 			// paymentMenuEdit
 			// 
 			this.paymentMenuEdit.AllowFocused = false;
 			this.paymentMenuEdit.AutoHeight = false;
 			this.paymentMenuEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.DropDown, "Add Payment", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleRight, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, "", null, null, true)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.DropDown, "Add Payment", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleRight, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "", null, null, true)});
 			this.paymentMenuEdit.Name = "paymentMenuEdit";
 			this.paymentMenuEdit.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor;
 			this.paymentMenuEdit.ButtonClick += new DevExpress.XtraEditors.Controls.ButtonPressedEventHandler(this.paymentMenuEdit_ButtonClick);
@@ -427,23 +445,25 @@ namespace ShomreiTorah.Journal.AddIn {
 			// comments
 			// 
 			this.comments.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.adsBindingSource, "Comments", true));
-			this.comments.Location = new System.Drawing.Point(24, 157);
+			this.comments.Location = new System.Drawing.Point(37, 227);
+			this.comments.Margin = new System.Windows.Forms.Padding(4);
 			this.comments.Name = "comments";
 			this.comments.Properties.NullValuePrompt = "Ad Comments";
 			this.comments.Properties.NullValuePromptShowForEmptyValue = true;
 			this.comments.Properties.Validating += new System.ComponentModel.CancelEventHandler(this.comments_Properties_Validating);
-			this.comments.Size = new System.Drawing.Size(462, 45);
+			this.comments.Size = new System.Drawing.Size(691, 68);
 			this.comments.StyleController = this.layoutControl1;
 			this.comments.TabIndex = 6;
 			// 
 			// adType
 			// 
-			this.adType.Location = new System.Drawing.Point(217, 109);
+			this.adType.Location = new System.Drawing.Point(323, 160);
+			this.adType.Margin = new System.Windows.Forms.Padding(4);
 			this.adType.Name = "adType";
 			this.adType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
 			this.adType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-			this.adType.Size = new System.Drawing.Size(269, 20);
+			this.adType.Size = new System.Drawing.Size(405, 26);
 			this.adType.StyleController = this.layoutControl1;
 			this.adType.TabIndex = 5;
 			this.adType.SelectedValueChanged += new System.EventHandler(this.adType_SelectedValueChanged);
@@ -456,11 +476,12 @@ namespace ShomreiTorah.Journal.AddIn {
             0,
             0,
             0});
-			this.externalId.Location = new System.Drawing.Point(82, 109);
+			this.externalId.Location = new System.Drawing.Point(119, 160);
+			this.externalId.Margin = new System.Windows.Forms.Padding(4);
 			this.externalId.Name = "externalId";
 			this.externalId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton()});
-			this.externalId.Size = new System.Drawing.Size(87, 20);
+			this.externalId.Size = new System.Drawing.Size(135, 26);
 			this.externalId.StyleController = this.layoutControl1;
 			this.externalId.TabIndex = 4;
 			this.externalId.Validating += new System.ComponentModel.CancelEventHandler(this.externalId_Validating);
@@ -478,9 +499,7 @@ namespace ShomreiTorah.Journal.AddIn {
             this.warningsGroup});
 			this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
 			this.layoutControlGroup1.Name = "layoutControlGroup1";
-			this.layoutControlGroup1.Size = new System.Drawing.Size(510, 568);
-			this.layoutControlGroup1.Spacing = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0);
-			this.layoutControlGroup1.Text = "layoutControlGroup1";
+			this.layoutControlGroup1.Size = new System.Drawing.Size(765, 833);
 			this.layoutControlGroup1.TextVisible = false;
 			// 
 			// layoutControlGroup2
@@ -491,22 +510,20 @@ namespace ShomreiTorah.Journal.AddIn {
             this.layoutControlItem1,
             this.layoutControlItem2,
             this.layoutControlItem7});
-			this.layoutControlGroup2.Location = new System.Drawing.Point(0, 65);
+			this.layoutControlGroup2.Location = new System.Drawing.Point(0, 95);
 			this.layoutControlGroup2.Name = "layoutControlGroup2";
 			this.layoutControlGroup2.OptionsItemText.TextAlignMode = DevExpress.XtraLayout.TextAlignModeGroup.AutoSize;
-			this.layoutControlGroup2.Size = new System.Drawing.Size(490, 141);
+			this.layoutControlGroup2.Size = new System.Drawing.Size(735, 207);
 			this.layoutControlGroup2.Text = "Ad Properties";
 			// 
 			// layoutControlItem3
 			// 
 			this.layoutControlItem3.Control = this.comments;
 			this.layoutControlItem3.CustomizationFormText = "layoutControlItem3";
-			this.layoutControlItem3.Location = new System.Drawing.Point(0, 48);
+			this.layoutControlItem3.Location = new System.Drawing.Point(0, 67);
 			this.layoutControlItem3.Name = "layoutControlItem3";
-			this.layoutControlItem3.Size = new System.Drawing.Size(466, 49);
-			this.layoutControlItem3.Text = "layoutControlItem3";
+			this.layoutControlItem3.Size = new System.Drawing.Size(697, 74);
 			this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
-			this.layoutControlItem3.TextToControlDistance = 0;
 			this.layoutControlItem3.TextVisible = false;
 			// 
 			// layoutControlItem1
@@ -515,67 +532,62 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.layoutControlItem1.CustomizationFormText = "External ID";
 			this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
 			this.layoutControlItem1.Name = "layoutControlItem1";
-			this.layoutControlItem1.Size = new System.Drawing.Size(149, 24);
+			this.layoutControlItem1.Size = new System.Drawing.Size(223, 32);
 			this.layoutControlItem1.Text = "External ID";
-			this.layoutControlItem1.TextSize = new System.Drawing.Size(54, 13);
+			this.layoutControlItem1.TextSize = new System.Drawing.Size(79, 19);
 			// 
 			// layoutControlItem2
 			// 
 			this.layoutControlItem2.Control = this.adType;
 			this.layoutControlItem2.CustomizationFormText = "Ad Type";
-			this.layoutControlItem2.Location = new System.Drawing.Point(149, 0);
+			this.layoutControlItem2.Location = new System.Drawing.Point(223, 0);
 			this.layoutControlItem2.Name = "layoutControlItem2";
-			this.layoutControlItem2.Size = new System.Drawing.Size(317, 24);
+			this.layoutControlItem2.Size = new System.Drawing.Size(474, 32);
 			this.layoutControlItem2.Text = "Ad Type";
-			this.layoutControlItem2.TextSize = new System.Drawing.Size(40, 13);
+			this.layoutControlItem2.TextSize = new System.Drawing.Size(60, 19);
 			// 
 			// layoutControlItem7
 			// 
 			this.layoutControlItem7.Control = this.adDate;
 			this.layoutControlItem7.ControlAlignment = System.Drawing.ContentAlignment.MiddleLeft;
 			this.layoutControlItem7.CustomizationFormText = "Date Entered:";
-			this.layoutControlItem7.Location = new System.Drawing.Point(0, 24);
-			this.layoutControlItem7.MaxSize = new System.Drawing.Size(466, 24);
-			this.layoutControlItem7.MinSize = new System.Drawing.Size(466, 24);
+			this.layoutControlItem7.Location = new System.Drawing.Point(0, 32);
 			this.layoutControlItem7.Name = "layoutControlItem7";
-			this.layoutControlItem7.Size = new System.Drawing.Size(466, 24);
-			this.layoutControlItem7.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
+			this.layoutControlItem7.Size = new System.Drawing.Size(697, 35);
 			this.layoutControlItem7.Spacing = new DevExpress.XtraLayout.Utils.Padding(0, 3, 0, 0);
 			this.layoutControlItem7.Text = "Date Entered:";
-			this.layoutControlItem7.TextSize = new System.Drawing.Size(68, 13);
+			this.layoutControlItem7.TextSize = new System.Drawing.Size(97, 19);
 			// 
 			// layoutControlItem4
 			// 
 			this.layoutControlItem4.Control = this.pledgesGrid;
 			this.layoutControlItem4.CustomizationFormText = "layoutControlItem4";
-			this.layoutControlItem4.Location = new System.Drawing.Point(0, 230);
+			this.layoutControlItem4.Location = new System.Drawing.Point(0, 336);
 			this.layoutControlItem4.Name = "layoutControlItem4";
-			this.layoutControlItem4.Size = new System.Drawing.Size(490, 145);
-			this.layoutControlItem4.Text = "layoutControlItem4";
+			this.layoutControlItem4.Size = new System.Drawing.Size(735, 213);
 			this.layoutControlItem4.TextLocation = DevExpress.Utils.Locations.Top;
 			this.layoutControlItem4.TextSize = new System.Drawing.Size(0, 0);
-			this.layoutControlItem4.TextToControlDistance = 0;
 			this.layoutControlItem4.TextVisible = false;
 			// 
 			// layoutControlItem5
 			// 
 			this.layoutControlItem5.Control = this.pledgeAdder;
 			this.layoutControlItem5.CustomizationFormText = "Add Pledge:";
-			this.layoutControlItem5.Location = new System.Drawing.Point(0, 206);
+			this.layoutControlItem5.Location = new System.Drawing.Point(0, 302);
 			this.layoutControlItem5.Name = "layoutControlItem5";
-			this.layoutControlItem5.Size = new System.Drawing.Size(490, 24);
+			this.layoutControlItem5.Size = new System.Drawing.Size(735, 34);
 			this.layoutControlItem5.Text = "Add Pledge:";
-			this.layoutControlItem5.TextSize = new System.Drawing.Size(58, 13);
+			this.layoutControlItem5.TextSize = new System.Drawing.Size(87, 19);
 			// 
 			// layoutControlGroup3
 			// 
 			this.layoutControlGroup3.CustomizationFormText = "Payments";
 			this.layoutControlGroup3.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlItem6});
-			this.layoutControlGroup3.Location = new System.Drawing.Point(0, 375);
+			this.layoutControlGroup3.Location = new System.Drawing.Point(0, 549);
 			this.layoutControlGroup3.Name = "layoutControlGroup3";
 			this.layoutControlGroup3.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0);
-			this.layoutControlGroup3.Size = new System.Drawing.Size(490, 173);
+			this.layoutControlGroup3.Size = new System.Drawing.Size(735, 254);
 			this.layoutControlGroup3.Spacing = new DevExpress.XtraLayout.Utils.Padding(2, 2, 8, 2);
 			this.layoutControlGroup3.Text = "Payments";
 			// 
@@ -586,10 +598,8 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.layoutControlItem6.Location = new System.Drawing.Point(0, 0);
 			this.layoutControlItem6.Name = "layoutControlItem6";
 			this.layoutControlItem6.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0);
-			this.layoutControlItem6.Size = new System.Drawing.Size(484, 141);
-			this.layoutControlItem6.Text = "layoutControlItem6";
+			this.layoutControlItem6.Size = new System.Drawing.Size(727, 212);
 			this.layoutControlItem6.TextSize = new System.Drawing.Size(0, 0);
-			this.layoutControlItem6.TextToControlDistance = 0;
 			this.layoutControlItem6.TextVisible = false;
 			// 
 			// warningsGroup
@@ -602,7 +612,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			this.warningsGroup.Name = "warningsGroup";
 			this.warningsGroup.OptionsItemText.TextAlignMode = DevExpress.XtraLayout.TextAlignModeGroup.AutoSize;
 			this.warningsGroup.ShowInCustomizationForm = false;
-			this.warningsGroup.Size = new System.Drawing.Size(490, 65);
+			this.warningsGroup.Size = new System.Drawing.Size(735, 95);
 			this.warningsGroup.Text = "Warnings";
 			// 
 			// colPledgeId
@@ -655,23 +665,25 @@ namespace ShomreiTorah.Journal.AddIn {
 			// adSearcher
 			// 
 			this.adSearcher.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.adSearcher.Location = new System.Drawing.Point(0, 568);
+			this.adSearcher.Location = new System.Drawing.Point(0, 833);
+			this.adSearcher.Margin = new System.Windows.Forms.Padding(4);
 			this.adSearcher.Name = "adSearcher";
 			this.adSearcher.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
 			this.adSearcher.Properties.NullValuePrompt = "Click here to search for an ad";
-			this.adSearcher.Size = new System.Drawing.Size(510, 20);
+			this.adSearcher.Size = new System.Drawing.Size(765, 26);
 			this.adSearcher.TabIndex = 1;
 			this.adSearcher.EditValueChanged += new System.EventHandler(this.adSearcher_EditValueChanged);
 			// 
 			// AdPane
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.layoutControl1);
 			this.Controls.Add(this.adSearcher);
+			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "AdPane";
-			this.Size = new System.Drawing.Size(510, 588);
+			this.Size = new System.Drawing.Size(765, 859);
 			((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
 			this.layoutControl1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.adsBindingSource)).EndInit();
