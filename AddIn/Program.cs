@@ -15,6 +15,7 @@ using ShomreiTorah.Data.UI.Forms;
 using ShomreiTorah.Singularity;
 using ShomreiTorah.Singularity.Sql;
 using ShomreiTorah.WinForms;
+using System.Composition.Hosting;
 
 namespace ShomreiTorah.Journal.AddIn {
 	class Program : AppFramework {
@@ -104,6 +105,10 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 
 		public StatsManager Statistics { get; private set; }
+		public Lazy<CompositionHost> MefContainer { get; } = new Lazy<CompositionHost>(() => new ContainerConfiguration()
+				 .WithAssembly(typeof(Program).Assembly)
+				 .WithAssembly(typeof(Billing.PaymentImport.ImportForm).Assembly)
+				 .CreateContainer());
 
 		protected override DataSyncContext CreateDataContext() {
 			var context = new DataContext();

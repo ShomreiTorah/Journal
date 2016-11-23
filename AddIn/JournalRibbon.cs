@@ -48,6 +48,7 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 		public bool IsJournal(IRibbonControl control) { return control.Journal() != null; }
 		public bool IsAdSelected(IRibbonControl control) { return control.CurrentAd() != null; }
+		public bool HasImportOption(IRibbonControl control) => Config.GetElement("Billing").Element("PaymentImport") != null;
 		#endregion
 
 		#region Stats callbacks
@@ -110,6 +111,17 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 		public void ShowCharts(IRibbonControl control) { new Forms.ChartsForm(control.Journal().Year).Show(Globals.ThisAddIn.Application.Window()); }
 		public void ShowGrid(IRibbonControl control) { new Forms.AdsGridForm(control.Journal()).Show(Globals.ThisAddIn.Application.Window()); }
+
+
+		public void ShowImportForm(IRibbonControl control) {
+			Program.Current.MefContainer.Value
+				.GetExport<Billing.PaymentImport.ImportForm>()
+				.SetPledgeTypes(Names.JournalPledgeType)
+				.RequirePledge()
+				.SetCreationCallback(control.Journal().ImportAd)
+				// TODO: Suppress ad warning / set import caption to "Create Ad".
+				.Show(new ArbitraryWindow((IntPtr)control.Window().HWND));
+		}
 
 		public void SaveDB(IRibbonControl control) { Program.Current.SaveDatabase(); }
 		public void RefreshDB(IRibbonControl control) {
@@ -174,7 +186,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			var columnSize = Names.AdTypes.Count / 3;
 			var tallerColumns = Names.AdTypes.Count % 3;
 			return columnSize * (index % 3) // Add the number of items in the preceding columns.
-				 + Math.Min(tallerColumns, (index % 3))	// Add one for each taller preceding column.
+				 + Math.Min(tallerColumns, (index % 3)) // Add one for each taller preceding column.
 				 + index / 3;
 		}
 

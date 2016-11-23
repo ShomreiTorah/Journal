@@ -128,6 +128,14 @@ namespace ShomreiTorah.Journal {
 			return retVal;
 		}
 
+		public void ImportAd(PaymentInfo info, Payment payment, Pledge pledge) {
+			var ad = CreateAd(Names.AdTypes.First(t => t.PledgeSubType == pledge.SubType));
+			payment.ExternalSource = pledge.ExternalSource = "Journal " + Year;
+			payment.ExternalId = pledge.ExternalId = ad.Row.ExternalId;
+			ad.Shape.TextFrame2.TextRange.Text = info.JournalInfo.AdText;
+			Formatter.FormatText(ad);
+		}
+
 		///<summary>Creates a new shape for a given ad type.</summary>
 		Shape CreateAdShape(AdType type) {
 			if (type.AdsPerPage > 1) {

@@ -8,6 +8,7 @@
 							 columns="3" getItemCount="GetAdTypeCount" getItemLabel="GetAdTypeLabel" getItemID="GetAdTypeId" />
 					<button id="InsertPage" label="Create Special Page" imageMso="SourceControlAddObjects" size="large"	supertip="Inserts a new page into the journal.  The page will stay wherever you put it."
 							onAction="InsertSpecialPage" />
+					<button id="ImportAds" label="Import Ads" getVisible="HasImportOption" onAction="ShowImportForm"/>
 					<separator id="S1" />
 					<button id="SaveDB" label="Save Ads" imageMso="SaveSelectionToTableOfContentsGallery" size="large" supertip="Saves data changes to SQL Server.&#10;Changes will also be saved when you save the presentation."
 							onAction="SaveDB"/>
