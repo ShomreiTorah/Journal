@@ -13,6 +13,7 @@ using ShomreiTorah.Common;
 using ShomreiTorah.Data;
 using ShomreiTorah.Journal.Properties;
 using ShomreiTorah.WinForms;
+using ShomreiTorah.Data.UI;
 
 namespace ShomreiTorah.Journal.AddIn {
 	[ComVisible(true)]
@@ -114,6 +115,7 @@ namespace ShomreiTorah.Journal.AddIn {
 
 
 		public void ShowImportForm(IRibbonControl control) {
+			AppFramework.LoadTables(EmailAddress.Schema, ImportedPayment.Schema);
 			Program.Current.MefContainer.Value
 				.GetExport<Billing.PaymentImport.ImportForm>()
 				.SetPledgeTypes(Names.JournalPledgeType)
