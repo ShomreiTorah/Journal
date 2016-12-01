@@ -121,7 +121,7 @@ namespace ShomreiTorah.Journal.AddIn {
 				.SetPledgeTypes(Names.JournalPledgeType)
 				.RequirePledge()
 				.SetCreationCallback(control.Journal().ImportAd)
-				// TODO: Suppress ad warning / set import caption to "Create Ad".
+				.SetJournalMode(control.Journal().Year)
 				.Show(new ArbitraryWindow((IntPtr)control.Window().HWND));
 		}
 
