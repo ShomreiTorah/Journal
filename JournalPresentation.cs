@@ -135,6 +135,7 @@ namespace ShomreiTorah.Journal {
 			payment.ExternalId = pledge.ExternalId = ad.Row.ExternalId;
 			ad.Shape.TextFrame2.TextRange.Text = info.JournalInfo.AdText;
 			Formatter.FormatText(ad);
+			ad.Shape.ForceSelect();
 		}
 
 		///<summary>Creates a new shape for a given ad type.</summary>

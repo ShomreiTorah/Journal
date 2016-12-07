@@ -115,6 +115,8 @@ namespace ShomreiTorah.Journal.AddIn {
 
 
 		public void ShowImportForm(IRibbonControl control) {
+			if (!control.Journal().ConfirmModification())
+				return;
 			AppFramework.LoadTables(EmailAddress.Schema, ImportedPayment.Schema);
 			Program.Current.MefContainer.Value
 				.GetExport<Billing.PaymentImport.ImportForm>()

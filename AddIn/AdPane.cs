@@ -259,8 +259,9 @@ namespace ShomreiTorah.Journal.AddIn {
 		private void paymentMenuEdit_ButtonClick(object sender, ButtonPressedEventArgs e) {
 			var pledge = (Pledge)pledgesView.GetFocusedRow();
 			var menu = new DXPopupMenu();
-			foreach (var dontUse in Names.PaymentMethods) {
-				var method = dontUse;	//Force a separate variable for each closure
+			foreach (var method in Names.PaymentMethods) {
+				if (method == "Credit Card")
+					continue;		// Credit card payments should not be created by hand.
 				menu.Items.Add(new DXMenuItem(method, delegate {
 					if (payments.Rows.Any(p => p.Person == pledge.Person)) {
 						if (!Dialog.Warn("You already entered a payment for " + pledge.Person.VeryFullName + ".\r\nAre you sure you want to add another payment?"))
