@@ -14,6 +14,7 @@ using ShomreiTorah.Data;
 using ShomreiTorah.Journal.Properties;
 using ShomreiTorah.WinForms;
 using ShomreiTorah.Data.UI;
+using ShomreiTorah.Billing.PaymentImport;
 
 namespace ShomreiTorah.Journal.AddIn {
 	[ComVisible(true)]
