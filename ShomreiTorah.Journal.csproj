@@ -354,6 +354,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="App.config" />
     <None Include="Certificate.pfx" />
     <None Include="Journal.pfx" />
     <None Include="packages.config" />
