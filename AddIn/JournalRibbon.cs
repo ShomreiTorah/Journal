@@ -119,6 +119,12 @@ namespace ShomreiTorah.Journal.AddIn {
 			if (!control.Journal().ConfirmModification())
 				return;
 			AppFramework.LoadTables(EmailAddress.Schema, ImportedPayment.Schema);
+
+			if (!Person.Schema.Columns.Contains("BalanceDue")) {
+				Person.Schema.Columns.AddCalculatedColumn<Person, decimal>("BalanceDue",
+					person => person.Pledges.Sum(p => p.Amount) - person.Payments.Sum(p => p.Amount));
+			}
+
 			Program.Current.MefContainer.Value
 				.GetExport<Billing.PaymentImport.ImportForm>()
 				.SetPledgeTypes(Names.JournalPledgeType)
