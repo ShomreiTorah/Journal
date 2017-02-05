@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.PowerPoint;
 using ShomreiTorah.Data;
+using ShomreiTorah.Data.UI.Forms;
 using ShomreiTorah.WinForms;
 using Office = Microsoft.Office.Core;
 
@@ -34,7 +35,7 @@ namespace ShomreiTorah.Journal.AddIn {
 
 					var jp = RegisterJournal(presentation, createTaskPane: oldYear == null);    //Only create a new taskpane if it wasn't already a journal
 
-					if (oldYear != null)
+					if (oldYear != null && jp != null)
 						((AdPane)GetTaskPane(presentation).Control).ReplaceJournal(jp);
 				} else {
 					JournalPresentation.KillJournal(presentation);
@@ -60,35 +61,40 @@ namespace ShomreiTorah.Journal.AddIn {
 				Dialog.ShowError("An error occurred while reading the database.  Please fix the problem and restart PowerPoint.\n\n" + ex.InnerException.Message);
 			}
 
-			if (!addedAppHandlers) {
-				//Since I only need these handlers if there's a journal open,
-				//I only add them now so that they won't load assemblies when
-				//they execute throughout the year.
-				Application.PresentationCloseFinal += Application_PresentationCloseFinal;
-				Application.PresentationSave += Application_PresentationSave;
-				addedAppHandlers = true;
-			}
-
-			var actualYear = JournalPresentation.GetYear(presentation);
-			int parsedYear = 0;
-			foreach (var segment in presentation.FullName.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)) {
-				if (int.TryParse(segment, out parsedYear) && parsedYear > 2000) {
-					if (parsedYear != actualYear) {
-						if (Dialog.Warn("This journal is in a " + parsedYear + " folder, but the file is linked to the " + actualYear
-									  + " journal.\r\nDo you want to link the file to " + parsedYear + "?"))
-							JournalPresentation.MakeJournal(presentation, parsedYear);
-					}
-					break;  //If we found any year in the path, stop searching
+			try {
+				if (!addedAppHandlers) {
+					//Since I only need these handlers if there's a journal open,
+					//I only add them now so that they won't load assemblies when
+					//they execute throughout the year.
+					Application.PresentationCloseFinal += Application_PresentationCloseFinal;
+					Application.PresentationSave += Application_PresentationSave;
+					addedAppHandlers = true;
 				}
-			}
-			if (parsedYear < 2000)  //If we didn't find any years in the segments
-				Dialog.Show("The journal probably ought to be in a folder for its year.", MessageBoxIcon.Warning);
 
-			var jp = new JournalPresentation(presentation, Program.Current.DataContext);
-			openJournals.Add(presentation, jp);
-			if (createTaskPane)
-				CreateTaskPane(jp);
-			return jp;
+				var actualYear = JournalPresentation.GetYear(presentation);
+				int parsedYear = 0;
+				foreach (var segment in presentation.FullName.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)) {
+					if (int.TryParse(segment, out parsedYear) && parsedYear > 2000) {
+						if (parsedYear != actualYear) {
+							if (Dialog.Warn("This journal is in a " + parsedYear + " folder, but the file is linked to the " + actualYear
+										  + " journal.\r\nDo you want to link the file to " + parsedYear + "?"))
+								JournalPresentation.MakeJournal(presentation, parsedYear);
+						}
+						break;  //If we found any year in the path, stop searching
+					}
+				}
+				if (parsedYear < 2000)  //If we didn't find any years in the segments
+					Dialog.Show("The journal probably ought to be in a folder for its year.", MessageBoxIcon.Warning);
+
+				var jp = new JournalPresentation(presentation, Program.Current.DataContext);
+				openJournals.Add(presentation, jp);
+				if (createTaskPane)
+					CreateTaskPane(jp);
+				return jp;
+			} catch (Exception ex) {
+				new ExceptionReporter(ex).Show(Application.Window());
+				return null;
+			}
 		}
 		void UnregisterJournal(Presentation presentation) {
 			CustomTaskPanes.Remove(GetTaskPane(presentation));
