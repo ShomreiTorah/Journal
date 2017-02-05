@@ -118,12 +118,7 @@ namespace ShomreiTorah.Journal.AddIn {
 		public void ShowImportForm(IRibbonControl control) {
 			if (!control.Journal().ConfirmModification())
 				return;
-			AppFramework.LoadTables(EmailAddress.Schema, ImportedPayment.Schema);
-
-			if (!Person.Schema.Columns.Contains("BalanceDue")) {
-				Person.Schema.Columns.AddCalculatedColumn<Person, decimal>("BalanceDue",
-					person => person.Pledges.Sum(p => p.Amount) - person.Payments.Sum(p => p.Amount));
-			}
+			Program.SetUpPaymentImport();
 
 			Program.Current.MefContainer.Value
 				.GetExport<Billing.PaymentImport.ImportForm>()

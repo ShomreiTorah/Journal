@@ -14,8 +14,10 @@ using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using DevExpress.XtraLayout;
 using DevExpress.XtraLayout.Utils;
+using ShomreiTorah.Billing.PaymentImport;
 using ShomreiTorah.Common;
 using ShomreiTorah.Data;
+using ShomreiTorah.Data.UI;
 using ShomreiTorah.Data.UI.Controls;
 using ShomreiTorah.Data.UI.DisplaySettings;
 using ShomreiTorah.Singularity;
@@ -61,6 +63,41 @@ namespace ShomreiTorah.Journal.AddIn {
 			adSearcher.Properties.Columns.RemoveAt(adSearcher.Properties.Columns.FindIndex(c => c.Caption == "Zip code"));
 
 			window.Application.WindowSelectionChange += Application_WindowSelectionChange;
+
+			if (Config.GetElement("Billing").Element("PaymentImport") != null) {
+				EditorButton importButton = new EditorButton(ButtonPredefines.Glyph) {
+					Caption = "Import Payment",
+					SuperTip = Utilities.CreateSuperTip(
+						"Import Payment",
+						"Imports a credit card payment and links it to this ad.\n\n"
+					  + "Use this for credit card payments made after an ad was already entered.\n\n"
+					  + "This will not create a new ad."
+					)
+				};
+				importButton.Click += ImportButton_Click;
+				pledgeAdder.Properties.Buttons.Add(importButton);
+			}
+		}
+
+		private void ImportButton_Click(object sender, EventArgs e) {
+			if (!journal.ConfirmModification())
+				return;
+			Program.SetUpPaymentImport();
+
+			Program.Current.MefContainer.Value
+				.GetExport<Billing.PaymentImport.ImportForm>()
+				.FixPledgeType(Names.JournalPledgeType.Name, ad.AdType.PledgeSubType)
+				.SetCreationCallback(ImportAd)
+				.Show(new ArbitraryWindow((IntPtr)window.HWND));
+		}
+
+		private void ImportAd(PaymentInfo info, Payment payment, Pledge pledge) {
+			payment.ExternalSource = "Journal " + ad.Row.Year;
+			payment.ExternalId = ad.Row.ExternalId;
+			if (pledge != null) {
+				pledge.ExternalSource = "Journal " + ad.Row.Year;
+				pledge.ExternalId = ad.Row.ExternalId;
+			}
 		}
 
 		void Application_WindowSelectionChange(PowerPoint.Selection Sel) {
@@ -94,7 +131,7 @@ namespace ShomreiTorah.Journal.AddIn {
 				CheckWarnings();
 				return;
 			}
-			Focus();	// Commit any pending edits.
+			Focus();    // Commit any pending edits.
 			DisposeDataSources();
 
 			this.ad = newAd;
@@ -103,7 +140,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			adsBindingSource.Position = adsBindingSource.IndexOf(ad.Row);
 			adType.EditValue = ad.AdType;
 
-			//Singularity's dependency parser cannot handle 
+			//Singularity's dependency parser cannot handle
 			//external rows, so I can't use ad.Row inside of
 			//the filter. However, I want to pick up changes
 			//to the ad's ExternalId, so I use a function.
@@ -136,7 +173,7 @@ namespace ShomreiTorah.Journal.AddIn {
 				return;
 
 			if (!CheckAdjustPledges("Change Ad Type", newType: newType)) {
-				adType.EditValue = ad.AdType;		//Reset the editor's value.
+				adType.EditValue = ad.AdType;       //Reset the editor's value.
 				return;
 			}
 
@@ -148,7 +185,7 @@ namespace ShomreiTorah.Journal.AddIn {
 		bool CheckAdjustPledges(string actionName, AdType newType = null, IList<Pledge> newPledges = null) {
 			var oldType = ad.AdType;
 			var oldPledges = pledges.Rows;
-			if (oldPledges.Count == 0) return true;		//If there weren't any pledges, there's nothing to do.
+			if (oldPledges.Count == 0) return true;     //If there weren't any pledges, there's nothing to do.
 
 			newType = newType ?? ad.AdType;
 			newPledges = newPledges ?? (IList<Pledge>)pledges.Rows;
@@ -156,12 +193,12 @@ namespace ShomreiTorah.Journal.AddIn {
 			//If there are pledges, try adjusting the amounts
 			if (newPledges.Count > 0) {
 				//If there is a payment, we assume that it
-				//has the correct amount and don't adjust 
-				//anything.  If the pledge amounts aren't 
-				//equal, we assume that something strange 
-				//is being billed, and don't adjust them. 
+				//has the correct amount and don't adjust
+				//anything.  If the pledge amounts aren't
+				//equal, we assume that something strange
+				//is being billed, and don't adjust them.
 				if (payments.Rows.Any()
-				 || oldPledges.Any(p => Math.Abs(p.Amount - oldPledges[0].Amount) > 1)		//Allow off-by-one, in case it came from an indivisible pledge count
+				 || oldPledges.Any(p => Math.Abs(p.Amount - oldPledges[0].Amount) > 1)      //Allow off-by-one, in case it came from an indivisible pledge count
 				 || oldPledges.Sum(p => p.Amount) != oldType.DefaultPrice) {
 					ShowColumnTooltip(colPledgeAmount, new ToolTipControllerShowEventArgs {
 						Rounded = true,
@@ -173,8 +210,8 @@ namespace ShomreiTorah.Journal.AddIn {
 					});
 				} else {
 					decimal newAmount = newType.DefaultPrice / newPledges.Count;
-					int baseAmount = (int)newAmount;	//Truncate
-					int higherAdCount = 0;		//The number of ads which should receive $(baseAmount + 1) pledges to add up correctly
+					int baseAmount = (int)newAmount;    //Truncate
+					int higherAdCount = 0;      //The number of ads which should receive $(baseAmount + 1) pledges to add up correctly
 					string message;
 					if (newAmount == baseAmount)
 						message = String.Format(
@@ -199,11 +236,11 @@ namespace ShomreiTorah.Journal.AddIn {
 							);
 					}
 					switch (Dialog.Show(message, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning)) {
-						case DialogResult.Cancel:			//Don't change the ad type.
+						case DialogResult.Cancel:           //Don't change the ad type.
 							return false;
-						case DialogResult.No:				//Don't change any pledges.
+						case DialogResult.No:               //Don't change any pledges.
 							break;
-						case DialogResult.Yes:				//Adjust the pledge amounts
+						case DialogResult.Yes:              //Adjust the pledge amounts
 							int pledgeIndex = 0;
 							foreach (var pledge in newPledges.OrderBy(p => p.Person.LastName)) {
 								if (pledgeIndex < higherAdCount)
@@ -261,7 +298,7 @@ namespace ShomreiTorah.Journal.AddIn {
 			var menu = new DXPopupMenu();
 			foreach (var method in Names.PaymentMethods) {
 				if (method == "Credit Card")
-					continue;		// Credit card payments should not be created by hand.
+					continue;       // Credit card payments should not be created by hand.
 				menu.Items.Add(new DXMenuItem(method, delegate {
 					if (payments.Rows.Any(p => p.Person == pledge.Person)) {
 						if (!Dialog.Warn("You already entered a payment for " + pledge.Person.VeryFullName + ".\r\nAre you sure you want to add another payment?"))
@@ -326,7 +363,7 @@ namespace ShomreiTorah.Journal.AddIn {
 
 		#region Seating
 		private void pledgesView_CustomUnboundColumnData(object sender, CustomColumnDataEventArgs e) {
-			if (pledges == null) return;	//Still initializing
+			if (pledges == null) return;    //Still initializing
 
 			if (e.Column.FieldName.StartsWith("Seat/", StringComparison.OrdinalIgnoreCase)) {
 				var field = e.Column.FieldName.Substring("Seat/".Length);
@@ -334,14 +371,14 @@ namespace ShomreiTorah.Journal.AddIn {
 				var seat = pledge.Person.MelaveMalkaSeats.FirstOrDefault(s => s.Year == journal.Year);
 
 				if (e.IsGetData) {
-					e.Value = seat == null ? null : seat[field];	//No reservation means unsure
-				} else {	//Modify the existing seating row or add a new one
+					e.Value = seat == null ? null : seat[field];    //No reservation means unsure
+				} else {    //Modify the existing seating row or add a new one
 					if (seat != null) {
 						seat[field] = e.Value;
 						if (seat.MensSeats == null && seat.WomensSeats == null)
 							seat.RemoveRow();
-					} else {					//There isn't an existing seat row
-						if (e.Value == null)	//If it's still null, don't change anything
+					} else {                    //There isn't an existing seat row
+						if (e.Value == null)    //If it's still null, don't change anything
 							return;
 						else {
 							seat = new MelaveMalkaSeat {
@@ -361,7 +398,7 @@ namespace ShomreiTorah.Journal.AddIn {
 		//TODO: Button to refresh warnings
 		#region Warnings
 		private void comments_Properties_Validating(object sender, CancelEventArgs e) {
-			BeginInvoke(new Action(CheckWarnings));	//In case the user deleted a suppression
+			BeginInvoke(new Action(CheckWarnings)); //In case the user deleted a suppression
 		}
 
 		void CheckWarnings() {
@@ -372,13 +409,13 @@ namespace ShomreiTorah.Journal.AddIn {
 				}
 				warningsGroup.Clear();
 
-				if (ad == null) return;	//I still need to clear the controls
+				if (ad == null) return; //I still need to clear the controls
 				var warnings = ad.CheckWarnings().ToList();
 
 				warningsGroup.Visibility = warnings.Count > 0 ? LayoutVisibility.OnlyInRuntime : LayoutVisibility.Never;
 
 				foreach (var dontUse in warnings) {
-					var warning = dontUse;	//Force closures to get separate variables
+					var warning = dontUse;  //Force closures to get separate variables
 
 					var button = new SimpleButton {
 						Text = "Suppress",

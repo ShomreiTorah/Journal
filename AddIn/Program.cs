@@ -27,6 +27,16 @@ namespace ShomreiTorah.Journal.AddIn {
 			return Current.DataContext.Table<TRow>();
 		}
 
+		///<summary>Sets up the DataContext to support the PaymentImport UI.</summary>
+		public static void SetUpPaymentImport() {
+			LoadTables(EmailAddress.Schema, Billing.PaymentImport.ImportedPayment.Schema);
+
+			if (!Person.Schema.Columns.Contains("BalanceDue")) {
+				Person.Schema.Columns.AddCalculatedColumn<Person, decimal>("BalanceDue",
+					person => person.Pledges.Sum(p => p.Amount) - person.Payments.Sum(p => p.Amount));
+			}
+		}
+
 		public static void CheckDesignTime() {
 			//If the project is re-built, AppFramework.Current
 			//will refer to the instance from the old assembly
@@ -121,7 +131,7 @@ namespace ShomreiTorah.Journal.AddIn {
 		///<summary>Creates the tables used by the addin.</summary>
 		///<remarks>This method is called by the chart form to create
 		public static void CreateTables(DataContext context) {
-			//Remove unused calculated columns.  These columns are 
+			//Remove unused calculated columns.  These columns are
 			//used by the billing system, and reference tables that
 			//we don't load.
 			MelaveMalkaInvitation.Schema.Columns.RemoveColumn(MelaveMalkaInvitation.EmailAddressesColumn);
