@@ -50,7 +50,7 @@
     <PublishUrl>ftps://ftps.gdom.net/Updates/ShomreiTorah.Journal/</PublishUrl>
     <InstallUrl>https://tiferesboruch.org/Updates/ShomreiTorah.Journal/</InstallUrl>
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>2.1.0.0</ApplicationVersion>
+    <ApplicationVersion>2.1.1.1</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
