@@ -115,15 +115,15 @@ namespace ShomreiTorah.Journal.AddIn {
 
 		#region Journal-only handlers
 		//These handlers are only added if a journal is open.
-		//This way, they won't load assemblies during normal 
+		//This way, they won't load assemblies during normal
 		//(non-journal) use.
 		void Application_PresentationSave(Presentation Pres) {
 			if (GetJournal(Pres) != null)
-				Program.Current.SaveDatabase();
+				Program.Save();
 		}
 		void Application_PresentationCloseFinal(Presentation Pres) {
 			if (GetJournal(Pres) != null) {
-				Program.Current.SaveDatabase();
+				Program.Save();
 				UnregisterJournal(Pres);
 			}
 		}

@@ -37,6 +37,14 @@ namespace ShomreiTorah.Journal.AddIn {
 			}
 		}
 
+		public static void Save() {
+			try {
+				Current.SaveDatabase();
+			} catch (Exception ex) {
+				Current.HandleException(ex);
+			}
+		}
+
 		public static void CheckDesignTime() {
 			//If the project is re-built, AppFramework.Current
 			//will refer to the instance from the old assembly
@@ -47,10 +55,10 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 
 		public static void Initialize() {
-			Current.ToString();	//Force property getter
+			Current.ToString(); //Force property getter
 		}
 		///<summary>Indicates whether the Data.UI AppFramework has been initialized.</summary>
-		public static bool WasInitialized { get { return AppFramework.Current != null; } }	//The base class property won't auto-init.
+		public static bool WasInitialized { get { return AppFramework.Current != null; } }  //The base class property won't auto-init.
 		public static new Program Current {
 			get {
 				if (AppFramework.Current != null)
@@ -77,12 +85,13 @@ namespace ShomreiTorah.Journal.AddIn {
 				AppDomain.CurrentDomain.UnhandledException += (sender, e) => HandleException((Exception)e.ExceptionObject);
 			}
 
+			AddDefaultExceptionHandlers();
 			RegisterStandardSettings();
 			RegisterSettings();
 			SyncContext = CreateDataContext();
 
 			Statistics = new StatsManager(DataContext);
-			Globals.ThisAddIn.Shutdown += delegate { SaveDatabase(); };
+			Globals.ThisAddIn.Shutdown += delegate { Save(); };
 		}
 
 		protected override void RegisterSettings() {
@@ -102,7 +111,7 @@ namespace ShomreiTorah.Journal.AddIn {
 								message += Environment.NewLine + p.Person.FullName + "'s seating reservations will not be deleted.";
 
 							var ad = Table<JournalAd>().Rows.FirstOrDefault(a => a.Year == year && p.ExternalId == a.ExternalId);
-							if (ad != null && ad.Pledges.Has(2))	//If the pledge's ad has another pledge
+							if (ad != null && ad.Pledges.Has(2))    //If the pledge's ad has another pledge
 								message += Environment.NewLine + "Remember to adjust the other pledge amounts.";
 						}
 						return message;

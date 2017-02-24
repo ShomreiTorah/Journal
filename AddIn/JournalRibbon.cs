@@ -129,7 +129,7 @@ namespace ShomreiTorah.Journal.AddIn {
 				.Show(new ArbitraryWindow((IntPtr)control.Window().HWND));
 		}
 
-		public void SaveDB(IRibbonControl control) { Program.Current.SaveDatabase(); }
+		public void SaveDB(IRibbonControl control) { Program.Save(); }
 		public void RefreshDB(IRibbonControl control) {
 			SynchronizationContext.SetSynchronizationContext(new WindowsFormsSynchronizationContext());
 			Program.Current.RefreshDatabase();
