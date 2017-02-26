@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using ShomreiTorah.Common;
 using ShomreiTorah.Data;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
@@ -13,17 +14,18 @@ namespace ShomreiTorah.Journal {
 		static readonly Func<AdShape, IEnumerable<AdWarning>>[] warners = { CheckPledges, CheckPayments, CheckNames, CheckSlidePosition };
 
 		static IEnumerable<AdWarning> CheckPayments(AdShape ad) {
-			var pledges = ad.Row.Pledges.ToDictionary(p => p.Person);
+			var pledgeMap = ad.Row.Pledges.ToLookup(p => p.Person);
 			foreach (var payment in ad.Row.Payments) {
-				Pledge pledge;
-				if (!pledges.TryGetValue(payment.Person, out pledge))
+				var pledges = pledgeMap[payment.Person];
+				if (!pledges.Any())
 					yield return new AdWarning(ad, payment.Person.VeryFullName + " has a payment but not a pledge");
 				else {
-					if (pledge.Amount != payment.Amount)
+					var pledgeAmount = pledges.Sum(p => p.Amount);
+					if (pledgeAmount != payment.Amount)
 						yield return new AdWarning(ad,
 							String.Format(CultureInfo.CurrentCulture,
 										  "{0} has a pledge for {1:c} but a payment for {2:c}",
-										  payment.Person.VeryFullName, pledge.Amount, payment.Amount)
+										  payment.Person.VeryFullName, pledgeAmount, payment.Amount)
 						);
 					if (payment.Method == "Check" && String.IsNullOrWhiteSpace(payment.CheckNumber))
 						yield return new AdWarning(ad,
@@ -33,6 +35,9 @@ namespace ShomreiTorah.Journal {
 						);
 				}
 			}
+
+			foreach (var group in pledgeMap.Where(g => g.Has(2)))
+				yield return new AdWarning(ad, $"{group.Key.VeryFullName} has {group.Count()} pledges");
 		}
 		static IEnumerable<AdWarning> CheckPledges(AdShape ad) {
 			var total = ad.Row.Pledges.Sum(p => p.Amount);
