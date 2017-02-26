@@ -15,6 +15,7 @@ using ShomreiTorah.Journal.Properties;
 using ShomreiTorah.WinForms;
 using ShomreiTorah.Data.UI;
 using ShomreiTorah.Billing.PaymentImport;
+using System.Diagnostics;
 
 namespace ShomreiTorah.Journal.AddIn {
 	[ComVisible(true)]
@@ -181,6 +182,21 @@ namespace ShomreiTorah.Journal.AddIn {
 					PpFixedFormatType.ppFixedFormatTypePDF, PpFixedFormatIntent.ppFixedFormatIntentPrint,
 					RangeType: control.Id == "SavePdfSlide" ? PpPrintRangeType.ppPrintCurrent : PpPrintRangeType.ppPrintAll);
 			}
+		}
+
+		public void ExportExcel(IRibbonControl control) {
+			string path;
+			using (var dialog = new SaveFileDialog {
+				Filter = "Excel 2007 Spreadsheet (*.xlsx)|*.xlsx|Excel 2003 Spreadsheet|*.xls",
+				FileName = "Journal Ads " + control.Journal().Year,
+				Title = "Save Journal Ads"
+			}) {
+				if (dialog.ShowDialog(new ArbitraryWindow((IntPtr)control.Window().HWND)) != DialogResult.OK)
+					return;
+				path = dialog.FileName;
+			}
+			control.Journal().Ads.Select(a => a.Row).ExportExcel(path);
+			Process.Start(path);
 		}
 
 		#region AdType Callbacks

@@ -24,11 +24,13 @@
 					<button id="ShowAllWarnings"	label="All Warnings"	size="large" image="WarningWindow32"
 							onAction="ShowWarningsForm" supertip="Shows all warnings about ads in the journal." />
 					<separator id="S4" />
-					<menu id="ExportMenu" imageMso="FileSaveAsCurrentFileFormat" label="Export PDF" size="large">
+					<menu id="ExportMenu" imageMso="FileSaveAsCurrentFileFormat" label="Export PDF">
 						<button id="SavePdfFull" onAction="SavePdf" label="Entire journal" />
 						<button id="SavePdfSlide" onAction="SavePdf" label="This slide" />
 						<button id="SavePdfTypes" onAction="SavePdfTypes" label="By ad type" />
 					</menu>
+					<button id="ExportExcel" label="Export Pledges" imageMso="ExportExcel" onAction="ExportExcel"
+							supertip="Saves an Excel spreadsheet with a row for every pledge, including ad and payment details." />
 				</group>
 				<group id="AdsGroup" label="Ads">
 					<button id="AutoFormat" imageMso="AdpDiagramIndexesKeys" label="AutoFormat" size="large" screentip="AutoFormat" supertip="Applies automatic formatting rules to the ad text."

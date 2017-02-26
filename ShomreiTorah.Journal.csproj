@@ -287,6 +287,7 @@ rmdir /s /q "$(TargetDir)ru"</PostBuildEvent>
     <Compile Include="AddIn\AdPane.Designer.cs">
       <DependentUpon>AdPane.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddIn\ExcelExporter.cs" />
     <Compile Include="AddIn\Extensions.cs" />
     <Compile Include="AddIn\Program.cs" />
     <Compile Include="AddIn\JournalRibbon.cs" />
