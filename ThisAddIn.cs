@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.PowerPoint;
@@ -131,6 +132,7 @@ namespace ShomreiTorah.Journal.AddIn {
 
 
 		private void ThisAddIn_Startup(object sender, EventArgs e) {
+			ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 			Application.AfterPresentationOpen += Application_AfterPresentationOpen;
 		}
 
