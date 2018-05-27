@@ -130,10 +130,14 @@ namespace ShomreiTorah.Journal.AddIn {
 				 .CreateContainer());
 
 		protected override DataSyncContext CreateDataContext() {
+			Pledge.PersonColumn.AddIndex();
+			Payment.PersonColumn.AddIndex();
+
 			var context = new DataContext();
 			CreateTables(context);
 			var dsc = new DataSyncContext(context, new SqlServerSqlProvider(DB.Default));
 			dsc.Tables.AddPrimaryMappings();
+
 			return dsc;
 		}
 
