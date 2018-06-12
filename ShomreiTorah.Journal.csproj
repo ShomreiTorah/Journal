@@ -322,6 +322,7 @@ rmdir /s /q "$(TargetDir)ru"</PostBuildEvent>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="JournalPresentation.cs" />
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="PowerPointExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

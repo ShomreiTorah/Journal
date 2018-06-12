@@ -38,6 +38,8 @@ namespace ShomreiTorah.Journal.AddIn {
 		}
 
 		public static void Save() {
+			// Commit any active editors.
+			NativeMethods.GetFocusedControl()?.Parent?.Focus();
 			try {
 				Current.SaveDatabase();
 			} catch (Exception ex) {
