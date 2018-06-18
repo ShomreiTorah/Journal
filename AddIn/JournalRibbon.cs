@@ -195,7 +195,11 @@ namespace ShomreiTorah.Journal.AddIn {
 					return;
 				path = dialog.FileName;
 			}
-			control.Journal().Ads.Select(a => a.Row).ExportExcel(path);
+			try {
+				control.Journal().Ads.Select(a => a.Row).ExportExcel(path);
+			} catch (Exception ex) {
+				AppFramework.Current.HandleException(ex);
+			}
 			Process.Start(path);
 		}
 
